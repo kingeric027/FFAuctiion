@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import { Route, Switch } from "react-router-dom";
 import './App.css';
-import { Tokens } from 'ordercloud-javascript-sdk';
+import { Tokens, Auth } from 'ordercloud-javascript-sdk';
 import Login from './login';
 import Home from './home';
 
@@ -14,6 +14,13 @@ const App: React.FunctionComponent = () => {
       if(token) {
         setToken(token);
         Tokens.SetAccessToken(token);
+      } else {
+        console.log(process.env.REACT_APP_CLIENT_ID);
+        debugger; 
+        Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, []).then(response => {
+          debugger;
+          console.log(response);
+        })
       }
     })
   }, [])
