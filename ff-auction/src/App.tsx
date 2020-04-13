@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import { Route, Switch } from "react-router-dom";
+import { Router } from "react-router";
 import './App.css';
 import { Tokens, Auth } from 'ordercloud-javascript-sdk';
 import Login from './login';
@@ -15,11 +16,10 @@ const App: React.FunctionComponent = () => {
         setToken(token);
         Tokens.SetAccessToken(token);
       } else {
-        console.log(process.env.REACT_APP_CLIENT_ID);
-        debugger; 
-        Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, []).then(response => {
-          debugger;
-          console.log(response);
+        Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, 
+          ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin']).then(response => {
+            Tokens.SetAccessToken(response.access_token);
+            setToken(token);
         })
       }
     })
@@ -42,13 +42,16 @@ const App: React.FunctionComponent = () => {
         </a>
       </header>
       {token ? 
+      <Router>
         <Switch>
           <Route
             path="/"
             exact 
             component={Home}
           />
-        </Switch> : 
+        </Switch> 
+      </Router>
+        : 
         <Login></Login>
       }
     </div>

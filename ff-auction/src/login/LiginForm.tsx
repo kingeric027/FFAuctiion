@@ -20,6 +20,9 @@ const LoginForm: React.FunctionComponent = () => {
                 onClick={() => setOpen(true)}>Log In / Register
             </Button>
             <Dialog open={open}>
+                <DialogContent>
+                    <NewUserForm></NewUserForm>
+                </DialogContent>
             </Dialog>
         </div>
     )
@@ -35,7 +38,7 @@ const NewUserForm: React.FunctionComponent = () => {
         
     }
     return(
-        <DialogContent>
+        <div>
         <TextField
             id="UserName"
             label="User Name"
@@ -64,6 +67,46 @@ const NewUserForm: React.FunctionComponent = () => {
             type="submit" 
             variant="contained"
             onClick={SubmitNewUser}>Submit</Button>
-    </DialogContent>
+    </div>
+    )
+}
+
+const LoginUser: React.FunctionComponent = () => {
+    const [creds, setCreds] = useState<any>({
+        userName: '',
+        passWord: ''
+    });
+    
+    const handleAuthChange  = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCreds({
+            ...creds,
+            [field]: event.target.value
+        })
+    }
+
+    const handleSubmit = () => {
+        return OrderCloud.Auth.Login(creds.UserName, creds.passWord, process.env.REACT_APP_CLIENT_ID!, [])
+        .then(response => {
+            console.log(response);
+            debugger;
+            OrderCloud.Tokens.SetAccessToken(response.access_token);
+        })
+    }
+
+    return (
+        <div>
+            <TextField 
+                variant="outlined"
+                label="Username"
+                value={creds.userName}
+                onChange={handleAuthChange("userName")}
+            ></TextField>
+            <TextField 
+                variant="outlined"
+                label="Password"
+                value={creds.password}
+                onChange={handleAuthChange("password")}
+            ></TextField>
+        </div>
     )
 }
