@@ -5,7 +5,7 @@ import UserForms from "./LiginForm"
 
 const LoginForm: React.FunctionComponent = () => {
     const [open, setOpen] = useState<boolean>(false);
-    const [type, setType] = useState<string>("login");
+    const [value, setValue] = useState<number>(0);
 
     const handleButtonClick = () => {
         debugger;
@@ -17,7 +17,7 @@ const LoginForm: React.FunctionComponent = () => {
 
     const handleChange = (event:  any, newValue: any) => {
         debugger; 
-        setType(newValue);
+        setValue(newValue);
     };
 
 //       <AppBar position="static">
@@ -43,15 +43,14 @@ const LoginForm: React.FunctionComponent = () => {
                 onClick={handleButtonClick}>Log In / Register
             </Button>
             <Dialog open={open} onClose={handleClose}>
-                <Tabs value={type} onChange={handleChange}>
+                <Tabs value={value} onChange={handleChange}>
                     <Tab label="Log In"></Tab>
                     <Tab label="Register"></Tab>
                 </Tabs>
                 <DialogContent>
-                    {type === "register" ? 
-                    <UserForms.NewUserForm></UserForms.NewUserForm> : 
-                    <UserForms.LoginUser></UserForms.LoginUser>
-                    }
+                    {value === 0 ? 
+                    <UserForms.LoginUser></UserForms.LoginUser> :
+                    <UserForms.NewUserForm></UserForms.NewUserForm>}
                 </DialogContent>
                 <DialogActions>
                     <Button type="submit">Submit</Button>
