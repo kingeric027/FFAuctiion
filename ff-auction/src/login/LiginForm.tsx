@@ -12,22 +12,6 @@ const UserShell: OrderCloud.User = {
 
 export type UserValues = "UserName" | "FirstName" | "LastName" | "Email";
 
-const LoginForm: React.FunctionComponent = () => {
-    const [open, setOpen] = useState<boolean>(false);
-    return(
-        <div>
-            <Button
-                onClick={() => setOpen(true)}>Log In / Register
-            </Button>
-            <Dialog open={open}>
-                <DialogContent>
-                    <NewUserForm></NewUserForm>
-                </DialogContent>
-            </Dialog>
-        </div>
-    )
-}
-
 const NewUserForm: React.FunctionComponent = () => {
     const [newUser, setNewUser] = useState<OrderCloud.User>(UserShell);
     const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,38 +19,39 @@ const NewUserForm: React.FunctionComponent = () => {
     }
 
     const SubmitNewUser = () => {
-        
+        console.log("submit new user")
     }
     return(
         <div>
+        <Typography variant="h3">Register</Typography>
         <TextField
             id="UserName"
             label="User Name"
             variant="outlined"
+            margin="dense"
             onChange={handleNewUserChange("UserName")}>{newUser.Username}
         </TextField>
         <TextField
             id="UserName"
             label="User Name"
             variant="outlined"
+            margin="dense"
             onChange={handleNewUserChange("UserName")}>{newUser.Username}
         </TextField>
         <TextField
             id="UserName"
             label="User Name"
             variant="outlined"
+            margin="dense"
             onChange={handleNewUserChange("UserName")}>{newUser.Username}
         </TextField>
         <TextField
             id="UserName"
             label="User Name"
             variant="outlined"
+            margin="dense"
             onChange={handleNewUserChange("UserName")}>{newUser.Username}
         </TextField>
-        <Button 
-            type="submit" 
-            variant="contained"
-            onClick={SubmitNewUser}>Submit</Button>
     </div>
     )
 }
@@ -109,4 +94,9 @@ const LoginUser: React.FunctionComponent = () => {
             ></TextField>
         </div>
     )
+}
+
+export default {
+    NewUserForm,
+    LoginUser
 }

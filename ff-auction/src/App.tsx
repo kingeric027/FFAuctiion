@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Router } from "react-router";
 import './App.css';
 import { Tokens, Auth } from 'ordercloud-javascript-sdk';
@@ -27,7 +27,7 @@ const App: React.FunctionComponent = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -40,9 +40,8 @@ const App: React.FunctionComponent = () => {
         >
           Learn React
         </a>
-      </header>
-      {token ? 
-      <Router>
+      </header> */}
+      <BrowserRouter>
         <Switch>
           <Route
             path="/"
@@ -50,10 +49,7 @@ const App: React.FunctionComponent = () => {
             component={Home}
           />
         </Switch> 
-      </Router>
-        : 
-        <Login></Login>
-      }
+      </BrowserRouter> 
     </div>
   );
 }
