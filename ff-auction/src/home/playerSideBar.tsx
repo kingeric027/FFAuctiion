@@ -1,5 +1,6 @@
 import React from 'react';
-import { ListItemText, List, ListItem } from '@material-ui/core';
+import teamNames from '../../public/assets/teamIds.json';
+import { ListItemText, List, ListItem, ListItemAvatar, Avatar } from '@material-ui/core';
 
 interface PlayerSideBarProps {
     playerArray?: any[]
@@ -8,14 +9,21 @@ interface PlayerSideBarProps {
 const PlayerSideBar: React.FunctionComponent<
     PlayerSideBarProps> = (props) => {
         const {playerArray} = props;
+        console.log(playerArray)
+        //debugger;
 
     return( 
         <div>
-            {playerArray && playerArray.slice(0,10) && 
-            playerArray.slice(1,10).map(p => (
+            {playerArray && playerArray.slice(0,50) && 
+            playerArray.slice(1,50).map(p => (
                 <List>
                     <ListItem>
-                        <ListItemText primary={p.player.fullName}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <p>${p.draftRanksByRankType.PPR.auctionValue}</p>
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={p.fullName}>
                         </ListItemText>
                     </ListItem>
                 </List>

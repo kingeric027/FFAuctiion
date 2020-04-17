@@ -13,15 +13,19 @@ const Home: React.FunctionComponent = () => {
 
     useEffect(() => {
         api.getPlayerList().then(res => {
-            var playerList = res.data.players.sort( function(a: any, b: any) {
-            if (a.player.draftRanksByRankType.PPR.auctionValue > b.player.draftRanksByRankType.PPR.auctionValue) {
-                return -1;
-            }
-            if (b.player.draftRanksByRankType.PPR.auctionValue > a.player.draftRanksByRankType.PPR.auctionValue) {
-                return 1;
-            }
-                return 0;
-            })
+            var playerList = res.data.players.map((p:any) => p.player).sort( 
+                function(a: any, b: any ) {
+                    if (a.draftRanksByRankType.PPR.auctionValue > b.draftRanksByRankType.PPR.auctionValue) {
+                        return -1;
+                    }
+                    if (b.draftRanksByRankType.PPR.auctionValue > a.draftRanksByRankType.PPR.auctionValue) {
+                        return 1;
+                    }
+                        return 0;
+                }
+            );
+            console.log(playerList)
+            debugger;
             setPlayerArray(playerList);
         })
     }, [])
