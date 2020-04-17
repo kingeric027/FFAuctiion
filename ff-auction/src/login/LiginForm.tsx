@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Button, Dialog, FormGroup, TextField, DialogContent, DialogActions } from "@material-ui/core"
+import { Typography, Button, Dialog, FormGroup, TextField, DialogContent, DialogActions, DialogTitle } from "@material-ui/core"
 import * as OrderCloud from 'ordercloud-javascript-sdk';
+
+interface LoginFormProps {
+    onClose: () => void
+}
 
 const UserShell: OrderCloud.MeUser = {
     Username: '',
@@ -13,7 +17,7 @@ const UserShell: OrderCloud.MeUser = {
 
 export type UserValues = "Username" | "FirstName" | "LastName" | "Email" | "Password"; 
 
-const NewUserForm: React.FunctionComponent = () => {
+const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
     const [newUser, setNewUser] = useState<OrderCloud.MeUser>(UserShell);
     const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(key)
@@ -31,13 +35,17 @@ const NewUserForm: React.FunctionComponent = () => {
 
     return(
         <React.Fragment>
+            <DialogTitle style={{textAlign: 'center'}}>
+                Register
+                {/* <Typography variant="h3">Register</Typography> */}
+            </DialogTitle>
             <DialogContent>
-                <Typography variant="h3">Register</Typography>
                 <TextField
                     id="UserName"
                     label="User Name"
                     variant="outlined"
                     margin="dense"
+                    size="small"
                     onChange={handleNewUserChange("Username")}>{newUser.Username}
                 </TextField>
                 <TextField
@@ -71,13 +79,13 @@ const NewUserForm: React.FunctionComponent = () => {
             </DialogContent>
             <DialogActions>
                 <Button type="submit" onClick={SubmitNewUser}>Submit</Button>
-                <Button type="reset">Cancel</Button>
+                <Button type="reset" onClick={props.onClose}>Cancel</Button>
             </DialogActions>
         </React.Fragment>
     )
 }
 
-const LoginUser: React.FunctionComponent = () => {
+const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     const [creds, setCreds] = useState<any>({
         userName: '',
         passWord: ''
@@ -99,20 +107,29 @@ const LoginUser: React.FunctionComponent = () => {
     }
 
     return (
-        <div>
+        <React.Fragment>
+            <DialogTitle style={{textAlign: 'center'}}>Sign In</DialogTitle>
+            <DialogContent>
             <TextField 
                 variant="outlined"
                 label="Username"
+                margin="dense"
                 value={creds.userName}
                 onChange={handleAuthChange("userName")}
             ></TextField>
             <TextField 
                 variant="outlined"
                 label="Password"
+                margin="dense"
                 value={creds.password}
                 onChange={handleAuthChange("password")}
             ></TextField>
-        </div>
+            </DialogContent>
+            <DialogActions>
+                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                <Button type="reset" onClick={props.onClose}>Cancel</Button>
+            </DialogActions>
+        </React.Fragment>
     )
 }
 
