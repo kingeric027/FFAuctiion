@@ -7,7 +7,6 @@ import api from '../api';
 // export interface HomeProps {
 //     currentUser?: any
 // }
-
 const Home: React.FunctionComponent = () => {
     const [playerArray, setPlayerArray] = useState<any[]>()
 

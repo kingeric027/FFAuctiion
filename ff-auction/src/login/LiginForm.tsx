@@ -19,7 +19,9 @@ const NewUserForm: React.FunctionComponent = () => {
     }
 
     const SubmitNewUser = () => {
-        console.log("submit new user")
+        return OrderCloud.Me.Register(newUser).then((res) => {
+            console.log(res);
+        })
     }
     return(
         <div>

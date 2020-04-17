@@ -15,7 +15,7 @@ const App: React.FunctionComponent = () => {
         Tokens.SetAccessToken(token);
       } else {
         Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, 
-          ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin']).then(response => {
+          ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin', 'Shopper']).then(response => {
             Tokens.SetAccessToken(response.access_token);
             setToken(token);
         })

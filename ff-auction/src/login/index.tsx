@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import { Typography, Button, Dialog, DialogContent, DialogActions, Tabs, Tab } from "@material-ui/core";
-import UserForms from "./LiginForm"
+import UserForms from "./LiginForm";
+import * as OrderCloud from 'ordercloud-javascript-sdk';
 
+const UserShell: OrderCloud.User = {
+    Username: '',
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    Active: true,
+}
+export type UserValues = "UserName" | "FirstName" | "LastName" | "Email";
 
 const LoginForm: React.FunctionComponent = () => {
     const [open, setOpen] = useState<boolean>(false);
+    const [newUser, setNewUser] = useState<OrderCloud.User>(UserShell);
     const [value, setValue] = useState<number>(0);
 
+    const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewUser({...newUser, [key]: event.target.value})
+    }
+
     const handleButtonClick = () => {
-        debugger;
         setOpen(true)
     }
     const handleClose = () => {
         setOpen(false);
       };
 
-    const handleChange = (event:  any, newValue: any) => {
-        debugger; 
+    const handleChange = (event:  any, newValue: any) => { 
         setValue(newValue);
     };
 
@@ -47,15 +59,9 @@ const LoginForm: React.FunctionComponent = () => {
                     <Tab label="Log In"></Tab>
                     <Tab label="Register"></Tab>
                 </Tabs>
-                <DialogContent>
-                    {value === 0 ? 
-                    <UserForms.LoginUser></UserForms.LoginUser> :
-                    <UserForms.NewUserForm></UserForms.NewUserForm>}
-                </DialogContent>
-                <DialogActions>
-                    <Button type="submit">Submit</Button>
-                    <Button type="reset">Cancel</Button>
-                </DialogActions>
+                {value === 0 ? 
+                <UserForms.LoginUser></UserForms.LoginUser> :
+                <UserForms.NewUserForm></UserForms.NewUserForm>}
             </Dialog>
         </div>
     )
