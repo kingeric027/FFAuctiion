@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Dialog, FormGroup, TextField, DialogContent, DialogActions, DialogTitle } from "@material-ui/core"
+import { Typography, Button, Dialog, FormGroup, TextField, DialogContent, DialogActions, DialogTitle, Grid } from "@material-ui/core"
 import * as OrderCloud from 'ordercloud-javascript-sdk';
 
 interface LoginFormProps {
@@ -37,45 +37,54 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
         <React.Fragment>
             <DialogTitle style={{textAlign: 'center'}}>
                 Register
-                {/* <Typography variant="h3">Register</Typography> */}
             </DialogTitle>
             <DialogContent>
-                <TextField
-                    id="UserName"
-                    label="User Name"
-                    variant="outlined"
-                    margin="dense"
-                    size="small"
-                    onChange={handleNewUserChange("Username")}>{newUser.Username}
-                </TextField>
-                <TextField
-                    id="FirstName"
-                    label="First Name"
-                    variant="outlined"
-                    margin="dense"
-                    onChange={handleNewUserChange("FirstName")}>{newUser.FirstName}
-                </TextField>
-                <TextField
-                    id="LastName"
-                    label="Last Name"
-                    variant="outlined"
-                    margin="dense"
-                    onChange={handleNewUserChange("LastName")}>{newUser.LastName}
-                </TextField>
-                <TextField
-                    id="Email"
-                    label="Email"
-                    variant="outlined"
-                    margin="dense"
-                    onChange={handleNewUserChange("Email")}>{newUser.Email}
-                </TextField>
-                <TextField
-                    id="Password"
-                    label="Password"
-                    variant="outlined"
-                    margin="dense"
-                    onChange={handleNewUserChange("Password")}>{newUser.Password}
-                </TextField>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="UserName"
+                            label="User Name"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            onChange={handleNewUserChange("Username")}>{newUser.Username}
+                        </TextField>
+                        <TextField
+                            id="FirstName"
+                            label="First Name"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            onChange={handleNewUserChange("FirstName")}>{newUser.FirstName}
+                        </TextField>
+                        <TextField
+                            id="LastName"
+                            label="Last Name"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            onChange={handleNewUserChange("LastName")}>{newUser.LastName}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="Email"
+                            label="Email"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            onChange={handleNewUserChange("Email")}>{newUser.Email}                 
+                        </TextField>
+                        <TextField
+                            id="Password"
+                            label="Password"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            onChange={handleNewUserChange("Password")}>{newUser.Password}
+                        </TextField>
+                    </Grid>
+                </Grid>
             </DialogContent>
             <DialogActions>
                 <Button type="submit" onClick={SubmitNewUser}>Submit</Button>
@@ -109,21 +118,23 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     return (
         <React.Fragment>
             <DialogTitle style={{textAlign: 'center'}}>Sign In</DialogTitle>
-            <DialogContent>
-            <TextField 
-                variant="outlined"
-                label="Username"
-                margin="dense"
-                value={creds.userName}
-                onChange={handleAuthChange("userName")}
-            ></TextField>
-            <TextField 
-                variant="outlined"
-                label="Password"
-                margin="dense"
-                value={creds.password}
-                onChange={handleAuthChange("password")}
-            ></TextField>
+                <DialogContent>
+                    <TextField 
+                    variant="outlined"
+                    label="Username"
+                    margin="dense"
+                    value={creds.userName}
+                    onChange={handleAuthChange("userName")}
+                    style={{display: 'flex'}}
+                ></TextField>
+                <TextField 
+                    variant="outlined"
+                    label="Password"
+                    margin="dense"
+                    value={creds.password}
+                    onChange={handleAuthChange("password")}
+                    style={{display: 'flex'}}
+                ></TextField>
             </DialogContent>
             <DialogActions>
                 <Button type="submit" onClick={handleSubmit}>Submit</Button>
