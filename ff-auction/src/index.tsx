@@ -3,6 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { red, green, brown, yellow, purple, indigo } from '@material-ui/core/colors';
+import { createMuiTheme } from '@material-ui/core';
+
+// const theme = createMuiTheme({
+//   palette: {
+//     WR: yellow,
+//     TE: red,
+//     QB: green,
+//     DST: purple,
+//     K: brown
+//   },
+//   status: {
+//     danger: 'orange',
+//   },
+// });
 
 ReactDOM.render(
   <React.StrictMode>

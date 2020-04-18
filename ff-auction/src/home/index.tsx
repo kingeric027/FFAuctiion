@@ -25,7 +25,6 @@ const Home: React.FunctionComponent = () => {
                 }
             );
             console.log(playerList)
-            debugger;
             setPlayerArray(playerList);
         })
     }, [])

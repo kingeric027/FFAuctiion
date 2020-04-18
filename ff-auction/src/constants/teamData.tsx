@@ -1,4 +1,40 @@
-{
+import { green, indigo, yellow, brown, red, purple, blue, lightGreen, lightBlue } from "@material-ui/core/colors"
+
+export interface TeamData {
+    TeamNames: any,
+    PositionNames: any
+}
+
+
+const positionNames: any = {
+    "1": {
+        Position: "QB",
+        Color: lightGreen['A700']
+    },
+    "2": {
+        Position: "RB",
+        Color: lightBlue[500]
+    },
+    "3": {
+        Position: "WR",
+        Color: yellow['A200']
+    },
+    "4": {
+        Position: "TE",
+        Color: red[500]
+    }, 
+    "5": {
+        Position: "K",
+        Color: purple['A100']
+    },
+    "6": {
+        Position: "DST",
+        Color: brown['A100']
+    }
+}
+
+
+const teamNames: any = {
     "1": "Atlanta Falcons",
     "2": "Buffalo Bills",
     "3": "Chicago Bears",
@@ -30,3 +66,11 @@
     "33": "Baltimore Ravens",
     "34": "Houston Texans"
 }
+
+const teamData: TeamData = {
+    TeamNames: teamNames,
+    PositionNames: positionNames
+}
+
+export default teamData
+
