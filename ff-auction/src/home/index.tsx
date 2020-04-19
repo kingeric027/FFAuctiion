@@ -2,32 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button, Grid } from "@material-ui/core"
 import Login from '../login';
 import PlayerSideBar from './playerSideBar';
-import api from '../api';
 
-// export interface HomeProps {
-//     currentUser?: any
-// }
-const Home: React.FunctionComponent = () => {
-    const [playerArray, setPlayerArray] = useState<any[]>()
+export interface HomeProps {
+    playerArray?: any[]
+}
+const Home: React.FunctionComponent<HomeProps> = (props) => {
+    //const [playerArray, setPlayerArray] = useState<any[]>()
 
-
-    useEffect(() => {
-        api.getPlayerList().then(res => {
-            var playerList = res.data.players.map((p:any) => p.player).sort( 
-                function(a: any, b: any ) {
-                    if (a.draftRanksByRankType.PPR.auctionValue > b.draftRanksByRankType.PPR.auctionValue) {
-                        return -1;
-                    }
-                    if (b.draftRanksByRankType.PPR.auctionValue > a.draftRanksByRankType.PPR.auctionValue) {
-                        return 1;
-                    }
-                        return 0;
-                }
-            );
-            console.log(playerList)
-            setPlayerArray(playerList);
-        })
-    }, [])
+    // useEffect(() => {
+    //     if(props.playerArray && props.playerArray.length) {
+    //         var sortedArray = props.playerArray.sort( 
+    //             function(a: any, b: any ) {
+    //                 if (a.draftRanksByRankType.PPR.auctionValue > b.draftRanksByRankType.PPR.auctionValue) {
+    //                     return -1;
+    //                 }
+    //                 if (b.draftRanksByRankType.PPR.auctionValue > a.draftRanksByRankType.PPR.auctionValue) {
+    //                     return 1;
+    //                 }
+    //                     return 0;
+    //             }
+    //         );
+    //         setPlayerArray(sortedArray);
+    //     }
+    // }, [props.playerArray])
 
     return(
         <div>
@@ -38,7 +35,7 @@ const Home: React.FunctionComponent = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <PlayerSideBar
-                        playerArray={playerArray}
+                        playerArray={props.playerArray || []}
                     ></PlayerSideBar>
                 </Grid>
             </Grid>

@@ -35,36 +35,126 @@ const positionNames: any = {
 
 
 const teamNames: any = {
-    "1": "Atlanta Falcons",
-    "2": "Buffalo Bills",
-    "3": "Chicago Bears",
-    "4": "Cincinatti Bengals",
-    "5": "Cleveland Browns",
-    "6": "Dallas Cowboys",
-    "7": "Denver Broncos",
-    "8": "Detroit Lions",
-    "9": "Green Bay Packers",
-    "10": "Tennessee Titans",
-    "11": "Indianapolis Colts",
-    "12": "Kansas City Chiefs",
-    "13": "Oakland Raiders",
-    "14": "Los Angeles Rams",
-    "18": "New Orleans Saints",
-    "16": "Minnesota Vikings",
-    "19": "New York Giants",
-    "20": "New York Jets",
-    "21": "Philadelphia Eagles",
-    "22": "Arizona Cardinals",
-    "23": "Pittsburgh Stealers",
-    "24": "Los Angeles Chargers",
-    "25": "San Francisco 49ers",
-    "26": "Seattle Seahawks",
-    "27": "Tampa Bay Buccaneers",
-    "28": "Washington Redskins",
-    "29": "Carolina Panthers",
-    "30": "Jacksonville Jaguars",
-    "33": "Baltimore Ravens",
-    "34": "Houston Texans"
+    "1": {
+        Name: "Atlanta Falcons",
+        Abv: "ATL"
+    },
+    "2": {
+        Name: "Buffalo Bills",
+        Abv: "BUF"
+    },
+    "3": {
+        Name: "Chicago Bears",
+        Abv: "CHI"
+    },
+    "4": {
+        Name: "Cincinatti Bengals",
+        Abv: "CIN"
+    },
+    "5": {
+        Name: "Cleveland Browns",
+        Abv: "CLE"
+    },
+    "6": {
+        Name: "Dallas Cowboys",
+        Abv: "DAL"
+    },
+    "7": {
+        Name: "Denver Broncos",
+        Abv: "DEN"
+    },
+    "8": {
+        Name: "Detroit Lions",
+        Abv: "DET"
+    },
+    "9": {
+        Name: "Green Bay Packers",
+        Abv: "GNB"
+    },
+    "10": {
+        Name: "Tennessee Titans",
+        Abv: "TEN"
+    },
+    "11": {
+        Name: "Indianapolis Colts",
+        Abv: "IND"
+    },
+    "12": {
+        Name: "Kansas City Chiefs",
+        Abv: "KC"
+    },
+    "13": {
+        Name: "Oakland Raiders",
+        Abv: "OAK"
+    },
+    "14": {
+        Name: "Los Angeles Rams",
+        Abv: "LAR"
+    },
+    "18": {
+        Name: "New Orleans Saints",
+        Abv: "NOR"
+    },
+    "16": {
+        Name: "Minnesota Vikings",
+        Abv: "MIN"
+    },
+    "19": {
+        Name: "New York Giants",
+        Abv: "NYG"
+    },
+    "20": {
+        Name: "New York Jets",
+        Abv: "NYJ"
+    },
+    "21": {
+        Name: "Philadelphia Eagles",
+        Abv: "PHI"
+    },
+    "22": {
+        Name: "Arizona Cardinals",
+        Abv: "ARI"
+    },
+    "23": {
+        Name: "Pittsburgh Stealers",
+        Abv: "PIT"
+    },
+    "24": {
+        Name: "Los Angeles Chargers",
+        Abv: "LAC"
+    },
+    "25": {
+        Name: "San Francisco 49ers",
+        Abv: "SF"
+    },
+    "26": {
+        Name: "Seattle Seahawks",
+        Abv: "SEA"
+    },
+    "27": {
+        Name: "Tampa Bay Buccaneers",
+        Abv: "TB"
+    },
+    "28": {
+        Name: "Washington Redskins",
+        Abv: "WAS"
+    },
+    "29": {
+        Name: "Carolina Panthers",
+        Abv: "CAR"
+    },
+    "30": {
+        Name: "Jacksonville Jaguars",
+        Abv: "JAC"
+    },
+    "33": {
+        Name: "Baltimore Ravens",
+        Abv: "BAL"
+    },
+    "34": {
+        Name: "Houston Texans",
+        Abv: "HOU"
+    }
 }
 
 const teamData: TeamData = {

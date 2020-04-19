@@ -5,8 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import teamData from '../constants/teamData';
-import classes from '*.module.css';
+import teamData from '../../constants/teamData';
 import { Paper, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -14,7 +13,7 @@ const useStyles = makeStyles({
     //   width: '100%',
     // }
     tableWrapper: {
-      maxHeight: 407,
+      maxHeight: 500,
       overflow: 'auto',
     }
   });
@@ -55,11 +54,11 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
                   //onClick={createSortHandler(headCell.id)}
                 >
                   {headCell.label}
-                  {orderBy === headCell.id ? (
-                    <span className={classes.visuallyHidden}>
+                  {/* {orderBy === headCell.id ? (
+                    <span>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>
-                  ) : null}
+                  ) : null} */}
                 </TableSortLabel>
               </TableCell>
             ))}
@@ -77,13 +76,14 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
     const classes = useStyles();
-    const currentSeason = (new Date()).getMonth() >= 4 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
+    const currentSeason = (new Date()).getMonth() >= 3 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
 
     return (
         <div>
           <Paper>
             <div className={classes.tableWrapper}>
               <Table stickyHeader
+                size="small"
                 aria-labelledby="tableTitle">
                 <PlayerTableHead
                   priorSeason={(currentSeason-1).toString()}
@@ -91,11 +91,12 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                   orderBy={orderBy}
                 />
                 <TableBody>
-                  {playerArray
+                  {playerArray.slice(0,50)
                     .map((player, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       const position: Position = teamData.PositionNames[player.defaultPositionId].Position;
-                      const priorSeasonStats = player.stats.filter((s:any) => s.externalId === (currentSeason - 1).toString());
+                      const priorSeasonStats = player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString()));
+                      debugger;
                       return (
                         <TableRow
                           hover
@@ -106,9 +107,9 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                             {player.fullName}
                           </TableCell>
                           <TableCell align="right">{position}</TableCell>
-                          <TableCell align="right">{teamData.TeamNames[player.proTeamId]}</TableCell>
-                          <TableCell align="right">{player.ownership.auctionValueAverage}</TableCell>
-                          <TableCell align="right">{priorSeasonStats?.appliedAverage}</TableCell>
+                          <TableCell align="right">{teamData.TeamNames[player.proTeamId].Abv}</TableCell>
+                          <TableCell align="right">{'$' + Math.round(player.ownership.auctionValueAverage)}</TableCell>
+                          <TableCell align="right">{Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -118,5 +119,6 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
           </Paper>
         </div>
       );
-
 }
+
+export default PlayerTable;

@@ -59,7 +59,7 @@ const PlayerSideBar: React.FunctionComponent<
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={p.fullName}
-                        secondary={`${teamData.TeamNames[p.proTeamId]} | ${position}`}
+                        secondary={`${teamData.TeamNames[p.proTeamId].Name} | ${position}`}
                     >
                     </ListItemText>
                 </ListItem>
