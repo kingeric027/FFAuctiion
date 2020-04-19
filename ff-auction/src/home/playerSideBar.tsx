@@ -1,7 +1,7 @@
 import React from 'react';
 import teamData from '../constants/teamData';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { ListItemText, List, ListItem, ListItemAvatar, Avatar, makeStyles } from '@material-ui/core';
+import { ListItemText, List, ListItem, ListItemAvatar, Avatar, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
     list: {
@@ -45,7 +45,8 @@ const PlayerSideBar: React.FunctionComponent<
 
     return( 
         <div>
-            <Scrollbars style={{ width: '100%', height: '100vh' }}>
+            <Typography variant="h6" style={{height: '30px'}}>Top 100 Players</Typography>
+            <Scrollbars style={{ width: '100%', height:'calc(100vh - 30px)' }}>
             <List className={classes.list}>
             {playerArray && playerArray.slice(0,  100) && 
             playerArray.slice(0, 100).map(p => {
