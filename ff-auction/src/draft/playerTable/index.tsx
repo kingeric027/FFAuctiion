@@ -96,7 +96,6 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       const position: Position = teamData.PositionNames[player.defaultPositionId].Position;
                       const priorSeasonStats = player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString()));
-                      debugger;
                       return (
                         <TableRow
                           hover

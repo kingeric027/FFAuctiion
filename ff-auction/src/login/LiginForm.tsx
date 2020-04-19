@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Typography, Button, Dialog, FormGroup, TextField, DialogContent, DialogActions, DialogTitle, Grid } from "@material-ui/core"
+import { Button, TextField, DialogContent, DialogActions, DialogTitle, Grid } from "@material-ui/core"
 import * as OrderCloud from 'ordercloud-javascript-sdk';
+import { connect, ConnectedProps } from 'react-redux';
+import { setUser } from '../redux/actions';
 
-interface LoginFormProps {
+const connector = connect();
+type PropsFromRedux = ConnectedProps<typeof connector>
+type LoginFormProps = PropsFromRedux & {
     onClose: () => void
 }
 
-const UserShell: OrderCloud.MeUser = {
+const UserShell: OrderCloud.User = {
     Username: '',
     FirstName: '',
     LastName: '',
@@ -18,19 +22,36 @@ const UserShell: OrderCloud.MeUser = {
 export type UserValues = "Username" | "FirstName" | "LastName" | "Email" | "Password"; 
 
 const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
-    const [newUser, setNewUser] = useState<OrderCloud.MeUser>(UserShell);
+    const [newUser, setNewUser] = useState<OrderCloud.User>(UserShell);
     const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(key)
         setNewUser({...newUser, [key]: event.target.value})
     }
 
+    // const SubmitNewUser = () => {
+    //     var token = OrderCloud.Tokens.GetAccessToken();
+    //     return OrderCloud.Me.Register(newUser, {
+    //         anonUserToken: token
+    //     }).then((res) => {
+    //         console.log(res);
+    //     })
+    // }
+
     const SubmitNewUser = () => {
-        var token = OrderCloud.Tokens.GetAccessToken();
-        return OrderCloud.Me.Register(newUser, {
-            anonUserToken: token
-        }).then((res) => {
-            console.log(res);
+        OrderCloud.AdminUsers.Create(newUser).then((createdUser) => {
+            OrderCloud.Auth.Login(newUser.Username, newUser.Password!, process.env.REACT_APP_ADMIN_CLIENT_ID!, [])
+            .then((res) => {
+                OrderCloud.Tokens.SetAccessToken(res.access_token)
+                OrderCloud.Tokens.SetRefreshToken(res.refresh_token)
+                props.dispatch(setUser(createdUser));
+                setNewUser(UserShell)
+            })
         })
+    }
+
+    const handleCancel = () => {
+        setNewUser(UserShell)
+        props.onClose();
     }
 
     return(
@@ -42,6 +63,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
                         <TextField
+                            required
                             id="UserName"
                             label="User Name"
                             variant="outlined"
@@ -50,6 +72,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                             onChange={handleNewUserChange("Username")}>{newUser.Username}
                         </TextField>
                         <TextField
+                            required
                             id="FirstName"
                             label="First Name"
                             variant="outlined"
@@ -58,6 +81,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                             onChange={handleNewUserChange("FirstName")}>{newUser.FirstName}
                         </TextField>
                         <TextField
+                            required
                             id="LastName"
                             label="Last Name"
                             variant="outlined"
@@ -68,6 +92,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            required
                             id="Email"
                             label="Email"
                             variant="outlined"
@@ -76,6 +101,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                             onChange={handleNewUserChange("Email")}>{newUser.Email}                 
                         </TextField>
                         <TextField
+                            required
                             id="Password"
                             label="Password"
                             variant="outlined"
@@ -88,7 +114,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
             </DialogContent>
             <DialogActions>
                 <Button type="submit" onClick={SubmitNewUser}>Submit</Button>
-                <Button type="reset" onClick={props.onClose}>Cancel</Button>
+                <Button type="reset" onClick={handleCancel}>Cancel</Button>
             </DialogActions>
         </React.Fragment>
     )
@@ -108,10 +134,13 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     }
 
     const handleSubmit = () => {
-        return OrderCloud.Auth.Login(creds.UserName, creds.passWord, process.env.REACT_APP_CLIENT_ID!, [])
+        return OrderCloud.Auth.Login(creds.UserName, creds.passWord, process.env.REACT_APP_ADMIN_CLIENT_ID!, [])
         .then(response => {
             console.log(response);
             OrderCloud.Tokens.SetAccessToken(response.access_token);
+        })
+        .then(() => {
+            OrderCloud.Me.Get().then(res => props.dispatch(setUser(res)))
         })
     }
 
@@ -144,7 +173,8 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     )
 }
 
+
 export default {
-    NewUserForm,
-    LoginUser
+    NewUserForm: connector(NewUserForm),
+    LoginUser: connector(LoginUser)
 }

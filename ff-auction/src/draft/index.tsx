@@ -1,7 +1,8 @@
 import React from 'react';
 import PlayerTable from './playerTable';
+import { connect } from 'react-redux';
 
-export interface DraftProps {
+interface DraftProps {
     playerArray?: any[]
 }
 
@@ -17,4 +18,10 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
     )
 }
 
-export default Draft;
+const mapStateToProps = (state: any) => {
+    return {
+        playerArray: state.players
+    }
+}
+
+export default connect(mapStateToProps)(Draft);

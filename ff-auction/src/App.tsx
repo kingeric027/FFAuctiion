@@ -1,50 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import './App.css';
+import { setPlayers } from './redux/actions';
 import { Tokens, Auth } from 'ordercloud-javascript-sdk';
 import Home from './home';
 import api from './api';
 import Draft from './draft';
+import { connect, ConnectedProps } from 'react-redux';
 
-const App: React.FunctionComponent = () => {
-  const [token, setToken] = useState<string>();
-  const [playerArray, setPlayerArray] = useState<any[]>();
+const connector = connect();
+type PropsFromRedux = ConnectedProps<typeof connector>
 
-
-  // useEffect(() => {
-  //   Tokens.GetValidToken().then((token) => {
-  //     if(token) {
-  //       setToken(token);
-  //       Tokens.SetAccessToken(token);
-  //     } else {
-  //       Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, 
-  //         ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin', 'Shopper']).then(response => {
-  //           Tokens.SetAccessToken(response.access_token);
-  //           Tokens.SetRefreshToken(response.refresh_token);
-  //           setToken(token);
-  //       })
-  //     }
-  //   })
-  //   .then(()  => {
-  //     api.getPlayerList().then(res => {
-  //       var playerList = res.data.players.map((p:any) => p.player)
-  //       setPlayerArray(playerList);
-  //     })
-  //   })
-  // }, [])
+const App: React.FunctionComponent<PropsFromRedux> = (props) => {
 
   useEffect(() => {
     Promise.all([
       Tokens.GetValidToken().then((token) => {
         if(token) {
-          setToken(token);
           Tokens.SetAccessToken(token);
         } else {
-          Auth.Anonymous(process.env.REACT_APP_CLIENT_ID!, 
+          Auth.Anonymous(process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin', 'Shopper']).then(response => {
             Tokens.SetAccessToken(response.access_token);
             Tokens.SetRefreshToken(response.refresh_token);
-            setToken(token);
         })
         }
       }), 
@@ -60,7 +38,7 @@ const App: React.FunctionComponent = () => {
                   return 0;
           }
       );
-        setPlayerArray(playerList);
+          props.dispatch(setPlayers(playerList))
       })
     ])
   })
@@ -72,11 +50,11 @@ const App: React.FunctionComponent = () => {
           <Route
             path="/"
             exact 
-            render={(props) => <Home {...props} playerArray={playerArray} />}
+            component={Home}
           />
           <Route
             path="/draft"
-            render={(props) => <Draft {...props} playerArray={playerArray} />}
+            component={Draft}
           />
         </Switch> 
       </BrowserRouter> 
@@ -84,4 +62,4 @@ const App: React.FunctionComponent = () => {
   );
 }
 
-export default App;
+export default connector(App);

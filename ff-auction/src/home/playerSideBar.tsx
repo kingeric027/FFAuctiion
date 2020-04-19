@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import teamData from '../constants/teamData';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ListItemText, List, ListItem, ListItemAvatar, Avatar, makeStyles, Typography } from '@material-ui/core';
@@ -46,7 +47,7 @@ const PlayerSideBar: React.FunctionComponent<
     return( 
         <div>
             <Typography variant="h6" style={{height: '30px'}}>Top 100 Players</Typography>
-            <Scrollbars style={{ width: '100%', height:'calc(100vh - 30px)' }}>
+            <Scrollbars style={{ width: '100%', height:'calc(100vh - 45px)' }}>
             <List className={classes.list}>
             {playerArray && playerArray.slice(0,  100) && 
             playerArray.slice(0, 100).map(p => {
@@ -59,7 +60,7 @@ const PlayerSideBar: React.FunctionComponent<
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={p.fullName}
-                        secondary={`${teamData.TeamNames[p.proTeamId].Name} | ${position}`}
+                        secondary={`${teamData.TeamNames[p.proTeamId]?.Name} | ${position}`}
                     >
                     </ListItemText>
                 </ListItem>
@@ -72,4 +73,10 @@ const PlayerSideBar: React.FunctionComponent<
     )
 }
 
-export default PlayerSideBar;
+const mapStateToProps = (state: any) => {
+    return {
+        playerArray: state.players
+    }
+}
+
+export default connect(mapStateToProps)(PlayerSideBar);

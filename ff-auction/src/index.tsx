@@ -1,27 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { createStore } from 'redux';
+import ffReducers from './redux/reducers';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { red, green, brown, yellow, purple, indigo } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core';
+import { Provider } from 'react-redux';
 
-// const theme = createMuiTheme({
-//   palette: {
-//     WR: yellow,
-//     TE: red,
-//     QB: green,
-//     DST: purple,
-//     K: brown
-//   },
-//   status: {
-//     danger: 'orange',
-//   },
-// });
+const store = createStore(ffReducers);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

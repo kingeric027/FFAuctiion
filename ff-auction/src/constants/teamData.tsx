@@ -1,4 +1,4 @@
-import { green, indigo, yellow, brown, red, purple, blue, lightGreen, lightBlue } from "@material-ui/core/colors"
+import { yellow, brown, red, purple, lightGreen, lightBlue } from "@material-ui/core/colors"
 
 export interface TeamData {
     TeamNames: any,

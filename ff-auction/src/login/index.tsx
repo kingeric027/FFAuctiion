@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Button, Dialog, DialogContent, DialogActions, Tabs, Tab, makeStyles } from "@material-ui/core";
+import { Button, Dialog, Tabs, Tab, makeStyles } from "@material-ui/core";
 import UserForms from "./LiginForm";
-import * as OrderCloud from 'ordercloud-javascript-sdk';
-
-const UserShell: OrderCloud.User = {
-    Username: '',
-    FirstName: '',
-    LastName: '',
-    Email: '',
-    Active: true,
-}
-
-const useStyles = makeStyles({
-    root: {
-      width: 400
-    },
-  });
 
 export type UserValues = "UserName" | "FirstName" | "LastName" | "Email";
 
 const LoginForm: React.FunctionComponent = () => {
-    const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
     const [value, setValue] = useState<number>(0);
 
