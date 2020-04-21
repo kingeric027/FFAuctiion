@@ -6,6 +6,7 @@ import { Tokens, Auth } from 'ordercloud-javascript-sdk';
 import Home from './home';
 import api from './api';
 import Draft from './draft';
+import Create from './create';
 import { connect, ConnectedProps } from 'react-redux';
 
 const connector = connect();
@@ -56,6 +57,10 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
             path="/draft"
             component={Draft}
           />
+          <Route
+            path="/create"
+            component={Create}
+            />
         </Switch> 
       </BrowserRouter> 
     </div>

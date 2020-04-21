@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dialog, Tabs, Tab, makeStyles } from "@material-ui/core";
-import UserForms from "./LiginForm";
+import UserForms from "./LoginForm";
 
 export type UserValues = "UserName" | "FirstName" | "LastName" | "Email";
 

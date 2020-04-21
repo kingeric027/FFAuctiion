@@ -3,7 +3,7 @@ import { SET_USER, SET_PLAYERS } from './actions';
 
 
 
-export function users(state = {}, action: any) {
+export function user(state = {}, action: any) {
     switch (action.type) {
         case SET_USER:
             return action.user;
@@ -23,7 +23,7 @@ export function players(state = [], action: any) {
 
 
 const ffReducers = combineReducers({
-    users,
+    user,
     players
 })
 
