@@ -56,7 +56,21 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     }
 
     const handleTeamNumberChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event);
+        if(parseInt(event.target.value) > league.Teams.length) {
+            setLeague({
+                ...league,
+                Teams: [...league.Teams, {
+                    index:  parseInt(event.target.value)-1,
+                    name: ''
+                }]
+            })
+        } else {
+            var teamsCopy = [...league.Teams];
+            setLeague({
+                ...league,
+                Teams: teamsCopy.filter(t => t.index<parseInt(event.target.value))
+            })
+        }
     }
 
     const handleSubmit = () => {
