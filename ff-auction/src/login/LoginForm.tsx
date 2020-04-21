@@ -39,12 +39,14 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
 
     const SubmitNewUser = () => {
         OrderCloud.AdminUsers.Create(newUser).then((createdUser) => {
+            debugger;
             OrderCloud.Auth.Login(newUser.Username, newUser.Password!, process.env.REACT_APP_ADMIN_CLIENT_ID!, [])
             .then((res) => {
+                debugger;
                 OrderCloud.Tokens.SetAccessToken(res.access_token)
                 OrderCloud.Tokens.SetRefreshToken(res.refresh_token)
                 props.dispatch(setUser(createdUser));
-                setNewUser(UserShell)
+                handleCancel()
             })
         })
     }

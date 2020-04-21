@@ -12,9 +12,7 @@ type TeamNameInputProps = PropsFromRedux & {
 
 const TeamNameInput:  React.FunctionComponent<
 TeamNameInputProps> = (props) => {
-    const {teams} = props;     
-    console.log(teams.length)
-    debugger;                    
+    const {teams} = props;                   
 
     // const handleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     //     var teamsCopy = [...teamArray!];
@@ -39,7 +37,7 @@ TeamNameInputProps> = (props) => {
                     ))}
                 </Grid>
                 <Grid item xs={4}>
-                    {teams.slice(Math.ceil(teams.length/3), Math.ceil(teams.length/3) +  Math.floor(teams.length/3))
+                    {teams.slice(Math.ceil(teams.length/3), Math.ceil(teams.length/3) +  Math.ceil(teams.length/3))
                     .map((team:TeamObj)  => (
                         <TextField 
                         variant="outlined" 
@@ -51,7 +49,7 @@ TeamNameInputProps> = (props) => {
                     ))}
                 </Grid>
                 <Grid item xs={4}>
-                    {teams.slice(Math.ceil(teams.length/3) +  Math.floor(teams.length/3), teams.length).map((team:TeamObj)  => (
+                    {teams.slice(Math.ceil(teams.length/3) +  Math.ceil(teams.length/3), teams.length).map((team:TeamObj)  => (
                         <TextField 
                         variant="outlined" 
                         key={team.index}

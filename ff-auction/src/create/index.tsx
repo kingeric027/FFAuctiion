@@ -49,9 +49,11 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     const [league, setLeague] = useState<LeagueShell>(leagueShell);
 
     const handleChange = (key: LeagueKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const val  = ["RosterSize", "AuctionBudget"].includes(key) ? 
+            parseInt(event.target.value) : event.target.value;
         setLeague({
-            [key]: event.target.value,
-            ...league
+            ...league,
+            [key]: val
         })
     }
 
