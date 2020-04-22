@@ -21,7 +21,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
           Tokens.SetAccessToken(token);
         } else {
           Auth.Anonymous(process.env.REACT_APP_ADMIN_CLIENT_ID!, 
-            ['ProductReader', 'CategoryReader', 'MeAddressAdmin', 'MeCreditCardAdmin', 'Shopper']).then(response => {
+            ['AdminUserAdmin', 'AdminUserGroupAdmin', 'SecurityProfileAdmin', 'SetSecurityProfile']).then(response => {
             Tokens.SetAccessToken(response.access_token);
             Tokens.SetRefreshToken(response.refresh_token);
         })
