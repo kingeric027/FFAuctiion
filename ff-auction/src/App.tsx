@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import './App.css';
-import { setPlayers } from './redux/actions';
-import { Tokens, Auth } from 'ordercloud-javascript-sdk';
+import { setPlayers, setUser } from './redux/actions';
+import { Tokens, Auth, Me } from 'ordercloud-javascript-sdk';
 import Home from './home';
 import api from './api';
 import Draft from './draft';
@@ -19,11 +19,13 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
       Tokens.GetValidToken().then((token) => {
         if(token) {
           Tokens.SetAccessToken(token);
+          Me.Get().then((curUser) => props.dispatch(setUser(curUser)));
         } else {
           Auth.Anonymous(process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['AdminUserAdmin', 'AdminUserGroupAdmin', 'SecurityProfileAdmin', 'SetSecurityProfile']).then(response => {
             Tokens.SetAccessToken(response.access_token);
             Tokens.SetRefreshToken(response.refresh_token);
+            Me.Get().then((curUser) => props.dispatch(setUser(curUser)));
         })
         }
       }), 

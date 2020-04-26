@@ -157,10 +157,17 @@ const teamNames: any = {
     }
 }
 
-const teamData: TeamData = {
+export const teamData: TeamData = {
     TeamNames: teamNames,
     PositionNames: positionNames
 }
 
-export default teamData
+export interface AppData {
+    anon_user_id: string
+}
+
+export const appData: AppData = { 
+    anon_user_id: '299999'
+}
+
 

@@ -24,7 +24,7 @@ const LoginForm: React.FunctionComponent = () => {
             <Button
                 onClick={handleButtonClick}>Log In / Register
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth={true}> 
                 <Tabs value={value} onChange={handleChange} style={{width: '100%'}}>
                     <Tab style={{width: '50%'}} label="Log In"></Tab>
                     <Tab style={{width: '50%'}} label="Register"></Tab>

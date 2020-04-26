@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import teamData from '../constants/teamData';
+import { teamData } from '../constants/appData';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ListItemText, List, ListItem, ListItemAvatar, Avatar, makeStyles, Typography } from '@material-ui/core';
 
@@ -53,7 +53,7 @@ const PlayerSideBar: React.FunctionComponent<
             playerArray.slice(0, 100).map(p => {
                 var position: Position = teamData.PositionNames[p.defaultPositionId].Position;
                 return(
-                <ListItem className={ `${classes[position]} ${classes.listitem}` }>
+                <ListItem className={ `${classes[position]} ${classes.listitem}` } key={p.id}>
                     <ListItemAvatar>
                         <Avatar>
                             <p>${p.draftRanksByRankType.PPR.auctionValue}</p>

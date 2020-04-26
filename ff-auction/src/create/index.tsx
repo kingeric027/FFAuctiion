@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { UserGroup, AdminUserGroups, User, AdminUsers } from 'ordercloud-javascript-sdk';
 //import * as OrderCloud from  'ordercloud-javascript-sdk';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import TeamNameInput from './teamNameInput';
+import { useHistory } from 'react-router-dom';
+import LoadingButton from '../common/loadingButton';
 
 export interface TeamObj {
     name: string,
@@ -47,6 +49,8 @@ interface CreateLeagueProps {
 const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     const {currentUser} = props;
     const [league, setLeague] = useState<LeagueShell>(leagueShell);
+    const [loading, setLoading] = useState<boolean>(false);
+    const history = useHistory();
 
     const handleChange = (key: LeagueKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const val  = ["RosterSize", "AuctionBudget"].includes(key) ? 
@@ -54,6 +58,13 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
         setLeague({
             ...league,
             [key]: val
+        })
+    }
+
+    const handleTeamNameChange = (teams: TeamObj[]) => {
+        setLeague({
+            ...league,
+            Teams: teams
         })
     }
 
@@ -76,6 +87,7 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     }
 
     const handleSubmit = () => {
+        setLoading(true)
         const userGroup: UserGroup = {
             Name: league.Name,
             Description: currentUser.Username,
@@ -86,26 +98,36 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
             }
         }
         return AdminUserGroups.Create(userGroup)
-        .then((group) => AdminUserGroups.SaveUserAssignment(
-            {
-                UserGroupID: group.ID,
-                UserID: currentUser.ID
-            }
-        )
-        .then(() => {
-            const leagueArray = [  ...currentUser?.xp?.LeaguesOwned, group.ID]
-            return AdminUsers.Patch(currentUser.ID!, {
-                xp: {
-                    LeaguesOwned: leagueArray
+        .then((group) => (
+            AdminUserGroups.SaveUserAssignment(
+                {
+                    UserGroupID: group.ID,
+                    UserID: currentUser.ID
                 }
+            )
+            .then(() => {
+                const leaguesArray = currentUser?.xp?.LeaguesOwned ? 
+                [  ...currentUser.xp.LeaguesOwned, group.ID ] : [group.ID]
+                return AdminUsers.Patch(currentUser.ID!, {
+                    xp: {
+                        LeaguesOwned: leaguesArray
+                    }
+                })
             })
+        ))
+        .then(() => {
+            setLeague(leagueShell)
+            setLoading(false);
+            history.push("/draft")
+            return;
         })
-        )
     }
 
     return (
         <form>
-            <TextField 
+            <Grid container>
+                <Grid item xs={6}>
+                <TextField 
                 id="Name" 
                 label="League Name" 
                 value={league.Name}
@@ -135,8 +157,19 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
                 onChange={handleChange("AuctionBudget")}
                 required
                 ></TextField>
-                <TeamNameInput teams={league.Teams}></TeamNameInput>
-                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <TeamNameInput 
+                        teams={league.Teams}
+                        onChange={handleTeamNameChange}></TeamNameInput>
+                </Grid>
+            </Grid>
+                {/* <Button onClick={() => handleSubmit()}>Submit</Button> */}
+                <LoadingButton
+                    onClick={handleSubmit}
+                    loading={loading}
+                    text="Submit">
+                </LoadingButton>
         </form>
     )
 }

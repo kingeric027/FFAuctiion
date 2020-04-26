@@ -44,7 +44,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                 UserID: createdUser.ID
             }).then(() => (
                 OrderCloud.Auth.Login(newUser.Username, newUser.Password!, 
-                    process.env.REACT_APP_ADMIN_CLIENT_ID!, ['AdminUserAdmin'])
+                    process.env.REACT_APP_ADMIN_CLIENT_ID!, ['AdminUserAdmin', 'AdminUserGroupAdmin'])
             .then((res) => {
                 OrderCloud.Tokens.SetAccessToken(res.access_token)
                 OrderCloud.Tokens.SetRefreshToken(res.refresh_token)
@@ -146,8 +146,19 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
             OrderCloud.Tokens.SetAccessToken(response.access_token);
         })
         .then(() => {
-            OrderCloud.Me.Get().then(res => props.dispatch(setUser(res)))
+            OrderCloud.Me.Get().then(res => {
+                props.dispatch(setUser(res)) 
+                handleCancel();
+                })
         })
+    }
+
+    const handleCancel = () => {
+        setCreds({
+            userName: '',
+            passWord: ''
+        })
+        props.onClose();
     }
 
     return (
