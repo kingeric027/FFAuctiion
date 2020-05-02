@@ -20,7 +20,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
         if(token) {
           Tokens.SetAccessToken(token);
           Me.Get().then((curUser) => props.dispatch(setUser(curUser)));
-        } else {
+        } else { 
           Auth.Anonymous(process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['AdminUserAdmin', 'AdminUserGroupAdmin', 'SecurityProfileAdmin', 'SetSecurityProfile']).then(response => {
             Tokens.SetAccessToken(response.access_token);
@@ -56,7 +56,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
             component={Home}
           />
           <Route
-            path="/draft"
+            path="/draft/:leagueId"
             component={Draft}
           />
           <Route

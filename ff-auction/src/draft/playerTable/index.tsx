@@ -9,9 +9,6 @@ import { teamData } from '../../constants/appData';
 import { Paper, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
-    // root: {
-    //   width: '100%',
-    // }
     tableWrapper: {
       maxHeight: 500,
       overflow: 'auto',
@@ -35,9 +32,6 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
         { id: 'averageValue', numeric: true, disablePadding: false, label: 'Average Value' },
         { id: 'priorAverage', numeric: true, disablePadding: false, label: `${priorSeason} PPR Average` },
       ];
-    //   const createSortHandler = property => event => {
-    //     onRequestSort(event, property);
-    //   };
       return (
         <TableHead>
           <TableRow>

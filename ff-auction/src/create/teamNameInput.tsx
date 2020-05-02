@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ConnectedProps, connect } from 'react-redux';
-import { User } from 'ordercloud-javascript-sdk';
 import { Typography, TextField, Grid } from '@material-ui/core';
 import { TeamObj } from '.';
 

@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { UserGroup, AdminUserGroups, User, AdminUsers } from 'ordercloud-javascript-sdk';
+import React, { useState  } from 'react';
+import { User, AdminUsers, Catalog, Catalogs, Categories, Category } from 'ordercloud-javascript-sdk';
 //import * as OrderCloud from  'ordercloud-javascript-sdk';
-import { TextField, Button, Grid } from '@material-ui/core';
+import { TextField, Grid, makeStyles, Typography, InputAdornment } from '@material-ui/core';
 import { connect } from 'react-redux';
 import TeamNameInput from './teamNameInput';
 import { useHistory } from 'react-router-dom';
 import LoadingButton from '../common/loadingButton';
+import { mapUserToProps } from '../redux/stateMappers';
 
+
+const useStyles = makeStyles(() => ({
+    textField: {
+        maxWidth: 150,   
+        margin: '10px'
+    },
+    leagueName: {
+        margin: '10px',
+        display: 'flex'
+    },
+    resize: {
+        fontSize: 30
+    }
+  }));
 export interface TeamObj {
     name: string,
     index: number
@@ -51,6 +66,7 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     const [league, setLeague] = useState<LeagueShell>(leagueShell);
     const [loading, setLoading] = useState<boolean>(false);
     const history = useHistory();
+    const classes = useStyles(0);
 
     const handleChange = (key: LeagueKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const val  = ["RosterSize", "AuctionBudget"].includes(key) ? 
@@ -88,38 +104,41 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
 
     const handleSubmit = () => {
         setLoading(true)
-        const userGroup: UserGroup = {
+        const leagueToCreate: Catalog = {
             Name: league.Name,
             Description: currentUser.Username,
+            Active: true,
             xp: {
                 RosterSize: league.RosterSize,
                 AuctionBudget: league.AuctionBudget,
                 Teams: league.Teams
             }
-        }
-        return AdminUserGroups.Create(userGroup)
-        .then((group) => (
-            AdminUserGroups.SaveUserAssignment(
-                {
-                    UserGroupID: group.ID,
-                    UserID: currentUser.ID
+        };
+        return Catalogs.Create(leagueToCreate).then((createdLeague) => {
+            var queue: Promise<any>[] = [];
+            league.Teams.forEach(team => {
+                var cat: Category = {
+                    Active: true,
+                    Name: team.name,
+                    ListOrder: team.index  
                 }
-            )
-            .then(() => {
-                const leaguesArray = currentUser?.xp?.LeaguesOwned ? 
-                [  ...currentUser.xp.LeaguesOwned, group.ID ] : [group.ID]
-                return AdminUsers.Patch(currentUser.ID!, {
-                    xp: {
-                        LeaguesOwned: leaguesArray
-                    }
-                })
+                queue.push(
+                    Categories.Create(createdLeague.ID, cat)
+                )
             })
-        ))
-        .then(() => {
-            setLeague(leagueShell)
-            setLoading(false);
-            history.push("/draft")
-            return;
+            const leaguesArray = currentUser?.xp?.LeaguesOwned ? 
+            [  ...currentUser.xp.LeaguesOwned, createdLeague.ID ] : [createdLeague.ID]
+            queue.push(AdminUsers.Patch(currentUser.ID!, {
+                xp: {
+                    LeaguesOwned: leaguesArray
+                }
+            }))
+            return Promise.all(queue).then(() => {
+                setLeague(leagueShell)
+                setLoading(false);
+                history.push(`/draft/${createdLeague.ID}`)
+                return;
+            })
         })
     }
 
@@ -127,14 +146,22 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
         <form>
             <Grid container>
                 <Grid item xs={6}>
-                <TextField 
+                <Typography variant="h6">League Information</Typography>
+                <TextField className={classes.leagueName}
                 id="Name" 
                 label="League Name" 
                 value={league.Name}
                 onChange={handleChange("Name")}
-                required>
+                required
+                InputProps={{
+                    classes: {
+                        input: classes.resize
+                    } 
+                }}>
             </TextField>
+
             <TextField 
+                className={classes.textField}
                 id="TeamNumber" 
                 label="Number of Teams" 
                 value={league.Teams.length} 
@@ -143,6 +170,7 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
                 required>
                 </TextField>
             <TextField 
+                className={classes.textField}
                 id="RosterSize" 
                 label="Roster Size" 
                 value={league.RosterSize} 
@@ -150,11 +178,15 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
                 onChange={handleChange("RosterSize")}
                 ></TextField>
             <TextField 
+                className={classes.textField}
                 id="AuctionBudget" 
                 label="Auction Budget" 
                 value={league.AuctionBudget} 
                 type="number"
                 onChange={handleChange("AuctionBudget")}
+                InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  }}
                 required
                 ></TextField>
                 </Grid>
@@ -174,10 +206,4 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
     )
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        currentUser: state.user
-    }
-}
-
-export default connect(mapStateToProps)(CreateLeague);
+export default connect(mapUserToProps)(CreateLeague);

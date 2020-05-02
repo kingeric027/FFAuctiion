@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Grid, Link, Button, Tooltip } from "@material-ui/core"
+import { Typography, Grid, Button, Tooltip } from "@material-ui/core"
 import Login from '../login';
 import PlayerSideBar from './playerSideBar';
+import FFAppBar from '../common/appBar';
 import { connect } from 'react-redux';
 import { User } from 'ordercloud-javascript-sdk';
 import { appData } from '../constants/appData';
@@ -14,6 +15,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
 
     return(
         <div>
+            <FFAppBar></FFAppBar>
             <Grid container spacing={3}>
                 <Grid item xs={8}>
                     <Typography variant="h1">FFAuction</Typography>

@@ -140,7 +140,8 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     }
 
     const handleSubmit = () => {
-        return OrderCloud.Auth.Login(creds.UserName, creds.passWord, process.env.REACT_APP_ADMIN_CLIENT_ID!, [])
+        return OrderCloud.Auth.Login(creds.userName, creds.passWord, process.env.REACT_APP_ADMIN_CLIENT_ID!, 
+            ['CatalogAdmin', 'CategoryAdmin', 'ProductAdmin', 'AdminUserAdmin'])  
         .then(response => {
             console.log(response);
             OrderCloud.Tokens.SetAccessToken(response.access_token);
@@ -177,8 +178,8 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
                     variant="outlined"
                     label="Password"
                     margin="dense"
-                    value={creds.password}
-                    onChange={handleAuthChange("password")}
+                    value={creds.passWord}
+                    onChange={handleAuthChange("passWord")}
                     style={{display: 'flex'}}
                 ></TextField>
             </DialogContent>
