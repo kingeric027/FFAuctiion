@@ -21,10 +21,11 @@ interface PlayerTableHeadProps {
     priorSeason: string
     order?:  OrderDirection,
     orderBy?: string, 
+    onRequestSort?: (event: React.ChangeEvent, property: any) => void
 }
 
 const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) => {
-    const {order, orderBy, priorSeason} = props
+    const {order, orderBy, priorSeason, onRequestSort} = props
     const headCells = [
         { id: 'player', numeric: false, disablePadding: true, label: 'Player' },
         { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
@@ -32,6 +33,13 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
         { id: 'averageValue', numeric: true, disablePadding: false, label: 'Average Value' },
         { id: 'priorAverage', numeric: true, disablePadding: false, label: `${priorSeason} PPR Average` },
       ];
+
+    const createSortHandler = (property: string) => (event: React.ChangeEvent) => {
+      if(onRequestSort) {
+        onRequestSort(event, property);
+      }
+    };
+
       return (
         <TableHead>
           <TableRow>
@@ -44,15 +52,10 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
-                  direction={order}
-                  //onClick={createSortHandler(headCell.id)}
+                  direction={orderBy === headCell.id ? order : 'asc'}
+                  onClick={() => createSortHandler(headCell.id)}
                 >
                   {headCell.label}
-                  {/* {orderBy === headCell.id ? (
-                    <span>
-                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                    </span>
-                  ) : null} */}
                 </TableSortLabel>
               </TableCell>
             ))}
@@ -72,6 +75,39 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
     const classes = useStyles();
     const currentSeason = (new Date()).getMonth() >= 3 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
 
+    const handleRequestSort = (event: any, property: string) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+    };
+
+    const descendingComparator = (a: any, b: any, orderBy: string) => {
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
+    }
+
+    const  getComparator =  (order: string,  orderBy: string) => {
+      return order === 'desc'
+      ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+      : (a: any, b: any) => -descendingComparator(a, b, orderBy);
+    }
+
+    const stableSort = (array: any[], 
+      comparator: (order: string, orderBy: string) => any) => {
+      const stabilizedThis = array.map((el, index) => [el, index]);
+      stabilizedThis.sort((a: any[], b: any[]) => { 
+        const order  = comparator(a[0], b[0]);
+        if(order !== 0) return order;
+        return a[1] - b[1];
+      });
+      return stabilizedThis.map((el)  => el[0]);
+    }
+
     return (
         <div>
           <Paper>
@@ -83,9 +119,11 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                   priorSeason={(currentSeason-1).toString()}
                   order={order}
                   orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {playerArray.slice(0,50)
+                  {stableSort(playerArray, getComparator(order, orderBy))
+                    .slice(0,50)
                     .map((player, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       const position: Position = teamData.PositionNames[player.defaultPositionId].Position;
