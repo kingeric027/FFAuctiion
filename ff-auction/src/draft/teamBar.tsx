@@ -1,7 +1,6 @@
 import React from 'react';
 import { Category } from 'ordercloud-javascript-sdk';
 import { GridList, GridListTile, GridListTileBar, makeStyles } from '@material-ui/core';
-import classes from '*.module.css';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -32,6 +31,7 @@ interface TeamBarProps {
 
 const TeamBar: React.FunctionComponent<TeamBarProps> = (props) => {
     const {teamList} = props
+    const classes = useStyles();
     return (
         <div className={classes.root}>
             <GridList cols={teamList.length}>

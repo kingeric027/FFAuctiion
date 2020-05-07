@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PlayerTable from './playerTable';
 import FFAppBar from '../common/appBar';
-import TeamBar from './teamBar';
+import TeamList from './teamList';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
@@ -29,7 +29,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         <div>
             <FFAppBar currentLeague={league?.Name}></FFAppBar>
             {teams && 
-            <TeamBar teamList={teams}></TeamBar>}
+            <TeamList teams={teams}></TeamList>}
             {playerArray &&
             <PlayerTable
                 playerArray={playerArray}>

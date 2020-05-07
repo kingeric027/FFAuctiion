@@ -1,17 +1,25 @@
 import React from 'react';
-import { Typography, Grid, Button, Tooltip } from "@material-ui/core"
+import { Typography, Grid, Button, Tooltip, makeStyles } from "@material-ui/core"
 import Login from '../login';
 import PlayerSideBar from './playerSideBar';
 import FFAppBar from '../common/appBar';
 import { connect } from 'react-redux';
 import { User } from 'ordercloud-javascript-sdk';
 import { appData } from '../constants/appData';
+import LeagueList from './leagueList';
 
+
+const useStyles = makeStyles(() => ({
+    leagueList: {
+        textAlign: 'center'
+    }
+}))
 interface HomeProps {
     currentUser: User
 }
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
+    const classes = useStyles();
 
     return(
         <div>
@@ -28,6 +36,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
                                 Create a League
                         </Button>
                     </Tooltip>
+                    <LeagueList></LeagueList>
                 </Grid>
                 <Grid item xs={4}>
                     <PlayerSideBar></PlayerSideBar>
