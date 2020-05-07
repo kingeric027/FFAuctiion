@@ -120,7 +120,10 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
                 var cat: Category = {
                     Active: true,
                     Name: team.name,
-                    ListOrder: team.index  
+                    ListOrder: team.index,
+                    xp: {
+                        BudgetRemaining: 200
+                    }  
                 }
                 queue.push(
                     Categories.Create(createdLeague.ID, cat)
