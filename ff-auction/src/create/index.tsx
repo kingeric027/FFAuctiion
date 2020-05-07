@@ -7,6 +7,7 @@ import TeamNameInput from './teamNameInput';
 import { useHistory } from 'react-router-dom';
 import LoadingButton from '../common/loadingButton';
 import { mapUserToProps } from '../redux/stateMappers';
+import service from '../common/service';
 
 
 const useStyles = makeStyles(() => ({
@@ -111,7 +112,8 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
             xp: {
                 RosterSize: league.RosterSize,
                 AuctionBudget: league.AuctionBudget,
-                Teams: league.Teams
+                Teams: league.Teams,
+                Season: service.GetCurrentSeason()
             }
         };
         return Catalogs.Create(leagueToCreate).then((createdLeague) => {

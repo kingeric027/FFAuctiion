@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import { Catalogs, Catalog } from 'ordercloud-javascript-sdk';
+import { Catalogs, Catalog, User } from 'ordercloud-javascript-sdk';
 import { flatten } from 'lodash';
-import { ListItem, List, ListItemText, Link } from '@material-ui/core';
+import { ListItem, List, ListItemText, Link, Chip } from '@material-ui/core';
+import { mapUserToProps } from '../redux/stateMappers';
+import { connect } from 'react-redux';
+import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
-const LeagueList: React.FunctionComponent = () => {
+interface LeagueListProps {
+    currentUser: User
+}
+
+const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
     const [leagues, setLeagues] = useState<Catalog[]>();
 
     useEffect(() => {
@@ -30,7 +37,10 @@ const LeagueList: React.FunctionComponent = () => {
                     {leagues && leagues.length>0 && leagues.map(league => (
                         <ListItem key={league.ID}>
                             <ListItemText primary={
-                                <Link href={`/draft/${league.ID}`}>{league.Name}</Link>}></ListItemText>
+                                <Link href={`/draft/${league.ID}`}>{league.Name}</Link>}>
+                            </ListItemText>
+                            {props.currentUser.Username === league.Description && 
+                                <Chip label="Commissioner" icon={<BusinessCenterIcon />}></Chip>}
                         </ListItem>
                         ))
                     }
@@ -41,4 +51,4 @@ const LeagueList: React.FunctionComponent = () => {
     )
 }
 
-export default LeagueList;
+export default connect(mapUserToProps)(LeagueList);

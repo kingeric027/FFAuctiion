@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { teamData } from '../../constants/appData';
 import { Paper, makeStyles } from '@material-ui/core';
+import service from '../../common/service';
 
 const useStyles = makeStyles({
     tableWrapper: {
@@ -74,7 +75,7 @@ interface PlayerData {
 
 const mapPlayerData = (playerArray: any[]) => {
   return playerArray.map(player => {
-    const currentSeason = (new Date()).getMonth() >= 3 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
+    const currentSeason = service.GetCurrentSeason(); 
     const priorSeasonStats = player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString()));
     var playerItem: PlayerData  = {
       id: player.id,
