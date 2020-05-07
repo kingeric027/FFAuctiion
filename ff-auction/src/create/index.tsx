@@ -124,7 +124,8 @@ const CreateLeague: React.FunctionComponent<CreateLeagueProps> = (props) => {
                     Name: team.name,
                     ListOrder: team.index,
                     xp: {
-                        BudgetRemaining: 200
+                        BudgetRemaining: 200,
+                        Players: []
                     }  
                 }
                 queue.push(

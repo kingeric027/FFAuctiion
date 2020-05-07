@@ -37,7 +37,8 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
                     {leagues && leagues.length>0 && leagues.map(league => (
                         <ListItem key={league.ID}>
                             <ListItemText primary={
-                                <Link href={`/draft/${league.ID}`}>{league.Name}</Link>}>
+                                <Link href={`/draft/${league.ID}`}>{league.Name}</Link>}
+                                secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
                             </ListItemText>
                             {props.currentUser.Username === league.Description && 
                                 <Chip label="Commissioner" icon={<BusinessCenterIcon />}></Chip>}

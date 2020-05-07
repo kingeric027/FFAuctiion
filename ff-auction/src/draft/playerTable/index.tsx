@@ -6,13 +6,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { teamData } from '../../constants/appData';
-import { Paper, makeStyles } from '@material-ui/core';
+import { Paper, makeStyles, Button } from '@material-ui/core';
 import service from '../../common/service';
 
 const useStyles = makeStyles({
     tableWrapper: {
       maxHeight: 500,
       overflow: 'auto',
+    },
+    tableCell: {
+      padding: '0px 5px 0px 5px'
     }
   });
   
@@ -33,6 +36,7 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
         { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
         { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Average Value' },
         { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Average` },
+        { id: 'draft', numeric: false, disablePadding: false, label: ''} 
       ];
 
       return (
@@ -41,7 +45,7 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
             {headCells.map(headCell => (
               <TableCell
                 key={headCell.id}
-                align={headCell.numeric ? 'right' : 'left'}
+                align={'left'}
                 padding={headCell.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === headCell.id ? order : false}
               >
@@ -158,13 +162,14 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                           tabIndex={-1}
                           key={player.id}
                         >
-                          <TableCell component="th" id={labelId} scope="row" padding="none">
-                            {player.fullName}
+                          <TableCell id={labelId} className={classes.tableCell}>{player.fullName}</TableCell>
+                          <TableCell align="left" className={classes.tableCell}>{player.position}</TableCell>
+                          <TableCell align="left" className={classes.tableCell}>{player.teamAbv}</TableCell>
+                          <TableCell align="left" className={classes.tableCell}>{'$' + Math.round(player.auctionValueAverage)}</TableCell>
+                          <TableCell align="left" className={classes.tableCell}>{player.priorSeasonAvg}</TableCell>
+                          <TableCell align="center" className={classes.tableCell}> 
+                            <Button>Draft</Button>
                           </TableCell>
-                          <TableCell align="right">{player.position}</TableCell>
-                          <TableCell align="right">{player.teamAbv}</TableCell>
-                          <TableCell align="right">{'$' + Math.round(player.auctionValueAverage)}</TableCell>
-                          <TableCell align="right">{player.priorSeasonAvg}</TableCell>
                         </TableRow>
                       );
                     })}

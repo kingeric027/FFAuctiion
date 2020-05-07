@@ -5,6 +5,7 @@ import TeamList from './teamList';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
+import { Grid } from '@material-ui/core';
 
 interface RouteParams {
     leagueId?: string
@@ -28,12 +29,20 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
     return(
         <div>
             <FFAppBar currentLeague={league?.Name}></FFAppBar>
-            {teams && 
-            <TeamList teams={teams}></TeamList>}
-            {playerArray &&
-            <PlayerTable
-                playerArray={playerArray}>
-            </PlayerTable>}
+            {teams && league &&
+            <TeamList teams={teams} league={league}></TeamList>}
+            <Grid container>
+                <Grid item md={6}>
+                    {playerArray &&
+                    <PlayerTable
+                        playerArray={playerArray}>
+                    </PlayerTable>}
+                </Grid>
+                <Grid item md={6}>
+                    
+                </Grid>
+            </Grid>
+            
         </div> 
     )
 }
