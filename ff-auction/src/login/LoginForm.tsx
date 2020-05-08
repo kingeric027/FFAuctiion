@@ -143,8 +143,8 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
         return OrderCloud.Auth.Login(creds.userName, creds.passWord, process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['CatalogAdmin', 'CategoryAdmin', 'ProductAdmin', 'AdminUserAdmin'])  
         .then(response => {
-            console.log(response);
             OrderCloud.Tokens.SetAccessToken(response.access_token);
+            OrderCloud.Tokens.SetRefreshToken(response.refresh_token);
         })
         .then(() => {
             OrderCloud.Me.Get().then(res => {

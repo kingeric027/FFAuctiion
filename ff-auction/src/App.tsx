@@ -52,7 +52,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
           props.dispatch(setPlayers(playerList))
       })
     ])
-  })
+  },[props]) 
 
   return (
     <div className="App">
