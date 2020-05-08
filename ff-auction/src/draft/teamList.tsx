@@ -24,13 +24,18 @@ const useStyles = makeStyles(() => ({
   },
   listitem: {
     padding: '0px 5px 0px 5px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   list: {
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   }
 }));
+
+const percentColors = [
+  { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+  { pct: 0.5, color: { r: 0xff, g: 0xBE, b: 0 } },
+  { pct: 1.0, color: { r: 0x00, g: 0xBE, b: 0 } } ];
 
 interface TeamListProps {
     teams: Category[]
@@ -41,11 +46,37 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
     const { teams, league } = props;
     const classes = useStyles();
 
+    const getColorForPercentage = (pct: number)  => {
+      console.log(percentColors)
+      for (var i = 1; i < percentColors.length - 1; i++) {
+          if (pct < percentColors[i].pct) {
+              break;
+          }
+      }
+      var lower = percentColors[i - 1];
+      var upper = percentColors[i];
+      var range = upper.pct - lower.pct;
+      var rangePct = (pct - lower.pct) / range;
+      var pctLower = 1 - rangePct;
+      var pctUpper = rangePct;
+      var color = {
+          r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+          g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+          b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+      };
+      console.log(color)
+      debugger;  
+      return 'rgb(' + [color.r, color.g, color.b, 0.5].join(',') + ')';
+      // or output as hex if preferred
+  };
+
     return (
         <div>
         <GridList cols={teams.length}>
         {teams.map((team, index) => (
-          <GridListTile key={index}> 
+          <GridListTile key={index} 
+          style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
+          height: '150px'}}>  
             <GridListTileBar
               title={team.Name} 
               titlePosition="top" 
@@ -63,11 +94,11 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
                 <ListItemText primary={'Total: $' + team.xp?.BudgetRemaining}></ListItemText>  
               </ListItem>
               <ListItem className={classes.listitem}>
-                <ListItemText primary={"Max bid: $" + (team.xp?.BudgetRemaining - (league.xp?.RosterSize - team.xp?.Players?.length - 1))}></ListItemText>
+                <ListItemText primary={"Max: $" + (team.xp?.BudgetRemaining - (league.xp?.RosterSize - team.xp?.Players?.length - 1))}></ListItemText>
               </ListItem>
               <ListItem className={classes.listitem}>
-                <ListItemText primary={"Avg bid: $" + Math.floor((team.xp?.BudgetRemaining  / (league.xp?.RosterSize - team.xp?.Players?.length)))}></ListItemText>
-              </ListItem>
+                <ListItemText primary={"Avg: $" + Math.floor((team.xp?.BudgetRemaining  / (league.xp?.RosterSize - team.xp?.Players?.length)))}></ListItemText>
+              </ListItem>  
             </List>
           </GridListTile>
         ))}

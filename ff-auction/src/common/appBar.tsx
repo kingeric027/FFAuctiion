@@ -22,8 +22,8 @@ const FFAppBar: React.FunctionComponent<FFAppBarProps> = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar variant="dense"> 
+            <AppBar position="static">    
+                <Toolbar variant="dense" style={{minHeight: '40px'}}>   
                     <Typography variant="body1">{props.currentUser.Username || ''}</Typography>
                     <Typography variant="body1" className={classes.title}>{props.currentLeague || ""}</Typography>
                 </Toolbar>
