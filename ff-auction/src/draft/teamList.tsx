@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 //import { TeamObj } from '../create'
 import { GridList, GridListTile, GridListTileBar, IconButton, makeStyles, ListItemText, List, ListItem } from '@material-ui/core';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
+import service from '../common/service';
 
 
 const useStyles = makeStyles(() => ({
@@ -64,8 +65,6 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
           g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
           b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
       };
-      console.log(color)
-      debugger;  
       return 'rgb(' + [color.r, color.g, color.b, 0.5].join(',') + ')';
       // or output as hex if preferred
   };
@@ -94,7 +93,7 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
                 <ListItemText primary={'Total: $' + team.xp?.BudgetRemaining}></ListItemText>  
               </ListItem>
               <ListItem className={classes.listitem}>
-                <ListItemText primary={"Max: $" + (team.xp?.BudgetRemaining - (league.xp?.RosterSize - team.xp?.Players?.length - 1))}></ListItemText>
+                <ListItemText primary={"Max: $" + service.GetMaxBid(team, league)}></ListItemText>
               </ListItem>
               <ListItem className={classes.listitem}>
                 <ListItemText primary={"Avg: $" + Math.floor((team.xp?.BudgetRemaining  / (league.xp?.RosterSize - team.xp?.Players?.length)))}></ListItemText>

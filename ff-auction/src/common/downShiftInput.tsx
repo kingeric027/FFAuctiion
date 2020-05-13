@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Downshift from 'downshift';
-import { TextFieldProps, TextField, MenuItem, Chip, Paper } from '@material-ui/core';
+import { TextFieldProps, TextField, MenuItem, Paper } from '@material-ui/core';
 import { Category } from 'ordercloud-javascript-sdk';
-import DoneIcon from '@material-ui/icons/Done';
 
 type RenderInputProps = TextFieldProps & {
     //ReturnType<typeof useStyles>;
@@ -30,14 +29,13 @@ function renderInput(inputProps: RenderInputProps) {
 
 function renderSuggestion(suggestionProps: any) {
     const { suggestion, index, itemProps, highlightedIndex, selectedItem } = suggestionProps;
-    debugger; 
     const isHighlighted = highlightedIndex === index;
     const isSelected = (selectedItem || '').indexOf(suggestion.value) > -1;
   
     return (
       <MenuItem
         {...itemProps}
-        key={suggestion.value}
+        key={suggestion} 
         selected={isHighlighted}
         component="div"
         style={{
@@ -111,19 +109,19 @@ const DownShiftInput: React.FunctionComponent<DownShiftInputProps> = (props) => 
                 const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
                     onBlur: handleBlur,
                     onKeyDown: handleKeyDown,
-                    placeholder: "Select Team",
+                    //placeholder: "Select Team",
                     disabled: selectedTeam && selectedTeam !== null
                   });
                   return(
                       <div>
                           {renderInput({
-                            fullWidth: true,
+                            fullWidth: false,
                             //classes,
-                            label: "Team:",
+                            //label: "Team:",
                             InputLabelProps: getLabelProps(), 
                             InputProps: {
-                            endAdornment: selectedTeam &&  
-                                <Chip label={selectedTeam} color="primary" onDelete={() => onSelectionChange(null)}></Chip>,
+                            // endAdornment: selectedTeam &&  
+                            //     <Chip label={selectedTeam} color="primary" onDelete={() => onSelectionChange(null)}></Chip>,
                             onBlur,
                             onChange: event => {
                                 handleInputChange(event);

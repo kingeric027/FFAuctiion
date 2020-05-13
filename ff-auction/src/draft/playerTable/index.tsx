@@ -6,9 +6,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { teamData } from '../../constants/appData';
-import { Paper, makeStyles, Button } from '@material-ui/core';
+import { Paper, makeStyles } from '@material-ui/core';
 import service from '../../common/service';
-import { Category } from 'ordercloud-javascript-sdk';
+import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm from './draftPlayerForm';
 
 const useStyles = makeStyles({
@@ -68,7 +68,9 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
 
 interface PlayerTableProps {
     playerArray: any[],
-    teams: Category[]
+    teams: Category[],
+    league?: Catalog,
+    handleTeamUpdate: (team: Category) => void
 }
 
 export interface PlayerData {
@@ -97,7 +99,7 @@ const mapPlayerData = (playerArray: any[]) => {
 }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
-    const {playerArray, teams} = props;
+    const {playerArray, teams, league, handleTeamUpdate} = props;
     const [playerData, setPlayerData] = useState<PlayerData[]>();
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
@@ -171,7 +173,12 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                           <TableCell align="left" className={classes.tableCell}>{'$' + Math.round(player.auctionValueAverage)}</TableCell>
                           <TableCell align="left" className={classes.tableCell}>{player.priorSeasonAvg}</TableCell>
                           <TableCell align="center" className={classes.tableCell}> 
-                            <DraftPlayerForm player={player} teams={teams}></DraftPlayerForm>
+                            <DraftPlayerForm 
+                              player={player}  
+                              teams={teams} 
+                              league={league}
+                              handleTeamUpdate={handleTeamUpdate}
+                            ></DraftPlayerForm>
                           </TableCell>
                         </TableRow>
                       );

@@ -25,6 +25,13 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         }
     }, [props.match.params.leagueId])
 
+    const handleTeamUpdate = (newTeam: Category) => {
+        const newTeamsArray = teams?.map(team => (
+            team.ID === newTeam.ID ? newTeam : team
+        ))
+        setTeams(newTeamsArray);
+    }
+
     const {playerArray} = props;
     return(
         <div>
@@ -36,7 +43,9 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                     {playerArray &&
                     <PlayerTable
                         playerArray={playerArray}
-                        teams={teams || []}>
+                        teams={teams || []}
+                        league={league}
+                        handleTeamUpdate={handleTeamUpdate}>
                     </PlayerTable>}
                 </Grid>
                 <Grid item md={6}>
