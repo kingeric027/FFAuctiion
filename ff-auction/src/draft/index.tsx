@@ -35,7 +35,8 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                 <Grid item md={6}>
                     {playerArray &&
                     <PlayerTable
-                        playerArray={playerArray}>
+                        playerArray={playerArray}
+                        teams={teams || []}>
                     </PlayerTable>}
                 </Grid>
                 <Grid item md={6}>

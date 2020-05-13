@@ -8,6 +8,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { teamData } from '../../constants/appData';
 import { Paper, makeStyles, Button } from '@material-ui/core';
 import service from '../../common/service';
+import { Category } from 'ordercloud-javascript-sdk';
+import DraftPlayerForm from './draftPlayerForm';
 
 const useStyles = makeStyles({
     tableWrapper: {
@@ -65,10 +67,11 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
 
 
 interface PlayerTableProps {
-    playerArray: any[]
+    playerArray: any[],
+    teams: Category[]
 }
 
-interface PlayerData {
+export interface PlayerData {
   id: string,
   position: string,
   teamAbv: string,
@@ -86,7 +89,7 @@ const mapPlayerData = (playerArray: any[]) => {
       position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",
       teamAbv: teamData.TeamNames[player.proTeamId]?.Abv || "NA",
       fullName: player.fullName,
-      auctionValueAverage: Math.round(player.ownership.auctionValueAverage),
+      auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
       priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
     }
     return playerItem;
@@ -94,7 +97,7 @@ const mapPlayerData = (playerArray: any[]) => {
 }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
-    const {playerArray} = props;
+    const {playerArray, teams} = props;
     const [playerData, setPlayerData] = useState<PlayerData[]>();
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
@@ -168,7 +171,7 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                           <TableCell align="left" className={classes.tableCell}>{'$' + Math.round(player.auctionValueAverage)}</TableCell>
                           <TableCell align="left" className={classes.tableCell}>{player.priorSeasonAvg}</TableCell>
                           <TableCell align="center" className={classes.tableCell}> 
-                            <Button>Draft</Button>
+                            <DraftPlayerForm player={player} teams={teams}></DraftPlayerForm>
                           </TableCell>
                         </TableRow>
                       );

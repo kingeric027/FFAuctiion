@@ -11,6 +11,7 @@
     "@types/lodash": "^4.14.150",
     "@types/react-router-dom": "^5.1.4",
     "axios": "^0.19.2",
+    "downshift": "^5.2.7",
     "ordercloud-javascript-sdk": "^4.0.0-12",
     "react": "^16.13.1",
     "react-custom-scrollbars": "^4.2.1",
