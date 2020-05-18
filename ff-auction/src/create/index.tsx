@@ -44,7 +44,6 @@ const  getTeamArray = (teams: number) => {
             index: i
         });
     }
-    console.log(tempArray);
     return tempArray;
 }
 

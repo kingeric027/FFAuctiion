@@ -41,14 +41,14 @@ const percentColors = [
 interface TeamListProps {
     teams: Category[]
     league: Catalog
+    onSelectedTeamChange: (team: Category) => void
 }
 
 const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
-    const { teams, league } = props;
+    const { teams, league, onSelectedTeamChange } = props;
     const classes = useStyles();
 
     const getColorForPercentage = (pct: number)  => {
-      console.log(percentColors)
       for (var i = 1; i < percentColors.length - 1; i++) {
           if (pct < percentColors[i].pct) {
               break;
@@ -69,11 +69,16 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
       // or output as hex if preferred
   };
 
+  const handleTeamClick = (team: Category) => (e: any) => {  
+    onSelectedTeamChange(team)
+  }
+
     return (
         <div>
         <GridList cols={teams.length}>
         {teams.map((team, index) => (
           <GridListTile key={index} 
+          onClick={handleTeamClick(team)}
           style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
           height: '150px'}}>  
             <GridListTileBar

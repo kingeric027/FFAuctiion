@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
 import { Grid } from '@material-ui/core';
+import Roster from './roster';
 
 interface RouteParams {
     leagueId?: string
@@ -17,6 +18,7 @@ interface DraftProps extends RouteComponentProps<RouteParams> {
 const Draft: React.FunctionComponent<DraftProps> = (props) => {
     const [league, setLeague] = useState<Catalog>();
     const [teams, setTeams] = useState<Category[]>();
+    const [selectedTeam, setSelectedTeam] = useState<Category>();
 
     useEffect(() => {
         if(props.match.params.leagueId) {
@@ -32,24 +34,31 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         setTeams(newTeamsArray);
     }
 
+    const handleSelectedTeamChange = (team: Category) => {
+        setSelectedTeam(team)
+    }
+
+
     const {playerArray} = props;
     return(
         <div>
             <FFAppBar currentLeague={league?.Name}></FFAppBar>
             {teams && league &&
-            <TeamList teams={teams} league={league}></TeamList>}
+            <TeamList onSelectedTeamChange={handleSelectedTeamChange} teams={teams} league={league}></TeamList>}
             <Grid container>
-                <Grid item md={6}>
+                <Grid item md={8}>
                     {playerArray &&
                     <PlayerTable
                         playerArray={playerArray}
-                        teams={teams || []}
+                        teams={teams || []} 
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}>
                     </PlayerTable>}
                 </Grid>
-                <Grid item md={6}>
-                    
+                <Grid item md={4}>
+                    {selectedTeam && league &&
+                        <Roster team={selectedTeam} league={league}></Roster>
+                    }
                 </Grid>
             </Grid>
             

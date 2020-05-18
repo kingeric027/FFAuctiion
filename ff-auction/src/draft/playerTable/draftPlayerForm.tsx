@@ -12,6 +12,10 @@ interface DraftPlayerFormProps {
     league?: Catalog,
     handleTeamUpdate: (team: Category) => void
 }
+
+export interface DraftedPlayer extends PlayerData {
+    value: number,
+}
 const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) => {
     const {player, teams, league, handleTeamUpdate} = props;
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);

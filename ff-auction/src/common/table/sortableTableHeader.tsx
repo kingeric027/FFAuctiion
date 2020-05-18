@@ -40,6 +40,7 @@ const SortableTableHead: React.FunctionComponent<TableHeadProps> = (props)  =>  
                         {col.label}
                     </TableSortLabel>
                     }
+                    {col.label} 
                 </TableCell>
             ))}
         </TableRow>
