@@ -27,7 +27,7 @@ const positionNames: any = {
         Position: "K",
         Color: purple['A100']
     },
-    "6": {
+    "16": {
         Position: "DST",
         Color: brown['A100']
     }

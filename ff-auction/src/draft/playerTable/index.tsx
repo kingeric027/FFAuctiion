@@ -94,6 +94,10 @@ const mapPlayerData = (playerArray: any[]) => {
       auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
       priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
     }
+    if(playerItem.position ===  "NA") {
+      console.log(player);
+      debugger;
+    }
     return playerItem;
   })
 }
@@ -158,7 +162,6 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                 />
                 <TableBody>
                   {playerData && stableSort(playerData, getComparator(order, orderBy))
-                    .slice(0,50)
                     .map((player, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       return (
