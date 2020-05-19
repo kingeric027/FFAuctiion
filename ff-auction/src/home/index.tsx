@@ -19,7 +19,6 @@ interface HomeProps {
 }
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
-    const classes = useStyles();
 
     return(
         <div>

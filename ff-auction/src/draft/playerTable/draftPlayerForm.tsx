@@ -97,7 +97,6 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
                             disabled={!selectedTeam} 
                             value={bid} 
                             onChange={handleBidChange} 
-                            //style={{maxWidth: '100px'}}
                         ></TextField> 
                         </Grid>
                     </Grid>

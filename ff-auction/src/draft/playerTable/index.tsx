@@ -36,8 +36,8 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
         { id: 'fullName', numeric: false, disablePadding: true, label: 'Player' },
         { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
         { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
-        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Average Value' },
-        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Average` },
+        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Avg Value' },
+        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Avg` },
         { id: 'draft', numeric: false, disablePadding: false, label: ''} 
       ];
 
@@ -85,7 +85,7 @@ export interface PlayerData {
 const mapPlayerData = (playerArray: any[]) => {
   return playerArray.map(player => {
     const currentSeason = service.GetCurrentSeason(); 
-    const priorSeasonStats = player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString()));
+    const priorSeasonStats = player.stats ? player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
     var playerItem: PlayerData  = {
       id: player.id,
       position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",

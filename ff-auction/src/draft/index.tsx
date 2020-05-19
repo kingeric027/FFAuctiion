@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PlayerTable from './playerTable';
 import FFAppBar from '../common/appBar';
 import TeamList from './teamList';
@@ -7,6 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
 import { Grid } from '@material-ui/core';
 import Roster from './roster';
+import { flatten } from 'lodash';
 
 interface RouteParams {
     leagueId?: string
@@ -15,15 +16,26 @@ interface DraftProps extends RouteComponentProps<RouteParams> {
     playerArray?: any[]
 }
 
+const updateAvailablePlayers = (allPlayers:any[], draftedPlayers: any) => (
+    allPlayers.filter(player => (
+        !draftedPlayers.find((dp:any) => (dp.id === player.id))
+    ))
+)
+
 const Draft: React.FunctionComponent<DraftProps> = (props) => {
     const [league, setLeague] = useState<Catalog>();
     const [teams, setTeams] = useState<Category[]>();
     const [selectedTeam, setSelectedTeam] = useState<Category>();
+    const [availablePlayers, setAvailablePlayers] = useState<any[]>();
 
     useEffect(() => {
         if(props.match.params.leagueId) {
             Catalogs.Get(props.match.params.leagueId).then(setLeague)
-            Categories.List(props.match.params.leagueId).then((cats) => setTeams(cats.Items))
+            Categories.List(props.match.params.leagueId).then((cats) => {
+                setTeams(cats.Items);
+                const draftedPlayers = flatten(cats.Items.map(cat => cat.xp.Players));
+                if(props.playerArray) setAvailablePlayers(updateAvailablePlayers(props.playerArray, draftedPlayers))
+            })
         }
     }, [props.match.params.leagueId])
 
@@ -32,6 +44,12 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
             team.ID === newTeam.ID ? newTeam : team
         ))
         setTeams(newTeamsArray);
+        if(!selectedTeam || selectedTeam.ID === newTeam.ID) setSelectedTeam(newTeam)
+        if(props.playerArray) {
+            const draftedPlayers = flatten(newTeamsArray?.map(team => team.xp.Players)); 
+            const newAvailablePlayers = updateAvailablePlayers(props.playerArray, draftedPlayers)
+            setAvailablePlayers(newAvailablePlayers)
+        }
     }
 
     const handleSelectedTeamChange = (team: Category) => {
@@ -47,9 +65,9 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
             <TeamList onSelectedTeamChange={handleSelectedTeamChange} teams={teams} league={league}></TeamList>}
             <Grid container>
                 <Grid item md={8}>
-                    {playerArray &&
+                    {availablePlayers &&
                     <PlayerTable
-                        playerArray={playerArray}
+                        playerArray={availablePlayers} 
                         teams={teams || []} 
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}>
