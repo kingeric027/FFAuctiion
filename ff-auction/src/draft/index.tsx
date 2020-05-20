@@ -37,7 +37,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                 if(props.playerArray) setAvailablePlayers(updateAvailablePlayers(props.playerArray, draftedPlayers))
             })
         }
-    }, [props.match.params.leagueId])
+    }, [props.match.params.leagueId, props.playerArray]) 
 
     const handleTeamUpdate = (newTeam: Category) => {
         const newTeamsArray = teams?.map(team => (
