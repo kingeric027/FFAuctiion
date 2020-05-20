@@ -3,6 +3,7 @@ import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles } from '@material-ui/core';
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
+import EditPicks from './editPicks';
 
 const useStyles = makeStyles(() => ({
     flexContainer: {
@@ -51,6 +52,9 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
         <Paper>
             <div>
                 <Typography variant="h6">{team.Name}</Typography>
+                {team.xp.Players &&  team.xp.Players.length  && 
+                    <EditPicks team={team} league={league}></EditPicks>
+                }
                 <List dense={true} disablePadding={true} className={classes.flexContainer}>
                     <ListItemText 
                         primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "QB").length}
