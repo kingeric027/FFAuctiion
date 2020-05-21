@@ -35,12 +35,12 @@ interface PlayerTableHeadProps {
 const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) => {
     const {order, orderBy, priorSeason, onRequestSort} = props
     const headCells = [
-        { id: 'fullName', numeric: false, disablePadding: true, label: 'Player' },
-        { id: 'position', numeric: false, disablePadding: true, label: 'Position' },
-        { id: 'teamAbv', numeric: false, disablePadding: true, label: 'Team' },
-        { id: 'auctionValueAverage', numeric: true, disablePadding: true, label: 'Avg Value' },
-        { id: 'priorSeasonAvg', numeric: true, disablePadding: true, label: `${priorSeason} PPR Avg` },
-        { id: 'draft', numeric: false, disablePadding: true, label: 'Draft'} 
+        { id: 'fullName', numeric: false, disablePadding: false, label: 'Player' },
+        { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
+        { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
+        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Avg Value' },
+        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Avg` },
+        { id: 'draft', numeric: false, disablePadding: false, label: 'Draft'}
       ];
 
       return (
@@ -49,16 +49,17 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
             {headCells.map(headCell => (
               <TableCell
                 key={headCell.id}
-                align={'left'}
+                //align={'left'}
                 padding={headCell.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === headCell.id ? order : false}
+                style={{fontWeight: 'bold'}}
               >
                 {headCell.label}
                 <TableSortLabel
                   active={orderBy === headCell.id}
                   direction={orderBy === headCell.id ? order : 'asc'}
                   onClick={() => onRequestSort(headCell.id)}  
-                  style={{marginLeft: '3px', marginRight: '3px'}}   
+                  //style={{marginLeft: '3px', marginRight: '3px'}}   
                 >
                 </TableSortLabel>
               </TableCell>

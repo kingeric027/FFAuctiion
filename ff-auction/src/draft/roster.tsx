@@ -46,9 +46,9 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
     const classes = useStyles();
     
     const headCells: TableColumn[] = [
-        {id: 'position', numeric: false, disablePadding: true, label: 'Position'},
-        {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
-        {id: 'amount', numeric: true, disablePadding: true, label: 'Amount'}
+        {id: 'position', numeric: false, disablePadding: false, label: 'Position'},
+        {id: 'name', numeric: false, disablePadding: false, label: 'Name'},
+        {id: 'amount', numeric: true, disablePadding: false, label: 'Amount'}
     ]
 
     const positionSort = (a: any, b: any) => {

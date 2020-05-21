@@ -31,7 +31,8 @@ const SortableTableHead: React.FunctionComponent<TableHeadProps> = (props)  =>  
                     key={col.id}
                     align={'left'}
                     padding={col.disablePadding ? 'none' : 'default'}
-                    sortDirection={sortProps  && sortProps.orderBy === col.id ? sortProps.order : false}>
+                    sortDirection={sortProps  && sortProps.orderBy === col.id ? sortProps.order : false}
+                    style={{fontWeight: 'bold'}}>
                     {sortProps && 
                     <TableSortLabel
                         active={sortProps.orderBy === col.id}
