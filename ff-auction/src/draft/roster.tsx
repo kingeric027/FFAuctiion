@@ -4,14 +4,35 @@ import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText,
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import EditPicks from './editPicks';
+import {Position} from '../home/playerSideBar'; 
+import { teamData } from '../constants/appData';
 
 const useStyles = makeStyles(() => ({
     flexContainer: {
         display: 'flex',
         flexDirection: 'row',
         padding: 0,
-        }
-    }
+    },
+    QB: {
+        backgroundColor: teamData.PositionNames["1"].Color
+    },
+    RB: {
+      backgroundColor: teamData.PositionNames["2"].Color
+    },
+    WR: {
+        backgroundColor: teamData.PositionNames["3"].Color
+    },
+    TE: {
+        backgroundColor: teamData.PositionNames["4"].Color
+    },
+    DST: {
+        backgroundColor: teamData.PositionNames["5"].Color
+    },
+    K: {
+        backgroundColor: teamData.PositionNames["5"].Color
+    },
+    NA: {}
+}
 ))
 
 export interface RosterProps {
@@ -92,7 +113,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
                     <SortableTableHead columns={headCells}></SortableTableHead>
                     <TableBody>
                         {team.xp.Players && team.xp.Players.sort(positionSort).map((player: DraftedPlayer) => (
-                            <TableRow tabIndex={-1} key={player.id}>
+                            <TableRow tabIndex={-1} key={player.id} className={classes[player.position]}>  
                                 <TableCell>{player.fullName}</TableCell>
                                 <TableCell>{player.position}</TableCell>
                                 <TableCell>{player.value}</TableCell>

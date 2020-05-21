@@ -10,6 +10,7 @@ import { Paper, makeStyles, createStyles } from '@material-ui/core';
 import service from '../../common/service';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm from './draftPlayerForm';
+import { Position } from '../../home/playerSideBar';
 
 const useStyles = makeStyles(() => 
   createStyles({
@@ -52,13 +53,13 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
                 padding={headCell.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === headCell.id ? order : false}
               >
+                {headCell.label}
                 <TableSortLabel
                   active={orderBy === headCell.id}
                   direction={orderBy === headCell.id ? order : 'asc'}
                   onClick={() => onRequestSort(headCell.id)}  
                   style={{marginLeft: '3px', marginRight: '3px'}}   
                 >
-                  {headCell.label}
                 </TableSortLabel>
               </TableCell>
             ))}
@@ -78,7 +79,7 @@ interface PlayerTableProps {
 
 export interface PlayerData {
   id: string,
-  position: string,
+  position: Position,
   teamAbv: string,
   fullName: string,
   auctionValueAverage: number,

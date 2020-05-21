@@ -30,14 +30,15 @@ const useStyles = makeStyles({
     },
     K: {
         backgroundColor: teamData.PositionNames["5"].Color
-    }
+    },
+    NA: {}
   });
 
 interface PlayerSideBarProps {
     playerArray?: any[]
 }
 
-export type Position = "RB" | "WR" | "QB" | "TE" | "DST" | "K";
+export type Position = "RB" | "WR" | "QB" | "TE" | "DST" | "K" | "NA";
 
 const PlayerSideBar: React.FunctionComponent<
     PlayerSideBarProps> = (props) => {
