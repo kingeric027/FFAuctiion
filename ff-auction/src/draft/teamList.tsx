@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 //import { TeamObj } from '../create'
 import { GridList, GridListTile, GridListTileBar, IconButton, makeStyles, ListItemText, List, ListItem } from '@material-ui/core';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
@@ -46,10 +46,12 @@ interface TeamListProps {
     teams: Category[]
     league: Catalog
     onSelectedTeamChange: (team: Category) => void
+    height?: string
+    //getTeamListHeight?: (height: number) => void
 }
 
 const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
-    const { teams, league, onSelectedTeamChange } = props;
+    const { teams, league, onSelectedTeamChange, height } = props;
     const classes = useStyles();
 
     const getColorForPercentage = (pct: number)  => {
@@ -78,12 +80,13 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
   }
 
     return (
-        <div>
+        <div id="teamList">
         <GridList cols={teams.length}>
         {teams.map((team, index) => (
           <GridListTile key={index} 
           onClick={handleTeamClick(team)}
-          style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),}}>  
+          style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
+            height: height}}>   
             <GridListTileBar
               title={team.Name} 
               titlePosition="top" 

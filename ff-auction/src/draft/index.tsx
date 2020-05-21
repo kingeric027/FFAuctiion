@@ -56,13 +56,13 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         setSelectedTeam(team)
     }
 
-
-    const {playerArray} = props;
+    const teamListHeight = '130px';
+    const appBarHeight = '40px'
     return(
         <div>
-            <FFAppBar currentLeague={league?.Name}></FFAppBar>
+            <FFAppBar currentLeague={league?.Name} height={appBarHeight}></FFAppBar>
             {teams && league &&
-            <TeamList onSelectedTeamChange={handleSelectedTeamChange} teams={teams} league={league}></TeamList>}
+            <TeamList onSelectedTeamChange={handleSelectedTeamChange} teams={teams} league={league} height={teamListHeight}></TeamList>}
             <Grid container>
                 <Grid item md={8}>
                     {availablePlayers &&
@@ -70,7 +70,8 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                         playerArray={availablePlayers} 
                         teams={teams || []} 
                         league={league}
-                        handleTeamUpdate={handleTeamUpdate}>
+                        handleTeamUpdate={handleTeamUpdate}
+                        height={`calc(100vh - ${appBarHeight} - ${teamListHeight})`}>
                     </PlayerTable>}
                 </Grid>
                 <Grid item md={4}>

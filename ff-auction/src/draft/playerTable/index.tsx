@@ -6,20 +6,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { teamData } from '../../constants/appData';
-import { Paper, makeStyles } from '@material-ui/core';
+import { Paper, makeStyles, createStyles } from '@material-ui/core';
 import service from '../../common/service';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm from './draftPlayerForm';
 
-const useStyles = makeStyles({
-    tableWrapper: {
-      maxHeight: 500,
+const useStyles = makeStyles(() => 
+  createStyles({
+    tableWrapper: (props: any) => ({
+      maxHeight: props.height || 500,
       overflow: 'auto',
-    },
+    }),
     tableCell: {
       padding: '0px 5px 0px 5px'
     }
-  });
+  }));
   
 export type OrderDirection = "asc" | "desc";
 
@@ -70,7 +71,8 @@ interface PlayerTableProps {
     playerArray: any[],
     teams: Category[],
     league?: Catalog,
-    handleTeamUpdate: (team: Category) => void
+    handleTeamUpdate: (team: Category) => void,
+    height?: string
 }
 
 export interface PlayerData {
@@ -79,7 +81,7 @@ export interface PlayerData {
   teamAbv: string,
   fullName: string,
   auctionValueAverage: number,
-  priorSeasonAvg: number
+  priorSeasonAvg: number,
 }
 
 const mapPlayerData = (playerArray: any[]) => {
@@ -99,11 +101,11 @@ const mapPlayerData = (playerArray: any[]) => {
 }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
-    const {playerArray, teams, league, handleTeamUpdate} = props;
+    const {playerArray, teams, league, handleTeamUpdate, height} = props;
     const [playerData, setPlayerData] = useState<PlayerData[]>();
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
-    const classes = useStyles();
+    const classes = useStyles({height});
     const currentSeason = (new Date()).getMonth() >= 3 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
 
     useEffect(() => {

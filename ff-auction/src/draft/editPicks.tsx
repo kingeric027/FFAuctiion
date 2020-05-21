@@ -6,9 +6,12 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import LoadingButton from '../common/loadingButton';
 import { RosterProps } from './roster';
 
+interface EditPicksProps extends RosterProps {
+    buttonStyles?: any
+}
 
-const EditPicks: React.FunctionComponent<RosterProps> = (props) => {
-    const {league, team, handleTeamUpdate} = props;
+const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
+    const {league, team, buttonStyles, handleTeamUpdate} = props;
     const [open, setOpen] = useState<boolean>(false)
     const [players, setPlayers] = useState<DraftedPlayer[]>(team.xp?.Players)
     const [loading, setLoading] = useState<boolean>(false)
@@ -45,7 +48,7 @@ const EditPicks: React.FunctionComponent<RosterProps> = (props) => {
 
     return(
         <React.Fragment>
-            <Button onClick={() => setOpen(true)}>Edit</Button>
+            <Button onClick={() => setOpen(true)} style={{...buttonStyles}}>Edit</Button> 
             <Dialog open={open} maxWidth="xs" onClose={handleClose}>    
                 <DialogTitle>Edit Picks</DialogTitle>
                 <DialogContent> 

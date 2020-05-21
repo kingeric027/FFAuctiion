@@ -1,6 +1,6 @@
 import React from 'react';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
-import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles } from '@material-ui/core';
+import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles, Box } from '@material-ui/core';
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import EditPicks from './editPicks';
@@ -51,10 +51,14 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
 
     return (
         <Paper>
-            <div>
+            <div style={{position: 'relative'}}>
                 <Typography variant="h6">{team.Name}</Typography>
-                {team.xp.Players &&  team.xp.Players.length  && 
-                    <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
+                {team.xp.Players &&  team.xp.Players.length  &&  
+                    <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}
+                        buttonStyles={{position: "absolute",
+                                        top: '0px',
+                                        right: '0px'}}>
+                    </EditPicks>
                 }
                 <List dense={true} disablePadding={true} className={classes.flexContainer}>
                     <ListItemText 
