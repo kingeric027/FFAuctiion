@@ -24,7 +24,6 @@ export type UserValues = "Username" | "FirstName" | "LastName" | "Email" | "Pass
 const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
     const [newUser, setNewUser] = useState<OrderCloud.User>(UserShell);
     const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(key)
         setNewUser({...newUser, [key]: event.target.value})
     }
 

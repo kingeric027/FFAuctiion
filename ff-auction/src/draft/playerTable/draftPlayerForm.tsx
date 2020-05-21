@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton } from '@material-ui/core';
 import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
 import { PlayerData } from '.';
 import DownShiftInput from '../../common/downShiftInput';
 import service from '../../common/service'
 import LoadingButton from '../../common/loadingButton';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 interface DraftPlayerFormProps {
     player: PlayerData,
@@ -60,7 +61,10 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
 
     return (
         <React.Fragment>
-            <Button onClick={() => setDialogOpen(true)}>Draft</Button>
+            {/* <Button size="small" onClick={() => setDialogOpen(true)}>Draft</Button> */}
+            <IconButton style={{padding: '8px'}}> 
+                <AddCircleOutlineIcon fontSize="small" onClick={() => setDialogOpen(true)}/>
+            </IconButton>
             <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}>  
                 <DialogTitle>{player.fullName + ' | ' + player.position + ' | ' + player.teamAbv}</DialogTitle> 
                 <DialogContent>
@@ -97,7 +101,6 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
                             disabled={!selectedTeam} 
                             value={bid} 
                             onChange={handleBidChange} 
-                            //style={{maxWidth: '100px'}}
                         ></TextField> 
                         </Grid>
                     </Grid>

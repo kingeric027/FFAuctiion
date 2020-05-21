@@ -34,11 +34,11 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
     const {order, orderBy, priorSeason, onRequestSort} = props
     const headCells = [
         { id: 'fullName', numeric: false, disablePadding: true, label: 'Player' },
-        { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
-        { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
-        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Average Value' },
-        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Average` },
-        { id: 'draft', numeric: false, disablePadding: false, label: ''} 
+        { id: 'position', numeric: false, disablePadding: true, label: 'Position' },
+        { id: 'teamAbv', numeric: false, disablePadding: true, label: 'Team' },
+        { id: 'auctionValueAverage', numeric: true, disablePadding: true, label: 'Avg Value' },
+        { id: 'priorSeasonAvg', numeric: true, disablePadding: true, label: `${priorSeason} PPR Avg` },
+        { id: 'draft', numeric: false, disablePadding: true, label: 'Draft'} 
       ];
 
       return (
@@ -85,7 +85,7 @@ export interface PlayerData {
 const mapPlayerData = (playerArray: any[]) => {
   return playerArray.map(player => {
     const currentSeason = service.GetCurrentSeason(); 
-    const priorSeasonStats = player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString()));
+    const priorSeasonStats = player.stats ? player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
     var playerItem: PlayerData  = {
       id: player.id,
       position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",
@@ -158,7 +158,6 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                 />
                 <TableBody>
                   {playerData && stableSort(playerData, getComparator(order, orderBy))
-                    .slice(0,50)
                     .map((player, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       return (

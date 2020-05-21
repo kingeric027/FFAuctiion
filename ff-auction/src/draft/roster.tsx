@@ -1,17 +1,28 @@
 import React from 'react';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
-import { TableRow, TableCell, Table, Paper, TableBody } from '@material-ui/core';
+import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles } from '@material-ui/core';
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
+import EditPicks from './editPicks';
 
+const useStyles = makeStyles(() => ({
+    flexContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 0,
+        }
+    }
+))
 
-interface RosterProps {
+export interface RosterProps {
     team: Category,
-    league: Catalog
+    league: Catalog,
+    handleTeamUpdate: (team: Category) => void
 }
 
 const Roster: React.FunctionComponent<RosterProps> = (props) => {
-    const {team, league} = props;
+    const {team, league, handleTeamUpdate} = props;
+    const classes = useStyles();
     
     const headCells: TableColumn[] = [
         {id: 'position', numeric: false, disablePadding: true, label: 'Position'},
@@ -41,6 +52,36 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
     return (
         <Paper>
             <div>
+                <Typography variant="h6">{team.Name}</Typography>
+                {team.xp.Players &&  team.xp.Players.length  && 
+                    <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
+                }
+                <List dense={true} disablePadding={true} className={classes.flexContainer}>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "QB").length}
+                        secondary="QB">    
+                    </ListItemText>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "RB").length}
+                        secondary="RB">    
+                    </ListItemText>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "WR").length}
+                        secondary="WR">    
+                    </ListItemText>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "TE").length}
+                        secondary="TE">    
+                    </ListItemText>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "DST").length}
+                        secondary="DST">    
+                    </ListItemText>
+                    <ListItemText 
+                        primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "K").length}
+                        secondary="K">    
+                    </ListItemText>
+                </List>
                 <Table stickyHeader
                     size="small"
                     aria-labelledby="tableTitle">

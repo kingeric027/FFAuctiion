@@ -23,9 +23,13 @@ const useStyles = makeStyles(() => ({
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     position: "inherit"
   },
+  listItemText: {
+    marginTop: '3px',
+    marginBottom: '0px'
+  },
   listitem: {
     padding: '0px 5px 0px 5px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   list: {
     paddingTop: 0,
@@ -79,8 +83,7 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
         {teams.map((team, index) => (
           <GridListTile key={index} 
           onClick={handleTeamClick(team)}
-          style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
-          height: '150px'}}>  
+          style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),}}>  
             <GridListTileBar
               title={team.Name} 
               titlePosition="top" 
@@ -95,13 +98,16 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
             />
             <List dense className={classes.list}>
               <ListItem className={classes.listitem}> 
-                <ListItemText primary={'Total: $' + team.xp?.BudgetRemaining}></ListItemText>  
+                <ListItemText className={classes.listItemText}
+                  primary={'Total: $' + team.xp?.BudgetRemaining}></ListItemText>  
               </ListItem>
               <ListItem className={classes.listitem}>
-                <ListItemText primary={"Max: $" + service.GetMaxBid(team, league)}></ListItemText>
+                <ListItemText className={classes.listItemText} 
+                  primary={"Max: $" + service.GetMaxBid(team, league)}></ListItemText>
               </ListItem>
               <ListItem className={classes.listitem}>
-                <ListItemText primary={"Avg: $" + Math.floor((team.xp?.BudgetRemaining  / (league.xp?.RosterSize - team.xp?.Players?.length)))}></ListItemText>
+                <ListItemText className={classes.listItemText} 
+                  primary={"Avg: $" + Math.floor((team.xp?.BudgetRemaining  / (league.xp?.RosterSize - team.xp?.Players?.length)))}></ListItemText>
               </ListItem>  
             </List>
           </GridListTile>
