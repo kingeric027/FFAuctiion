@@ -34,11 +34,11 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
     const {order, orderBy, priorSeason, onRequestSort} = props
     const headCells = [
         { id: 'fullName', numeric: false, disablePadding: true, label: 'Player' },
-        { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
-        { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
-        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Avg Value' },
-        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Avg` },
-        { id: 'draft', numeric: false, disablePadding: false, label: ''} 
+        { id: 'position', numeric: false, disablePadding: true, label: 'Position' },
+        { id: 'teamAbv', numeric: false, disablePadding: true, label: 'Team' },
+        { id: 'auctionValueAverage', numeric: true, disablePadding: true, label: 'Avg Value' },
+        { id: 'priorSeasonAvg', numeric: true, disablePadding: true, label: `${priorSeason} PPR Avg` },
+        { id: 'draft', numeric: false, disablePadding: true, label: 'Draft'} 
       ];
 
       return (
@@ -93,10 +93,6 @@ const mapPlayerData = (playerArray: any[]) => {
       fullName: player.fullName,
       auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
       priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
-    }
-    if(playerItem.position ===  "NA") {
-      console.log(player);
-      debugger;
     }
     return playerItem;
   })

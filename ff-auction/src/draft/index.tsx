@@ -75,7 +75,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                 </Grid>
                 <Grid item md={4}>
                     {selectedTeam && league &&
-                        <Roster team={selectedTeam} league={league}></Roster>
+                        <Roster team={selectedTeam} league={league} handleTeamUpdate={handleTeamUpdate}></Roster>
                     }
                 </Grid>
             </Grid>

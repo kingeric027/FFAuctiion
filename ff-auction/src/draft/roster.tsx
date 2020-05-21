@@ -14,13 +14,14 @@ const useStyles = makeStyles(() => ({
     }
 ))
 
-interface RosterProps {
+export interface RosterProps {
     team: Category,
-    league: Catalog
+    league: Catalog,
+    handleTeamUpdate: (team: Category) => void
 }
 
 const Roster: React.FunctionComponent<RosterProps> = (props) => {
-    const {team, league} = props;
+    const {team, league, handleTeamUpdate} = props;
     const classes = useStyles();
     
     const headCells: TableColumn[] = [
@@ -53,7 +54,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
             <div>
                 <Typography variant="h6">{team.Name}</Typography>
                 {team.xp.Players &&  team.xp.Players.length  && 
-                    <EditPicks team={team} league={league}></EditPicks>
+                    <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
                 }
                 <List dense={true} disablePadding={true} className={classes.flexContainer}>
                     <ListItemText 
