@@ -55,7 +55,8 @@ const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) 
                 <TableSortLabel
                   active={orderBy === headCell.id}
                   direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={() => onRequestSort(headCell.id)}    
+                  onClick={() => onRequestSort(headCell.id)}  
+                  style={{marginLeft: '3px', marginRight: '3px'}}   
                 >
                   {headCell.label}
                 </TableSortLabel>

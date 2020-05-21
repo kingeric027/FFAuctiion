@@ -56,8 +56,8 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
                     {players.map((player: DraftedPlayer) => (
                     <React.Fragment key={player.id}>
                         <Grid item sm={3}>
-                            <IconButton>
-                                <RemoveIcon color="error" onClick={() => handleRemovePick(player.id)}/> 
+                            <IconButton onClick={() => handleRemovePick(player.id)}>
+                                <RemoveIcon color="error" /> 
                             </IconButton>
                         </Grid>
                         <Grid item sm={6}>

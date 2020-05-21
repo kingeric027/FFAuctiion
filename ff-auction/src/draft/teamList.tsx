@@ -39,8 +39,8 @@ const useStyles = makeStyles(() => ({
 
 const percentColors = [
   { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
-  { pct: 0.5, color: { r: 0xff, g: 0xBE, b: 0 } },
-  { pct: 1.0, color: { r: 0x00, g: 0xBE, b: 0 } } ];
+  { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
+  { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
 
 interface TeamListProps {
     teams: Category[]
@@ -86,7 +86,10 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
           <GridListTile key={index} 
           onClick={handleTeamClick(team)}
           style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
-            height: height}}>   
+                height: height, 
+                cursor:'pointer',
+                border: '1px solid lightgrey',
+                padding: 0}}>     
             <GridListTileBar
               title={team.Name} 
               titlePosition="top" 

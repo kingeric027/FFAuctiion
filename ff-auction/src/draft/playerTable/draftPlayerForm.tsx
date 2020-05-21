@@ -61,9 +61,8 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
 
     return (
         <React.Fragment>
-            {/* <Button size="small" onClick={() => setDialogOpen(true)}>Draft</Button> */}
-            <IconButton style={{padding: '8px'}}> 
-                <AddCircleOutlineIcon fontSize="small" onClick={() => setDialogOpen(true)}/>
+            <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)}>
+                <AddCircleOutlineIcon fontSize="small"/>
             </IconButton>
             <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}>  
                 <DialogTitle>{player.fullName + ' | ' + player.position + ' | ' + player.teamAbv}</DialogTitle> 
