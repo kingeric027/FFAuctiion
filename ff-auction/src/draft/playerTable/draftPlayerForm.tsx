@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton } from '@material-ui/core';
 import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
-import { PlayerData } from '.';
 import DownShiftInput from '../../common/downShiftInput';
 import service from '../../common/service'
 import LoadingButton from '../../common/loadingButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { PlayerData } from '../../App';
 
 interface DraftPlayerFormProps {
     player: PlayerData,

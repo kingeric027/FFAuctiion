@@ -29,7 +29,7 @@ const SortableTableHead: React.FunctionComponent<TableHeadProps> = (props)  =>  
             {columns.map((col:TableColumn) => (
                 <TableCell 
                     key={col.id}
-                    align={'left'}
+                    //align={'left'}
                     padding={col.disablePadding ? 'none' : 'default'}
                     sortDirection={sortProps  && sortProps.orderBy === col.id ? sortProps.order : false}
                     style={{fontWeight: 'bold'}}>
@@ -38,7 +38,6 @@ const SortableTableHead: React.FunctionComponent<TableHeadProps> = (props)  =>  
                         active={sortProps.orderBy === col.id}
                         direction={sortProps.orderBy === col.id ? sortProps.order : 'asc'}
                         onClick={() => sortProps.onRequestSort(col.id)}>
-                        {col.label}
                     </TableSortLabel>
                     }
                     {col.label} 

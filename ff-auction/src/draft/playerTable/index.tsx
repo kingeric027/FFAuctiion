@@ -10,7 +10,8 @@ import { Paper, makeStyles, createStyles } from '@material-ui/core';
 import service from '../../common/service';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm from './draftPlayerForm';
-import { Position } from '../../home/playerSideBar';
+import SortableTableHead from '../../common/table/sortableTableHeader';
+import { PlayerData } from '../../App';
 
 const useStyles = makeStyles(() => 
   createStyles({
@@ -23,97 +24,54 @@ const useStyles = makeStyles(() =>
     }
   }));
   
-export type OrderDirection = "asc" | "desc";
+export type OrderDirection = "asc" | "desc"; 
 
-interface PlayerTableHeadProps {
-    priorSeason: string
-    order?:  OrderDirection,
-    orderBy?: string, 
-    onRequestSort: (property: any) => void
-}
-
-const PlayerTableHead:  React.FunctionComponent<PlayerTableHeadProps> = (props) => {
-    const {order, orderBy, priorSeason, onRequestSort} = props
-    const headCells = [
-        { id: 'fullName', numeric: false, disablePadding: false, label: 'Player' },
-        { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
-        { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
-        { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Avg Value' },
-        { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${priorSeason} PPR Avg` },
-        { id: 'draft', numeric: false, disablePadding: false, label: 'Draft'}
-      ];
-
-      return (
-        <TableHead>
-          <TableRow>
-            {headCells.map(headCell => (
-              <TableCell
-                key={headCell.id}
-                //align={'left'}
-                padding={headCell.disablePadding ? 'none' : 'default'}
-                sortDirection={orderBy === headCell.id ? order : false}
-                style={{fontWeight: 'bold'}}
-              >
-                {headCell.label}
-                <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={() => onRequestSort(headCell.id)}  
-                  //style={{marginLeft: '3px', marginRight: '3px'}}   
-                >
-                </TableSortLabel>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-      );
-}
 
 
 interface PlayerTableProps {
-    playerArray: any[],
+    playerArray: PlayerData[],
     teams: Category[],
     league?: Catalog,
     handleTeamUpdate: (team: Category) => void,
     height?: string
 }
 
-export interface PlayerData {
-  id: string,
-  position: Position,
-  teamAbv: string,
-  fullName: string,
-  auctionValueAverage: number,
-  priorSeasonAvg: number,
-}
-
-const mapPlayerData = (playerArray: any[]) => {
-  return playerArray.map(player => {
-    const currentSeason = service.GetCurrentSeason(); 
-    const priorSeasonStats = player.stats ? player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
-    var playerItem: PlayerData  = {
-      id: player.id,
-      position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",
-      teamAbv: teamData.TeamNames[player.proTeamId]?.Abv || "NA",
-      fullName: player.fullName,
-      auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
-      priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
-    }
-    return playerItem;
-  })
-}
+// const mapPlayerData = (playerArray: any[]) => {
+//   return playerArray.map(player => {
+//     const currentSeason = service.GetCurrentSeason(); 
+//     const priorSeasonStats = player.stats ? player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
+//     var playerItem: PlayerData  = {
+//       id: player.id,
+//       position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",
+//       teamAbv: teamData.TeamNames[player.proTeamId]?.Abv || "NA",
+//       fullName: player.fullName,
+//       auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
+//       priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
+//     }
+//     return playerItem;
+//   })
+// }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
     const {playerArray, teams, league, handleTeamUpdate, height} = props;
-    const [playerData, setPlayerData] = useState<PlayerData[]>();
+    const [playerData, setPlayerData] = useState<PlayerData[]>(playerArray);
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
     const classes = useStyles({height});
     const currentSeason = (new Date()).getMonth() >= 3 ? (new Date()).getFullYear() :  (new Date()).getFullYear() - 1; 
 
-    useEffect(() => {
-      setPlayerData(mapPlayerData(playerArray))
-    },[playerArray])
+    const headCells = [
+      { id: 'fullName', numeric: false, disablePadding: false, label: 'Player' },
+      { id: 'position', numeric: false, disablePadding: false, label: 'Position' },
+      { id: 'teamAbv', numeric: false, disablePadding: false, label: 'Team' },
+      { id: 'auctionValueAverage', numeric: true, disablePadding: false, label: 'Avg Value' },
+      { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${(currentSeason-1).toString()} PPR Avg` },
+      { id: 'draft', numeric: false, disablePadding: false, label: 'Draft'}
+    ];
+
+    // useEffect(() => {
+    //   setPlayerData(mapPlayerData(playerArray))
+    // },[playerArray])
 
     const handleRequestSort = (property: string) => {
       const isAsc = orderBy === property && order === 'asc';
@@ -155,12 +113,18 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
               <Table stickyHeader
                 size="small"
                 aria-labelledby="tableTitle">
-                <PlayerTableHead
+                {/* <PlayerTableHead
                   priorSeason={(currentSeason-1).toString()}
                   order={order}
                   orderBy={orderBy}
                   onRequestSort={handleRequestSort}
-                />
+                /> */}
+                <SortableTableHead
+                  columns={headCells} sortProps={{
+                    order: order,
+                    orderBy: orderBy,
+                    onRequestSort: handleRequestSort
+                  }}></SortableTableHead>
                 <TableBody>
                   {playerData && stableSort(playerData, getComparator(order, orderBy))
                     .map((player, index) => {

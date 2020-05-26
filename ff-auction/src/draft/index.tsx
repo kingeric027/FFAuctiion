@@ -8,12 +8,13 @@ import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-s
 import { Grid } from '@material-ui/core';
 import Roster from './roster';
 import { flatten } from 'lodash';
+import { PlayerData } from '../App';
 
 interface RouteParams {
     leagueId?: string
 }
 interface DraftProps extends RouteComponentProps<RouteParams> {
-    playerArray?: any[]
+    playerArray?: PlayerData[]
 }
 
 const updateAvailablePlayers = (allPlayers:any[], draftedPlayers: any) => (

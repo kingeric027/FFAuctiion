@@ -4,7 +4,6 @@ import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText,
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import EditPicks from './editPicks';
-import {Position} from '../home/playerSideBar'; 
 import { teamData } from '../constants/appData';
 
 const useStyles = makeStyles(() => ({

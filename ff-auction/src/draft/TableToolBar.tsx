@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AppBar, Toolbar, TextField, Switch, FormControlLabel } from '@material-ui/core'
-import { mapUserToProps } from '../../redux/stateMappers';
+import { mapUserToProps } from '../redux/stateMappers';
 
 interface TableToolBarProps {
     handleShowSelectedChange: (selected: boolean) => void

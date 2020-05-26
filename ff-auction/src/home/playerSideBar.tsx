@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { teamData } from '../constants/appData';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ListItemText, List, ListItem, ListItemAvatar, Avatar, makeStyles, Typography } from '@material-ui/core';
+import { PlayerData } from '../App';
 
 const useStyles = makeStyles({
     list: {
@@ -38,7 +39,7 @@ interface PlayerSideBarProps {
     playerArray?: any[]
 }
 
-export type Position = "RB" | "WR" | "QB" | "TE" | "DST" | "K" | "NA";
+
 
 const PlayerSideBar: React.FunctionComponent<
     PlayerSideBarProps> = (props) => {
@@ -51,17 +52,16 @@ const PlayerSideBar: React.FunctionComponent<
             <Scrollbars style={{ width: '100%', height:'calc(100vh - 100px)' }}>
             <List className={classes.list}>
             {playerArray && playerArray.slice(0,  100) && 
-            playerArray.slice(0, 100).map(p => {
-                var position: Position = teamData.PositionNames[p.defaultPositionId].Position;
+            playerArray.slice(0, 100).map((p: PlayerData) => {
                 return(
-                <ListItem className={ `${classes[position]} ${classes.listitem}` } key={p.id}>
+                <ListItem className={ `${classes[p.position]} ${classes.listitem}` } key={p.id}>
                     <ListItemAvatar> 
                         <Avatar style={{backgroundColor: 'darkgreen'}}>
-                            <p>${p.draftRanksByRankType.PPR.auctionValue}</p>
+                            <p>${p.auctionValueAverage}</p>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={p.fullName}
-                        secondary={`${teamData.TeamNames[p.proTeamId]?.Name} | ${position}`}
+                        secondary={p.teamAbv}
                     >
                     </ListItemText>
                 </ListItem>
