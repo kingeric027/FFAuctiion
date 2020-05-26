@@ -29,11 +29,13 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
                     <Login></Login>
                     <Tooltip title={props.currentUser.ID === appData.anon_user_id ? 
                         'You must be logged in to create a league' : ''}>
-                        <Button
-                            href="/create"
-                            disabled={props.currentUser.ID === appData.anon_user_id}>
-                                Create a League
-                        </Button>
+                        <span>
+                            <Button
+                                href="/create"
+                                disabled={props.currentUser.ID === appData.anon_user_id}>
+                                    Create a League
+                            </Button>
+                        </span>
                     </Tooltip>
                     <LeagueList></LeagueList>
                 </Grid>

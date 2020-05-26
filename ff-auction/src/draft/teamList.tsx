@@ -47,11 +47,12 @@ interface TeamListProps {
     league: Catalog
     onSelectedTeamChange: (team: Category) => void
     height?: string
+    selectedTeam?: Category
     //getTeamListHeight?: (height: number) => void
 }
 
 const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
-    const { teams, league, onSelectedTeamChange, height } = props;
+    const { teams, league, onSelectedTeamChange, height, selectedTeam } = props;
     const classes = useStyles();
 
     const getColorForPercentage = (pct: number)  => {
@@ -88,8 +89,10 @@ const TeamList: React.FunctionComponent<TeamListProps> = (props) => {
           style={{backgroundColor: getColorForPercentage(team.xp?.BudgetRemaining / league.xp?.AuctionBudget),
                 height: height, 
                 cursor:'pointer',
-                border: '1px solid lightgrey',
-                padding: 0}}>     
+                border: selectedTeam?.ID === team.ID ? '2px solid grey' : '1px solid lightgrey',
+                borderStyle: selectedTeam?.ID === team.ID ? 'inset' : 'solid',
+                padding: 0,
+                zIndex: 5}}>      
             <GridListTileBar
               title={team.Name} 
               titlePosition="top" 

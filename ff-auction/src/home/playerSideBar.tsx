@@ -46,17 +46,17 @@ const PlayerSideBar: React.FunctionComponent<
         const {playerArray} = props;
 
     return( 
-        <div>
-            <Typography variant="h6" style={{height: '30px'}}>Top 100 Players</Typography>
-            <Scrollbars style={{ width: '100%', height:'calc(100vh - 45px)' }}>
+        <div style={{ borderLeft: '1px solid black', backgroundColor: 'black'}}>
+            <Typography variant="h6" style={{height: '30px', color: 'white'}}>Top 100 Players</Typography>
+            <Scrollbars style={{ width: '100%', height:'calc(100vh - 100px)' }}>
             <List className={classes.list}>
             {playerArray && playerArray.slice(0,  100) && 
             playerArray.slice(0, 100).map(p => {
                 var position: Position = teamData.PositionNames[p.defaultPositionId].Position;
                 return(
                 <ListItem className={ `${classes[position]} ${classes.listitem}` } key={p.id}>
-                    <ListItemAvatar>
-                        <Avatar>
+                    <ListItemAvatar> 
+                        <Avatar style={{backgroundColor: 'darkgreen'}}>
                             <p>${p.draftRanksByRankType.PPR.auctionValue}</p>
                         </Avatar>
                     </ListItemAvatar>

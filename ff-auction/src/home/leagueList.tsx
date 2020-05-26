@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { Catalogs, Catalog, User } from 'ordercloud-javascript-sdk';
 import { flatten } from 'lodash';
-import { ListItem, List, ListItemText, Link, Chip } from '@material-ui/core';
+import { ListItem, List, ListItemText, Link, Chip, Button, LinearProgress, ListItemSecondaryAction, Paper } from '@material-ui/core';
 import { mapUserToProps } from '../redux/stateMappers';
 import { connect } from 'react-redux';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
@@ -31,13 +31,15 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
     }, [])
 
     return(
-        <div>
-            <Scrollbars style={{ width: '50%', height: '200px', margin: 'auto' }}>  
+        <Paper style={{width: '50%', margin: 'auto'}}>  
+            <Scrollbars style={{ width: '100%', height: `calc(100vh * 0.5)`}}>
                 <List>
                     {leagues && leagues.length>0 && leagues.map(league => (
-                        <ListItem key={league.ID}>
+                        <ListItem key={league.ID} style={{borderBottom: '1px solid lightgrey'}}> 
                             <ListItemText primary={
-                                <Link href={`/draft/${league.ID}`}>{league.Name}</Link>}
+                                //<Button variant="contained" size="small" href={`/draft/${league.ID}`}>{league.Name}</Button>
+                                <Link href={`/draft/${league.ID}`} style={{color: 'green'}}>{league.Name}</Link>
+                            }
                                 secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
                             </ListItemText>
                             {props.currentUser.Username === league.Description && 
@@ -46,9 +48,8 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
                         ))
                     }
                 </List>
-
             </Scrollbars>
-        </div>
+        </Paper> 
     )
 }
 

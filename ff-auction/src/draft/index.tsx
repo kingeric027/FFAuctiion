@@ -62,7 +62,13 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         <div>
             <FFAppBar currentLeague={league?.Name} height={appBarHeight}></FFAppBar>
             {teams && league &&
-            <TeamList onSelectedTeamChange={handleSelectedTeamChange} teams={teams} league={league} height={teamListHeight}></TeamList>}
+            <TeamList 
+                onSelectedTeamChange={handleSelectedTeamChange} 
+                teams={teams} 
+                league={league} 
+                height={teamListHeight}
+                selectedTeam={selectedTeam}
+            ></TeamList>}
             <Grid container>
                 <Grid item md={8}>
                     {availablePlayers &&
