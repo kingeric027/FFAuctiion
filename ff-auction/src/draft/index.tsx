@@ -69,6 +69,12 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         }
     }
 
+    const handleSearchChange = (searchTerm: string) => {
+        const searchResults = availablePlayers?.filter((player: PlayerData) => player.fullName.includes(searchTerm))
+        debugger; 
+        setAvailablePlayers(searchResults)
+    }
+
     const teamListHeight = '130px';
     const appBarHeight = '40px'
     return(
@@ -86,7 +92,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                 <Grid item md={8}>
                     {availablePlayers &&
                     <React.Fragment>
-                        <TableToolBar handleShowSelectedChange={handleShowAllChange} checked={showAll}></TableToolBar>
+                        <TableToolBar handleShowSelectedChange={handleShowAllChange} checked={showAll} handleSearchChange={handleSearchChange}></TableToolBar>
                         <PlayerTable
                         playerArray={availablePlayers} 
                         teams={teams || []} 

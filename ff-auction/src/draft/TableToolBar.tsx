@@ -4,15 +4,21 @@ import { mapUserToProps } from '../redux/stateMappers';
 
 interface TableToolBarProps {
     handleShowSelectedChange: (selected: boolean) => void
+    handleSearchChange: (search: string) => void
     checked: boolean
 }
 
 const TableToolBar: React.FunctionComponent<TableToolBarProps> = (props) => {
-    const {handleShowSelectedChange, checked} = props;
+    const {handleShowSelectedChange, checked, handleSearchChange} = props;
     const [search, setSearch] = useState<string>();
+    const [timer, setTimer] = useState<any>();
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value)
+    const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const search = e.currentTarget.value; 
+        setSearch(search)
+        clearTimeout(timer)
+        setTimer(null); 
+        setTimer(setTimeout(() => handleSearchChange(search), 500))
     }
 
     const handleSwitchChange = (e: any) => {
@@ -20,7 +26,7 @@ const TableToolBar: React.FunctionComponent<TableToolBarProps> = (props) => {
     }
     return (
             <Toolbar variant="dense"> 
-                <TextField label="search" value={search} onChange={handleSearchChange}></TextField>
+                <TextField label="search" value={search} onChange={onSearchChange}></TextField>
                 {/* <FormControlLabel 
                     control={<Switch checked={showSelected}></Switch>}
                     label="Show Selected">
