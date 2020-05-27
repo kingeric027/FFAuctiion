@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { teamData } from '../../constants/appData';
 import { Paper, makeStyles, createStyles } from '@material-ui/core';
-import service from '../../common/service';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm from './draftPlayerForm';
 import SortableTableHead from '../../common/table/sortableTableHeader';
@@ -36,25 +32,8 @@ interface PlayerTableProps {
     height?: string
 }
 
-// const mapPlayerData = (playerArray: any[]) => {
-//   return playerArray.map(player => {
-//     const currentSeason = service.GetCurrentSeason(); 
-//     const priorSeasonStats = player.stats ? player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
-//     var playerItem: PlayerData  = {
-//       id: player.id,
-//       position: teamData.PositionNames[player.defaultPositionId]?.Position || "NA",
-//       teamAbv: teamData.TeamNames[player.proTeamId]?.Abv || "NA",
-//       fullName: player.fullName,
-//       auctionValueAverage: Math.round(player.ownership?.auctionValueAverage),
-//       priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
-//     }
-//     return playerItem;
-//   })
-// }
-
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
     const {playerArray, teams, league, handleTeamUpdate, height} = props;
-    const [playerData, setPlayerData] = useState<PlayerData[]>(playerArray);
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
     const classes = useStyles({height});
@@ -68,10 +47,6 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
       { id: 'priorSeasonAvg', numeric: true, disablePadding: false, label: `${(currentSeason-1).toString()} PPR Avg` },
       { id: 'draft', numeric: false, disablePadding: false, label: 'Draft'}
     ];
-
-    // useEffect(() => {
-    //   setPlayerData(mapPlayerData(playerArray))
-    // },[playerArray])
 
     const handleRequestSort = (property: string) => {
       const isAsc = orderBy === property && order === 'asc';
@@ -126,7 +101,7 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                     onRequestSort: handleRequestSort
                   }}></SortableTableHead>
                 <TableBody>
-                  {playerData && stableSort(playerData, getComparator(order, orderBy))
+                  {stableSort(playerArray, getComparator(order, orderBy))
                     .map((player, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       return (
