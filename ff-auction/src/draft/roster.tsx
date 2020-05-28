@@ -73,7 +73,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
         <Paper>
             <div style={{position: 'relative'}}>
                 <Typography variant="h6">{team.Name}</Typography>
-                {team.xp.Players &&  team.xp.Players.length  &&  
+                {team.xp.Players &&  team.xp.Players.length>0  &&  
                     <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}
                         buttonStyles={{position: "absolute",
                                         top: '0px',

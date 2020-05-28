@@ -5,6 +5,7 @@ import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import RemoveIcon from '@material-ui/icons/Remove';
 import LoadingButton from '../common/loadingButton';
 import { RosterProps } from './roster';
+import service from '../common/service';
 
 interface EditPicksProps extends RosterProps {
     buttonStyles?: any
@@ -44,9 +45,11 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
 
     const handleSubmit = ()  => {
         setLoading(true)
+        const newBudget = league.xp.AuctionBudget - service.GetBudgetSpent(players) 
         return Categories.Patch(league.ID!, team.ID!, {
             xp: {
-                Players: players
+                Players: players,
+                BudgetRemaining: newBudget
             }
         }).then((res) => {
             handleTeamUpdate(res)
@@ -57,7 +60,7 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
 
     return(
         <React.Fragment>
-            <Button onClick={() => setOpen(true)} style={{...buttonStyles}}>Edit</Button> 
+            <Button onClick={() => setOpen(true)} style={{...buttonStyles, margin: '5px'}} variant="outlined" size="small">Edit</Button> 
             <Dialog open={open} maxWidth="xs" onClose={handleClose}>    
                 <DialogTitle>Edit Picks</DialogTitle>
                 <DialogContent> 

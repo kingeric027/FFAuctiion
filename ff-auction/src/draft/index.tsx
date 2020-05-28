@@ -80,6 +80,11 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         setTableData(searchResults)
     }
 
+    const handlePositionFilterChange = (filter: string) => {
+        const dataToSearch = showAll ? props.playerArray : availablePlayers;
+        filter === "All" ? setTableData(dataToSearch) : setTableData(dataToSearch?.filter(p=> p.position === filter))
+    }
+
     const teamListHeight = '130px';
     const appBarHeight = '40px';
     const toolBarHeight = '48px';
@@ -98,7 +103,12 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                 <Grid item md={8}>
                     {tableData &&
                     <React.Fragment>
-                        <TableToolBar handleShowSelectedChange={handleShowAllChange} checked={showAll} handleSearchChange={handleSearchChange}></TableToolBar>
+                        <TableToolBar 
+                            handleShowSelectedChange={handleShowAllChange} 
+                            checked={showAll} 
+                            handleSearchChange={handleSearchChange}
+                            handlePositionFilterChange={handlePositionFilterChange}>
+                        </TableToolBar>
                         <PlayerTable
                         playerArray={tableData} 
                         draftedPlayers={draftedPlayers}

@@ -49,7 +49,7 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
             )
             return Categories.Patch(league?.ID!, selectedTeam?.ID!, {
                 xp: {
-                    BudgetRemaining: (selectedTeam.xp.BudgetRemaining - bid),
+                    BudgetRemaining: (league.xp.AuctionBudget - service.GetBudgetSpent(newPlayersArray)),
                     Players: newPlayersArray
                 }
             }).then(res => {
