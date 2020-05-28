@@ -52,7 +52,7 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
                 BudgetRemaining: newBudget
             }
         }).then((res) => {
-            handleTeamUpdate(res)
+            if(handleTeamUpdate) handleTeamUpdate(res)
             setLoading(false) 
             setOpen(false) 
         })

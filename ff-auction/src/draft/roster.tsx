@@ -1,6 +1,6 @@
 import React from 'react';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
-import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles, Box } from '@material-ui/core';
+import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles, Box, Button } from '@material-ui/core';
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import EditPicks from './editPicks';
@@ -37,11 +37,12 @@ const useStyles = makeStyles(() => ({
 export interface RosterProps {
     team: Category,
     league: Catalog,
-    handleTeamUpdate: (team: Category) => void
+    handleTeamUpdate?: (team: Category) => void
+    readOnly?: boolean
 }
 
 const Roster: React.FunctionComponent<RosterProps> = (props) => {
-    const {team, league, handleTeamUpdate} = props;
+    const {team, league, handleTeamUpdate, readOnly} = props;
     const classes = useStyles();
     
     const headCells: TableColumn[] = [
@@ -73,13 +74,16 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
         <Paper>
             <div style={{position: 'relative'}}>
                 <Typography variant="h6">{team.Name}</Typography>
-                {team.xp.Players &&  team.xp.Players.length>0  &&  
-                    <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}
-                        buttonStyles={{position: "absolute",
-                                        top: '0px',
-                                        right: '0px'}}>
-                    </EditPicks>
+                {!readOnly && 
+                <Box display="flex" style={{position: "absolute", top: '0px', right: '0px'}}>
+                    {(team.xp.Players &&  team.xp.Players.length>0) &&  
+                        <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
+                    }
+                    <Button href={`/teams/${league.ID}`} variant="outlined" size="small" style={{margin: '5px'}}>View All Rosters</Button>
+                </Box>
                 }
+                
+                
                 <List dense={true} disablePadding={true} className={classes.flexContainer}>
                     <ListItemText 
                         primary={team.xp.Players.filter((p: DraftedPlayer) => p.position === "QB").length}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, TextField, Switch, FormControlLabel, InputLabel, FormControl, Select, MenuItem } from '@material-ui/core'
+import { AppBar, Toolbar, TextField, Switch, FormControlLabel, InputLabel, FormControl, Select, MenuItem, Box, Typography } from '@material-ui/core'
 import { mapUserToProps } from '../redux/stateMappers';
 
 interface TableToolBarProps {
@@ -34,18 +34,20 @@ const TableToolBar: React.FunctionComponent<TableToolBarProps> = (props) => {
     return (
             <Toolbar variant="dense" style={{display: 'flex', justifyContent: 'space-between'}}>
                 <TextField label="search" variant="outlined" value={search} size="small" onChange={onSearchChange} style={{marginTop: '5px'}}></TextField>
-                <FormControl>
-                    <InputLabel>Position</InputLabel>
-                    <Select value={positionFilter} onChange={handleFilterChange}>
-                        <MenuItem value={"QB"}>QB</MenuItem>
-                        <MenuItem value={"RB"}>RB</MenuItem>
-                        <MenuItem value={"WR"}>WR</MenuItem>
-                        <MenuItem value={"TE"}>TE</MenuItem>
-                        <MenuItem value={"DST"}>DST</MenuItem>
-                        <MenuItem value={"K"}>K</MenuItem>
-                        <MenuItem value={"All"}>All</MenuItem>
-                    </Select>
-                </FormControl>
+                    
+                <Box>
+                {/* <Typography variant="caption">test</Typography> */}
+                    <InputLabel style={{display: 'inline-block', marginRight: '4px', fontSize: '0.9rem'}}>Position</InputLabel>
+                        <Select value={positionFilter} onChange={handleFilterChange}>
+                            <MenuItem value={"QB"}>QB</MenuItem>
+                            <MenuItem value={"RB"}>RB</MenuItem>
+                            <MenuItem value={"WR"}>WR</MenuItem>
+                            <MenuItem value={"TE"}>TE</MenuItem>
+                            <MenuItem value={"DST"}>DST</MenuItem>
+                            <MenuItem value={"K"}>K</MenuItem>
+                            <MenuItem value={"All"}>All</MenuItem>
+                        </Select>
+                </Box>
                 <FormControlLabel
                     control={<Switch checked={checked} onChange={handleSwitchChange} name="checkedA" />}
                     label="Show Selected"

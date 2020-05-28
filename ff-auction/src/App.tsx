@@ -10,6 +10,7 @@ import Create from './create';
 import { connect, ConnectedProps } from 'react-redux';
 import service from './common/service';
 import { teamData } from './constants/appData';
+import AllRosters from './rosters';
 
 const connector = connect();
 
@@ -21,10 +22,11 @@ export interface PlayerData {
   fullName: string,
   auctionValueAverage: number,
   priorSeasonAvg: number,
+  seasonOutlook: string
 }
 
 const mapPlayerData = (playerArray: any[]) => {
-  return playerArray.map(p => {
+  return playerArray.filter((p:any) => p.player.ownership?.auctionValueAverage > 0).map(p => {
     const currentSeason = service.GetCurrentSeason(); 
     const priorSeasonStats = p.player.stats ? p.player.stats.filter((s:any) => s.id === ('00'+(currentSeason - 1).toString())) : {};
     var playerItem: PlayerData  = {
@@ -33,7 +35,8 @@ const mapPlayerData = (playerArray: any[]) => {
       teamAbv: teamData.TeamNames[p.player.proTeamId]?.Abv || "NA",
       fullName: p.player.fullName,
       auctionValueAverage: Math.round(p.player.ownership?.auctionValueAverage),
-      priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10
+      priorSeasonAvg: Math.round(10 * priorSeasonStats[0]?.appliedAverage)/10,
+      seasonOutlook: p.player.seasonOutlook
     }
     return playerItem;
   })
@@ -100,7 +103,11 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
           <Route
             path="/create"
             component={Create}
-            />
+          />
+          <Route
+            path="/teams/:leagueId"
+            component={AllRosters}
+          />
         </Switch> 
       }
       </BrowserRouter> 

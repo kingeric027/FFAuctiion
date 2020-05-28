@@ -30,11 +30,12 @@ interface PlayerTableProps {
     teams: Category[],
     league?: Catalog,
     handleTeamUpdate: (team: Category) => void,
+    handlePlayerClick: (player: PlayerData) => void,
     height?: string
 }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
-    const {playerArray, teams, league, handleTeamUpdate, height, draftedPlayers} = props;
+    const {playerArray, teams, league, handleTeamUpdate, height, draftedPlayers, handlePlayerClick} = props;
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
     const classes = useStyles({height});
@@ -111,6 +112,7 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                           hover
                           tabIndex={-1}
                           key={player.id}
+                          onClick={(e: any) => handlePlayerClick(player)}
                           style={{
                             backgroundColor: isDrafted ? 'lightgrey' : undefined
                           }}

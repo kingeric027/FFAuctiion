@@ -5,14 +5,15 @@ import TeamList from './teamList';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import Roster from './roster';
 import { flatten } from 'lodash';
 import { PlayerData } from '../App';
 import TableToolBar from './TableToolBar';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
+import PlayerView from './playerView';
 
-interface RouteParams {
+export interface RouteParams {
     leagueId?: string
 }
 interface DraftProps extends RouteComponentProps<RouteParams> {
@@ -33,6 +34,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
     const [draftedPlayers, setDraftedPlayers] = useState<DraftedPlayer[]>()
     const [tableData, setTableData] = useState<PlayerData[]>()
     const [showAll, setShowAll] = useState<boolean>(false);
+    const [selectedPlayer, setSelectedPlayer] = useState<PlayerData>();
 
     useEffect(() => {
         if(props.match.params.leagueId) {
@@ -85,6 +87,10 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         filter === "All" ? setTableData(dataToSearch) : setTableData(dataToSearch?.filter(p=> p.position === filter))
     }
 
+    const handlePlayerClick = (player: PlayerData) => {
+        setSelectedPlayer(player) 
+    }
+
     const teamListHeight = '130px';
     const appBarHeight = '40px';
     const toolBarHeight = '48px';
@@ -115,6 +121,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                         teams={teams || []} 
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}
+                        handlePlayerClick={handlePlayerClick}
                         height={`calc(100vh - ${appBarHeight} - ${teamListHeight} - ${toolBarHeight})`}
                         >
                     </PlayerTable>
@@ -125,6 +132,10 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                     {selectedTeam && league &&
                         <Roster team={selectedTeam} league={league} handleTeamUpdate={handleTeamUpdate}></Roster>
                     }
+                    {selectedPlayer && 
+                        <PlayerView player={selectedPlayer}></PlayerView>
+                    }
+                    
                 </Grid>
             </Grid>
             

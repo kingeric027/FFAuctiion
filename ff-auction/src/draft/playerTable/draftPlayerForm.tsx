@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton, InputAdornment } from '@material-ui/core';
 import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
 import DownShiftInput from '../../common/downShiftInput';
 import service from '../../common/service'
@@ -22,7 +22,7 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
     const {player, teams, league, handleTeamUpdate, disabled} = props;
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<Category>();
-    const [bid, setBid] = useState<number>();
+    const [bid, setBid] = useState<number>(player.auctionValueAverage);
     const [loading, setLoading] = useState<boolean>(false)
 
     const handleSelectionChange = (value: string | null) => {
@@ -36,7 +36,7 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
     const handleCancel = () => {
         setLoading(false)
         setDialogOpen(false)
-        setBid(undefined)
+        //setBid(undefined)
         setSelectedTeam(undefined) 
     }
 
@@ -99,7 +99,10 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
                         <TextField 
                             type="number" 
                             disabled={!selectedTeam} 
-                            value={bid} 
+                            value={bid}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                              }}
                             onChange={handleBidChange} 
                         ></TextField> 
                         </Grid>
