@@ -81,7 +81,8 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
     }
 
     const teamListHeight = '130px';
-    const appBarHeight = '40px'
+    const appBarHeight = '40px';
+    const toolBarHeight = '48px';
     return(
         <div>
             <FFAppBar currentLeague={league?.Name} height={appBarHeight}></FFAppBar>
