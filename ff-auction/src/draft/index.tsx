@@ -104,7 +104,8 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                         teams={teams || []} 
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}
-                        height={`calc(100vh - ${appBarHeight} - ${teamListHeight})`}>
+                        height={`calc(100vh - ${appBarHeight} - ${teamListHeight} - ${toolBarHeight})`}
+                        >
                     </PlayerTable>
                     </React.Fragment>
                     }

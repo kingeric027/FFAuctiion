@@ -25,12 +25,8 @@ const TableToolBar: React.FunctionComponent<TableToolBarProps> = (props) => {
         handleShowSelectedChange(e.target.checked)
     }
     return (
-            <Toolbar variant="dense"> 
-                <TextField label="search" value={search} onChange={onSearchChange}></TextField>
-                {/* <FormControlLabel 
-                    control={<Switch checked={showSelected}></Switch>}
-                    label="Show Selected">
-                </FormControlLabel> */}
+            <Toolbar variant="dense" style={{display: 'flex', justifyContent: 'space-between'}}>
+                <TextField label="search" variant="outlined" value={search} size="small" onChange={onSearchChange} style={{marginTop: '5px'}}></TextField>
                 <FormControlLabel
                     control={<Switch checked={checked} onChange={handleSwitchChange} name="checkedA" />}
                     label="Show Selected"
