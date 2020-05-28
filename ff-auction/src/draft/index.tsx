@@ -10,6 +10,7 @@ import Roster from './roster';
 import { flatten } from 'lodash';
 import { PlayerData } from '../App';
 import TableToolBar from './TableToolBar';
+import { DraftedPlayer } from './playerTable/draftPlayerForm';
 
 interface RouteParams {
     leagueId?: string
@@ -28,7 +29,9 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
     const [league, setLeague] = useState<Catalog>();
     const [teams, setTeams] = useState<Category[]>();
     const [selectedTeam, setSelectedTeam] = useState<Category>();
-    const [availablePlayers, setAvailablePlayers] = useState<any[]>();
+    const [availablePlayers, setAvailablePlayers] = useState<PlayerData[]>();
+    const [draftedPlayers, setDraftedPlayers] = useState<DraftedPlayer[]>()
+    const [tableData, setTableData] = useState<PlayerData[]>()
     const [showAll, setShowAll] = useState<boolean>(false);
 
     useEffect(() => {
@@ -37,7 +40,10 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
             Categories.List(props.match.params.leagueId).then((cats) => {
                 setTeams(cats.Items);
                 const draftedPlayers = flatten(cats.Items.map(cat => cat.xp.Players));
-                if(props.playerArray) setAvailablePlayers(updateAvailablePlayers(draftedPlayers, props.playerArray))
+                const availables = updateAvailablePlayers(draftedPlayers, props.playerArray)
+                setTableData(availables)
+                setAvailablePlayers(availables)
+                setDraftedPlayers(draftedPlayers)
             })
         }
     }, [props.match.params.leagueId, props.playerArray]) 
@@ -51,7 +57,9 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
         if(props.playerArray) {
             const draftedPlayers = flatten(newTeamsArray?.map(team => team.xp.Players)); 
             const newAvailablePlayers = updateAvailablePlayers(draftedPlayers, props.playerArray)
+            if(!showAll) setTableData(newAvailablePlayers)
             setAvailablePlayers(newAvailablePlayers)
+            setDraftedPlayers(draftedPlayers)
         }
     }
 
@@ -61,18 +69,15 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
 
     const handleShowAllChange = (checked: boolean) => {
         setShowAll(checked)
-        if(checked) {
-            setAvailablePlayers(props.playerArray)
-        } else { 
-            const draftedPlayers = teams ? flatten(teams.map(team => team.xp.Players)) : [];
-            setAvailablePlayers(updateAvailablePlayers(draftedPlayers, props.playerArray))
-        }
+        checked ? setTableData(props.playerArray) : setTableData(availablePlayers)   
     }
 
     const handleSearchChange = (searchTerm: string) => {
-        const searchResults = availablePlayers?.filter((player: PlayerData) => player.fullName.includes(searchTerm))
-        debugger; 
-        setAvailablePlayers(searchResults)
+        const dataToSearch = showAll ? props.playerArray : availablePlayers;
+        const searchResults = dataToSearch?.filter(
+            (player: PlayerData) => player.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        setTableData(searchResults)
     }
 
     const teamListHeight = '130px';
@@ -90,11 +95,12 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
             ></TeamList>}
             <Grid container>
                 <Grid item md={8}>
-                    {availablePlayers &&
+                    {tableData &&
                     <React.Fragment>
                         <TableToolBar handleShowSelectedChange={handleShowAllChange} checked={showAll} handleSearchChange={handleSearchChange}></TableToolBar>
                         <PlayerTable
-                        playerArray={availablePlayers} 
+                        playerArray={tableData} 
+                        draftedPlayers={draftedPlayers}
                         teams={teams || []} 
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}

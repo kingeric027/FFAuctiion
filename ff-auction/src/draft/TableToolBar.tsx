@@ -10,7 +10,7 @@ interface TableToolBarProps {
 
 const TableToolBar: React.FunctionComponent<TableToolBarProps> = (props) => {
     const {handleShowSelectedChange, checked, handleSearchChange} = props;
-    const [search, setSearch] = useState<string>();
+    const [search, setSearch] = useState<string>('');
     const [timer, setTimer] = useState<any>();
 
     const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

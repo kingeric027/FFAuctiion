@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
 import { Button, Dialog, DialogTitle, DialogContent, Typography, TextField, IconButton, DialogActions, Grid } from '@material-ui/core';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
@@ -13,11 +13,15 @@ interface EditPicksProps extends RosterProps {
 const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
     const {league, team, buttonStyles, handleTeamUpdate} = props;
     const [open, setOpen] = useState<boolean>(false)
-    const [players, setPlayers] = useState<DraftedPlayer[]>(team.xp?.Players)
+    const [players, setPlayers] = useState<DraftedPlayer[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
-    const handleClose = () => {
+    useEffect(() => {
         setPlayers(team.xp?.Players)
+    },[team])
+
+    const handleClose = () => {
+        //setPlayers(team.xp?.Players)
         setOpen(false)
     }
 
@@ -39,11 +43,16 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
     }
 
     const handleSubmit = ()  => {
+        setLoading(true)
         return Categories.Patch(league.ID!, team.ID!, {
             xp: {
                 Players: players
             }
-        }).then(handleTeamUpdate)
+        }).then((res) => {
+            handleTeamUpdate(res)
+            setLoading(false) 
+            setOpen(false) 
+        })
     }
 
     return(
@@ -53,7 +62,7 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
                 <DialogTitle>Edit Picks</DialogTitle>
                 <DialogContent> 
                     <Grid container>
-                    {players.map((player: DraftedPlayer) => (
+                    {players && players.map((player: DraftedPlayer) => (
                     <React.Fragment key={player.id}>
                         <Grid item sm={3}>
                             <IconButton onClick={() => handleRemovePick(player.id)}>
@@ -72,7 +81,7 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button> 
-                    <LoadingButton text="save" loading={false} onClick={handleSubmit}></LoadingButton>
+                    <LoadingButton text="save" loading={loading} onClick={handleSubmit}></LoadingButton>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

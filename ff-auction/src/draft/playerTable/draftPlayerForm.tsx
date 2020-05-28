@@ -11,6 +11,7 @@ interface DraftPlayerFormProps {
     player: PlayerData,
     teams: Category[],
     league?: Catalog,
+    disabled?: boolean,
     handleTeamUpdate: (team: Category) => void
 }
 
@@ -18,7 +19,7 @@ export interface DraftedPlayer extends PlayerData {
     value: number,
 }
 const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) => {
-    const {player, teams, league, handleTeamUpdate} = props;
+    const {player, teams, league, handleTeamUpdate, disabled} = props;
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<Category>();
     const [bid, setBid] = useState<number>();
@@ -61,7 +62,7 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
 
     return (
         <React.Fragment>
-            <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)}>
+            <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)} disabled={disabled}>
                 <AddCircleOutlineIcon fontSize="small"/>
             </IconButton>
             <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}>  
