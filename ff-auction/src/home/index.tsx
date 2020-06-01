@@ -31,6 +31,8 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
                         'You must be logged in to create a league' : ''}>
                         <span>
                             <Button
+                                variant="contained"
+                                color="secondary"
                                 href="/create"
                                 disabled={props.currentUser.ID === appData.anon_user_id}>
                                     Create a League

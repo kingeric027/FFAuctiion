@@ -79,7 +79,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
                     {(team.xp.Players &&  team.xp.Players.length>0) &&  
                         <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
                     }
-                    <Button href={`/teams/${league.ID}`} variant="outlined" size="small" style={{margin: '5px'}}>View All Rosters</Button>
+                    <Button href={`/teams/${league.ID}`} variant="contained" color="secondary" size="small" style={{margin: '5px'}}>View All Rosters</Button>
                 </Box>
                 }
                 

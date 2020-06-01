@@ -60,7 +60,7 @@ const EditPicks: React.FunctionComponent<EditPicksProps> = (props) => {
 
     return(
         <React.Fragment>
-            <Button onClick={() => setOpen(true)} style={{...buttonStyles, margin: '5px'}} variant="outlined" size="small">Edit</Button> 
+            <Button onClick={() => setOpen(true)} style={{...buttonStyles, margin: '5px'}} variant="contained" color="secondary" size="small">Edit</Button> 
             <Dialog open={open} maxWidth="xs" onClose={handleClose}>    
                 <DialogTitle>Edit Picks</DialogTitle>
                 <DialogContent> 

@@ -133,7 +133,9 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                         <Roster team={selectedTeam} league={league} handleTeamUpdate={handleTeamUpdate}></Roster>
                     }
                     {selectedPlayer && 
+                    <div style={{position: 'absolute', bottom: '10px'}}>
                         <PlayerView player={selectedPlayer}></PlayerView>
+                    </div>
                     }
                     
                 </Grid>

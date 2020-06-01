@@ -11,6 +11,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import service from './common/service';
 import { teamData } from './constants/appData';
 import AllRosters from './rosters';
+import { createMuiTheme } from '@material-ui/core';
+import { cyan, amber, red } from '@material-ui/core/colors';
 
 const connector = connect();
 
