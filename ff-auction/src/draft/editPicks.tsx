@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
+import { Categories } from 'ordercloud-javascript-sdk';
 import { Button, Dialog, DialogTitle, DialogContent, Typography, TextField, IconButton, DialogActions, Grid } from '@material-ui/core';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import RemoveIcon from '@material-ui/icons/Remove';

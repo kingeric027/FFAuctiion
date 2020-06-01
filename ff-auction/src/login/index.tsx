@@ -22,7 +22,7 @@ const LoginForm: React.FunctionComponent = () => {
     return(
         <div>
             <Button
-                onClick={handleButtonClick}>Log In / Register
+                variant="contained" color="secondary" onClick={handleButtonClick}>Log In / Register
             </Button>
             <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth={true}> 
                 <Tabs value={value} onChange={handleChange} style={{width: '100%'}}>

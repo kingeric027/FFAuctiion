@@ -2,16 +2,42 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { Catalogs, Catalog, User } from 'ordercloud-javascript-sdk';
 import { flatten } from 'lodash';
-import { ListItem, List, ListItemText, Link, Chip, Button, LinearProgress, ListItemSecondaryAction, Paper } from '@material-ui/core';
+import { ListItem, List, ListItemText, Link,  Theme, createStyles, withStyles, Card, CardHeader, CardContent, Box, ListItemAvatar, Avatar } from '@material-ui/core';
 import { mapUserToProps } from '../redux/stateMappers';
 import { connect } from 'react-redux';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
 interface LeagueListProps {
+    classes: any,
     currentUser: User
 }
 
+const styles = (theme: Theme) => createStyles({
+    item: {
+        borderBottom: '1px solid lightgrey',
+    },
+    textItem: {
+        textAlign: 'left'
+    },
+    root: {
+        width: '50%', 
+        margin: 'auto',
+    },
+    header: {
+        textAlign: 'left',
+        backgroundColor: theme.palette.primary.main,
+        color: 'white'
+    },
+    content: {
+        paddingTop: '0px'
+    },
+    icon: {
+        backgroundColor: theme.palette.secondary.main
+    }
+})
+
 const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
+    const { classes } = props;
     const [leagues, setLeagues] = useState<Catalog[]>();
 
     useEffect(() => {
@@ -31,26 +57,41 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
     }, [])
 
     return(
-        <Paper style={{width: '50%', margin: 'auto'}}>  
-            <Scrollbars style={{ width: '100%', height: `calc(100vh * 0.5)`}}>
-                <List>
-                    {leagues && leagues.length>0 && leagues.map(league => (
-                        <ListItem key={league.ID} style={{borderBottom: '1px solid lightgrey'}}> 
-                            <ListItemText primary={
-                                //<Button variant="contained" size="small" href={`/draft/${league.ID}`}>{league.Name}</Button>
-                                <Link href={`/draft/${league.ID}`} style={{color: 'green'}}>{league.Name}</Link>
-                            }
-                                secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
-                            </ListItemText>
-                            {props.currentUser.Username === league.Description && 
-                                <Chip label="Commissioner" icon={<BusinessCenterIcon />}></Chip>}
-                        </ListItem>
-                        ))
-                    }
-                </List>
-            </Scrollbars>
-        </Paper> 
+        // <Paper className={classes.root}>  
+        <Card className={classes.root}>
+            <CardHeader title="Existing Leagues" className={classes.header}></CardHeader>
+            <CardContent className={classes.content}> 
+                <Scrollbars style={{ width: '100%', height: `calc(100vh * 0.5)`}}>
+                    <List >
+                        {leagues && leagues.length>0 && leagues.map(league => (
+                            // <ListItem key={league.ID} className={classes.item}>  
+                            <Box display='flex' justifyContent="space-between" className={classes.item}>
+                                <ListItemText className={classes.textItem} primary={
+                                    <Link href={`/draft/${league.ID}`}>{league.Name}</Link>
+                                }
+                                    secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
+                                </ListItemText>
+                                <ListItemText className={classes.textItem} primary={league.Description} secondary={"Owner"}></ListItemText>
+                                {props.currentUser.Username === league.Description && 
+                                    // <Chip label="Commissioner" icon={<BusinessCenterIcon />}></Chip>
+                                    <ListItemAvatar>
+                                        <Avatar className={classes.icon}>
+                                            <BusinessCenterIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    } 
+                            </Box>
+                                
+                            // </ListItem>
+                            ))
+                        }
+                    </List>
+                </Scrollbars>
+            </CardContent>
+        </Card>
+            
+        // </Paper> 
     )
 }
 
-export default connect(mapUserToProps)(LeagueList);
+export default connect(mapUserToProps)(withStyles(styles)(LeagueList));

@@ -25,7 +25,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
             <FFAppBar></FFAppBar>
             <Grid container spacing={3}>
                 <Grid item xs={8}>
-                    <Typography variant="h1">FFAuction</Typography>
+                    <Typography variant="h2">FFAuction</Typography>
                     <Login></Login>
                     <Tooltip title={props.currentUser.ID === appData.anon_user_id ? 
                         'You must be logged in to create a league' : ''}>
