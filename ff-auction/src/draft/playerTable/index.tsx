@@ -3,13 +3,13 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Paper, makeStyles, createStyles } from '@material-ui/core';
+import { Paper, makeStyles, createStyles, fade, Theme } from '@material-ui/core';
 import { Category, Catalog } from 'ordercloud-javascript-sdk';
 import DraftPlayerForm, { DraftedPlayer } from './draftPlayerForm';
 import SortableTableHead from '../../common/table/sortableTableHeader';
 import { PlayerData } from '../../App';
 
-const useStyles = makeStyles(() => 
+const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     tableWrapper: (props: any) => ({
       maxHeight: props.height || 500,
@@ -17,6 +17,12 @@ const useStyles = makeStyles(() =>
     }),
     tableCell: {
       padding: '0px 5px 0px 5px'
+    },
+    selectedPlayerRow: {
+      backgroundColor: fade(theme.palette.primary.main, 0.2)
+    },
+    draftedPlayerRow: {
+      backgroundColor: 'lightgrey'
     }
   }));
   
@@ -31,11 +37,12 @@ interface PlayerTableProps {
     league?: Catalog,
     handleTeamUpdate: (team: Category) => void,
     handlePlayerClick: (player: PlayerData) => void,
-    height?: string
+    height?: string,
+    selectedPlayer?: PlayerData
 }
 
 const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
-    const {playerArray, teams, league, handleTeamUpdate, height, draftedPlayers, handlePlayerClick} = props;
+    const {playerArray, teams, league, handleTeamUpdate, height, draftedPlayers, handlePlayerClick, selectedPlayer} = props;
     const [orderBy, setOrderBy] = useState<string>('averageValue');
     const [order, setOrder] = useState<OrderDirection>('desc');
     const classes = useStyles({height});
@@ -107,15 +114,14 @@ const PlayerTable: React.FunctionComponent<PlayerTableProps> = (props) =>  {
                     .map((player: PlayerData, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
                       const isDrafted = draftedPlayers?.map(player => player.id).includes(player.id)
+                      const isSelectedPlayer= player.id === selectedPlayer?.id;
                       return (
                         <TableRow
                           hover
+                          className={isSelectedPlayer ? classes.selectedPlayerRow : (isDrafted ? classes.draftedPlayerRow : undefined)}
                           tabIndex={-1}
                           key={player.id}
                           onClick={(e: any) => handlePlayerClick(player)}
-                          style={{
-                            backgroundColor: isDrafted ? 'lightgrey' : undefined
-                          }}
                         >
                           <TableCell id={labelId} className={classes.tableCell}>{player.fullName}</TableCell>
                           <TableCell align="left" className={classes.tableCell}>{player.position}</TableCell>

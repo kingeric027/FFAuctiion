@@ -122,6 +122,7 @@ const Draft: React.FunctionComponent<DraftProps> = (props) => {
                         league={league}
                         handleTeamUpdate={handleTeamUpdate}
                         handlePlayerClick={handlePlayerClick}
+                        selectedPlayer={selectedPlayer}
                         height={`calc(100vh - ${appBarHeight} - ${teamListHeight} - ${toolBarHeight})`}
                         >
                     </PlayerTable>
