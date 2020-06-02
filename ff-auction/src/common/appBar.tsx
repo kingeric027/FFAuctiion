@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { mapUserToProps } from '../redux/stateMappers'
 import { connect } from 'react-redux';
-import { User } from 'ordercloud-javascript-sdk';
-import { AppBar, Typography, Toolbar, makeStyles, Button, Box, Theme } from '@material-ui/core';
+import { User, Catalog } from 'ordercloud-javascript-sdk';
+import { AppBar, Typography, Toolbar, makeStyles, Button, Box, Theme, Avatar, Tooltip } from '@material-ui/core';
+import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -10,18 +11,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
-    },
+      //flex: '1 1 auto',
+      color: 'white'
+    }
   }));
 interface FFAppBarProps {
     currentUser: User
-    currentLeague?: string,
-    height?: string
+    height?: string,
+    league?: Catalog
     //getAppBarHeight?: (height: number) => void
 }
 
 const FFAppBar: React.FunctionComponent<FFAppBarProps> = (props) => {
-    const {currentLeague, currentUser, height} = props;
+    const {currentUser, height, league} = props;
     const classes = useStyles();
 
     // useEffect(() => {
@@ -33,10 +35,19 @@ const FFAppBar: React.FunctionComponent<FFAppBarProps> = (props) => {
     return (
         <div className={classes.root} id="appBar">
             <AppBar position="static">    
-                <Toolbar variant="dense" style={{minHeight: height || '40px'}}> 
-                    <Button variant="contained" size="small" href="/" color="secondary">FFAuction</Button>
-                    <Typography variant="body1" className={classes.title}>{props.currentLeague || ""}</Typography>
-                    <Typography variant="body1">{props.currentUser.Username || ''}</Typography>
+                <Toolbar variant="dense" style={{minHeight: height || '40px'}}>
+                    <Box display="flex" justifyContent="space-between" flexGrow={1}>
+                        <Button variant="contained" size="small" href="/" color="secondary">FFAuction</Button>
+                        <Box display="flex">
+                            <Typography variant="body1" className={classes.title}>{league?.Name || ""}</Typography>
+                            {currentUser?.xp?.LeaguesOwned.includes(league?.ID) &&
+                                <Tooltip title="You are the commissioner of this league">
+                                    <BusinessCenterIcon color="secondary"/>
+                                </Tooltip> 
+                            }
+                        </Box>
+                        <Typography variant="body1" className={classes.title}>{props.currentUser.Username || ''}</Typography>
+                    </Box>
                 </Toolbar>
             </AppBar>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { Catalogs, Catalog, User } from 'ordercloud-javascript-sdk';
 import { flatten } from 'lodash';
-import { ListItem, List, ListItemText, Link,  Theme, createStyles, withStyles, Card, CardHeader, CardContent, Box, ListItemAvatar, Avatar } from '@material-ui/core';
+import { ListItem, List, ListItemText, Link,  Theme, createStyles, withStyles, Card, CardHeader, CardContent, Box, ListItemAvatar, Avatar, Tooltip } from '@material-ui/core';
 import { mapUserToProps } from '../redux/stateMappers';
 import { connect } from 'react-redux';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
@@ -32,7 +32,7 @@ const styles = (theme: Theme) => createStyles({
         paddingTop: '0px'
     },
     icon: {
-        backgroundColor: theme.palette.secondary.main
+        margin: 'auto'
     }
 })
 
@@ -65,21 +65,21 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
                     <List >
                         {leagues && leagues.length>0 && leagues.map(league => (
                             // <ListItem key={league.ID} className={classes.item}>  
-                            <Box display='flex' justifyContent="space-between" className={classes.item}>
-                                <ListItemText className={classes.textItem} primary={
-                                    <Link href={`/draft/${league.ID}`}>{league.Name}</Link>
-                                }
-                                    secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
-                                </ListItemText>
-                                <ListItemText className={classes.textItem} primary={league.Description} secondary={"Owner"}></ListItemText>
-                                {props.currentUser.Username === league.Description && 
-                                    // <Chip label="Commissioner" icon={<BusinessCenterIcon />}></Chip>
-                                    <ListItemAvatar>
-                                        <Avatar className={classes.icon}>
-                                            <BusinessCenterIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
+                            <Box display='flex' className={classes.item}>
+                                <div style={{width: '65%'}}>
+                                    <ListItemText className={classes.textItem} 
+                                        primary={<Link href={`/draft/${league.ID}`}>{league.Name}</Link>}
+                                        secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
+                                    </ListItemText>
+                                </div>
+                                <Box display="flex" justifyContent="flex-start" style={{width: '35%', marginRight: '10px'}}>
+                                    <ListItemText className={classes.textItem} primary={league.Description} secondary={"Owner"}></ListItemText>
+                                    {props.currentUser.Username === league.Description && 
+                                    <Tooltip title="You are the commissioner of this league">
+                                        <BusinessCenterIcon color="secondary" className={classes.icon} />
+                                    </Tooltip>
                                     } 
+                                </Box>
                             </Box>
                                 
                             // </ListItem>

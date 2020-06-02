@@ -53,6 +53,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
     Promise.all([
       Tokens.GetValidToken().then((token) => {
         if(token) {
+          Tokens.RemoveAccessToken(); //remove the access token if there is one currently
           Tokens.SetAccessToken(token);
           Me.Get().then((curUser) => {
             props.dispatch(setUser(curUser))
@@ -61,7 +62,7 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
         } else { 
           Auth.Anonymous(process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['AdminUserAdmin', 'AdminUserGroupAdmin', 'CategoryReader', 'CategoryAdmin', 
-            'CatalogReader', 'CatalogAdmin']).then(response => {
+            'CatalogReader', 'CatalogAdmin', 'SetSecurityProfile', 'SecurityProfileAdmin']).then(response => {
             Tokens.SetAccessToken(response.access_token);
             Tokens.SetRefreshToken(response.refresh_token);
             Me.Get().then((curUser) => {

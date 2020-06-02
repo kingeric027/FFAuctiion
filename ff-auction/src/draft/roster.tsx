@@ -1,10 +1,12 @@
 import React from 'react';
-import { Category, Catalog } from 'ordercloud-javascript-sdk';
+import { Category, Catalog, User } from 'ordercloud-javascript-sdk';
 import { TableRow, TableCell, Table, Paper, TableBody, Typography, ListItemText, List, makeStyles, Box, Button } from '@material-ui/core';
 import SortableTableHead, { TableColumn } from '../common/table/sortableTableHeader';
 import { DraftedPlayer } from './playerTable/draftPlayerForm';
 import EditPicks from './editPicks';
 import { teamData } from '../constants/appData';
+import { mapUserToProps } from '../redux/stateMappers';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
     flexContainer: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles(() => ({
 ))
 
 export interface RosterProps {
+    currentUser?: User,
     team: Category,
     league: Catalog,
     handleTeamUpdate?: (team: Category) => void
@@ -42,7 +45,7 @@ export interface RosterProps {
 }
 
 const Roster: React.FunctionComponent<RosterProps> = (props) => {
-    const {team, league, handleTeamUpdate, readOnly} = props;
+    const {team, league, handleTeamUpdate, readOnly, currentUser} = props;
     const classes = useStyles();
     
     const headCells: TableColumn[] = [
@@ -76,7 +79,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
                 <Typography variant="h6">{team.Name}</Typography>
                 {!readOnly && 
                 <Box display="flex" style={{position: "absolute", top: '0px', right: '0px'}}>
-                    {(team.xp.Players &&  team.xp.Players.length>0) &&  
+                    {(team.xp.Players &&  team.xp.Players.length>0 && currentUser?.xp?.LeaguesOwned?.includes(league.ID)) &&  
                         <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
                     }
                     <Button href={`/teams/${league.ID}`} variant="contained" color="secondary" size="small" style={{margin: '5px'}}>View All Rosters</Button>
@@ -129,4 +132,4 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
     )
 }
 
-export default Roster;
+export default connect(mapUserToProps)(Roster);

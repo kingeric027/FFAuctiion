@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton, InputAdornment } from '@material-ui/core';
-import { Category, Catalog, Categories } from 'ordercloud-javascript-sdk';
+import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton, InputAdornment, Tooltip } from '@material-ui/core';
+import { Category, Catalog, Categories, User } from 'ordercloud-javascript-sdk';
 import DownShiftInput from '../../common/downShiftInput';
 import service from '../../common/service'
 import LoadingButton from '../../common/loadingButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { PlayerData } from '../../App';
+import { mapUserToProps } from '../../redux/stateMappers'; 
+import { connect } from 'react-redux';
 
 interface DraftPlayerFormProps {
+    currentUser: User,
     player: PlayerData,
     teams: Category[],
     league?: Catalog,
@@ -19,7 +22,7 @@ export interface DraftedPlayer extends PlayerData {
     value: number,
 }
 const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) => {
-    const {player, teams, league, handleTeamUpdate, disabled} = props;
+    const {player, teams, league, handleTeamUpdate, disabled, currentUser} = props;
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<Category>();
     const [bid, setBid] = useState<number>(player.auctionValueAverage);
@@ -62,9 +65,15 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
 
     return (
         <React.Fragment>
-            <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)} disabled={disabled}>
-                <AddCircleOutlineIcon fontSize="small"/>
-            </IconButton>
+            <Tooltip title={!currentUser.xp?.LeaguesOwned?.includes(league?.ID) ? 
+                "Only the league commissioner can make picks. If you are the commissioner log in." : ""}>
+                <span>
+                    <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)} 
+                        disabled={disabled || !currentUser.xp?.LeaguesOwned?.includes(league?.ID)}>
+                        <AddCircleOutlineIcon fontSize="small"/>
+                    </IconButton>
+                </span>
+            </Tooltip>
             <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}>  
                 <DialogTitle>{player.fullName + ' | ' + player.position + ' | ' + player.teamAbv}</DialogTitle> 
                 <DialogContent>
@@ -119,4 +128,4 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
     )
 }
 
-export default DraftPlayerForm;
+export default connect(mapUserToProps)(DraftPlayerForm);

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, TextField, DialogContent, DialogActions, DialogTitle, Grid } from "@material-ui/core"
+import { Button, TextField, DialogContent, DialogActions, DialogTitle, Grid, Typography } from "@material-ui/core"
 import * as OrderCloud from 'ordercloud-javascript-sdk';
 import { connect, ConnectedProps } from 'react-redux';
 import { setUser } from '../redux/actions';
+import LoadingButton from '../common/loadingButton';
 
 const connector = connect();
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -23,21 +24,20 @@ export type UserValues = "Username" | "FirstName" | "LastName" | "Email" | "Pass
 
 const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
     const [newUser, setNewUser] = useState<OrderCloud.User>(UserShell);
+    const [loading, setLoading] = useState<boolean>(false)
+    const [confirmPassword, setConfirmPassword] = useState<string>('')
+
+
     const handleNewUserChange = (key: UserValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({...newUser, [key]: event.target.value})
     }
 
-    // const SubmitNewUser = () => {
-    //     var token = OrderCloud.Tokens.GetAccessToken();
-    //     return OrderCloud.Me.Register(newUser, {
-    //         anonUserToken: token
-    //     }).then((res) => {
-    //         console.log(res);
-    //     })
-    // }
-
+    const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(event.target.value)
+    }
     const SubmitNewUser = () => {
-        OrderCloud.AdminUsers.Create(newUser).then((createdUser) => {
+        setLoading(true)
+        return OrderCloud.AdminUsers.Create(newUser).then((createdUser) => {
             OrderCloud.SecurityProfiles.SaveAssignment({
                 SecurityProfileID: 'userGroupAdmin',
                 UserID: createdUser.ID
@@ -55,6 +55,7 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
     }
 
     const handleCancel = () => {
+        setLoading(false)
         setNewUser(UserShell)
         props.onClose();
     }
@@ -109,16 +110,30 @@ const NewUserForm: React.FunctionComponent<LoginFormProps> = (props) => {
                             required
                             id="Password"
                             label="Password"
+                            type="password"
                             variant="outlined"
                             margin="dense"
                             style={{display: 'flex'}}
                             onChange={handleNewUserChange("Password")}>{newUser.Password}
                         </TextField>
+                        <TextField
+                            required
+                            disabled={newUser.Password === ''}
+                            id="ConfirmPassword"
+                            label="Confirm Password"
+                            type="password"
+                            variant="outlined"
+                            margin="dense"
+                            style={{display: 'flex'}}
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}>
+                        </TextField>
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button type="submit" onClick={SubmitNewUser}>Submit</Button>
+                <LoadingButton loading={loading} text="Submit" onClick={SubmitNewUser} disabled={newUser.Password !== confirmPassword}></LoadingButton>
+                {/* <Button type="submit" onClick={SubmitNewUser}>Submit</Button> */}
                 <Button type="reset" onClick={handleCancel}>Cancel</Button>
             </DialogActions>
         </React.Fragment>
@@ -130,6 +145,8 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
         userName: '',
         passWord: ''
     });
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>();
     
     const handleAuthChange  = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setCreds({
@@ -139,6 +156,7 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
     }
 
     const handleSubmit = () => {
+        setLoading(true)
         return OrderCloud.Auth.Login(creds.userName, creds.passWord, process.env.REACT_APP_ADMIN_CLIENT_ID!, 
             ['CatalogAdmin', 'CategoryAdmin', 'ProductAdmin', 'AdminUserAdmin'])  
         .then(response => {
@@ -151,6 +169,10 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
                 handleCancel();
                 })
         })
+        .catch((err: any) => {
+            setLoading(false)
+            setError(err.response.data.error)
+        })
     }
 
     const handleCancel = () => {
@@ -158,6 +180,7 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
             userName: '',
             passWord: ''
         })
+        setLoading(false)
         props.onClose();
     }
 
@@ -176,14 +199,17 @@ const LoginUser: React.FunctionComponent<LoginFormProps> = (props) => {
                 <TextField 
                     variant="outlined"
                     label="Password"
+                    type="password"
                     margin="dense"
                     value={creds.passWord}
                     onChange={handleAuthChange("passWord")}
                     style={{display: 'flex'}}
                 ></TextField>
+                {error && 
+                <Typography variant="caption" color="error">{error === "invalid_grant" ? "Invalid Credentials" : "An Error Occured"}</Typography>}
             </DialogContent>
             <DialogActions>
-                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+            <LoadingButton loading={loading} text="Submit" onClick={handleSubmit}></LoadingButton>
                 <Button type="reset" onClick={props.onClose}>Cancel</Button>
             </DialogActions>
         </React.Fragment>

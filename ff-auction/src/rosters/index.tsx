@@ -21,7 +21,7 @@ const AllRosters: React.FunctionComponent<RouteComponentProps<RouteParams>> = (p
 
     return (
         <React.Fragment>
-        <FFAppBar currentLeague={league?.Name}></FFAppBar>
+        <FFAppBar league={league}></FFAppBar>
         <Grid container>
             {teams && league && teams.map(team => (
                 <Grid item md={3}>
