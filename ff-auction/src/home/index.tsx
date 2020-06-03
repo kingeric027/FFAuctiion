@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { User } from 'ordercloud-javascript-sdk';
 import { appData } from '../constants/appData';
 import LeagueList from './leagueList';
+import TeamColorSelector from './teamColorSelector';
 
 
 interface HomeProps {
@@ -37,6 +38,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
                         </Tooltip>
                     </Box>
                     <LeagueList></LeagueList>
+                    <TeamColorSelector />
                 </Grid>
                 <Grid item xs={4}>
                     <PlayerSideBar></PlayerSideBar>
