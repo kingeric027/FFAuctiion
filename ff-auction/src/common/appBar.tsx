@@ -11,8 +11,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexGrow: 1,
     },
     title: {
-      //flex: '1 1 auto',
       color: 'white'
+    },
+    icon: {
+        marginLeft: '5px'
     }
   }));
 interface FFAppBarProps {
@@ -42,7 +44,7 @@ const FFAppBar: React.FunctionComponent<FFAppBarProps> = (props) => {
                             <Typography variant="body1" className={classes.title}>{league?.Name || ""}</Typography>
                             {currentUser?.xp?.LeaguesOwned.includes(league?.ID) &&
                                 <Tooltip title="You are the commissioner of this league">
-                                    <BusinessCenterIcon color="secondary"/>
+                                    <BusinessCenterIcon color="secondary" className={classes.icon}/>
                                 </Tooltip> 
                             }
                         </Box>

@@ -37,123 +37,320 @@ const positionNames: any = {
 const teamNames: any = {
     "1": {
         Name: "Atlanta Falcons",
-        Abv: "ATL"
+        Abv: "ATL",
+        Colors: {
+            primary: "#A71930",
+            secondary: {
+                main: "#000000"
+            }
+        }
     },
     "2": {
         Name: "Buffalo Bills",
-        Abv: "BUF"
+        Abv: "BUF",
+        Colors: {
+            primary: "#00338D",
+            secondary: {
+                main: "#C60C30"
+            }
+        }
     },
     "3": {
         Name: "Chicago Bears",
-        Abv: "CHI"
+        Abv: "CHI",
+        Colors: {
+            primary: "#0B162A",
+            secondary: {
+                main: "#C83803"
+            }
+        }
     },
     "4": {
         Name: "Cincinatti Bengals",
-        Abv: "CIN"
+        Abv: "CIN",
+        Colors: {
+            primary: "#FB4F14",
+            secondary: {
+                main: "#000000"
+            }
+        }
     },
     "5": {
         Name: "Cleveland Browns",
-        Abv: "CLE"
+        Abv: "CLE",
+        Colors: {
+            primary: "#311D00",
+            secondary: {
+                main: "#FF3C00"
+            }
+        }
     },
     "6": {
         Name: "Dallas Cowboys",
-        Abv: "DAL"
+        Abv: "DAL",
+        Colors: {
+            primary: "#003594",
+            secondary: {
+                main: "#041E42"
+            }
+        }
     },
     "7": {
         Name: "Denver Broncos",
-        Abv: "DEN"
+        Abv: "DEN",
+        Colors: {
+            primary: "#FB4F14",
+            secondary: {
+                main: "#002244"
+            }
+        }
     },
     "8": {
         Name: "Detroit Lions",
-        Abv: "DET"
+        Abv: "DET",
+        Colors: {
+            primary: "#0076B6",
+            secondary: {
+                main: "#B0B7BC"
+            }
+        }
     },
     "9": {
         Name: "Green Bay Packers",
-        Abv: "GNB"
+        Abv: "GNB",
+        Colors: {
+            primary: "#203731",
+            secondary: {
+                main: "#FFB612"
+            }
+        }
     },
     "10": {
         Name: "Tennessee Titans",
-        Abv: "TEN"
+        Abv: "TEN",
+        Colors: {
+            primary: "#0C2340",
+            secondary: {
+                main: "#4B92DB",
+                dark: "#C8102E"
+            }
+        }
     },
     "11": {
         Name: "Indianapolis Colts",
-        Abv: "IND"
+        Abv: "IND",
+        Colors: {
+            primary: "#002C5F",
+            secondary: {
+                main: "#A2AAAD"
+            }
+        }
     },
     "12": {
         Name: "Kansas City Chiefs",
-        Abv: "KC"
+        Abv: "KC",
+        Colors: {
+            primary: "#E31837",
+            secondary: {
+                main: "#FFB81C"
+            }
+        }
     },
     "13": {
         Name: "Oakland Raiders",
-        Abv: "OAK"
+        Abv: "OAK",
+        Colors: {
+            primary: "#000000",
+            secondary: {
+                main: "#A5ACAF"
+            }
+        }
     },
     "14": {
         Name: "Los Angeles Rams",
-        Abv: "LAR"
+        Abv: "LAR",
+        Colors: {
+            primary: "#003594",
+            secondary: {
+                main: "#FFA300",
+                dark: "#FF8200",
+                light: "#FFD100"
+            }
+        }
     },
     "18": {
         Name: "New Orleans Saints",
-        Abv: "NOR"
+        Abv: "NOR",
+        Colors: {
+            primary: "#D3BC8D",
+            secondary: {
+                main: "#101820"
+            }
+        }
     },
     "16": {
         Name: "Minnesota Vikings",
-        Abv: "MIN"
+        Abv: "MIN",
+        Colors: {
+            primary: "#4F2683",
+            secondary: {
+                main: "#FFC62F"
+            }
+        }
     },
     "19": {
         Name: "New York Giants",
-        Abv: "NYG"
+        Abv: "NYG",
+        Colors: {
+            primary: "#0B2265",
+            secondary: {
+                main: "#A71930",
+                light: "#A5ACAF"
+            }
+        }
     },
     "20": {
         Name: "New York Jets",
-        Abv: "NYJ"
+        Abv: "NYJ",
+        Colors: {
+            primary: "#125740",
+            secondary: {
+                main: "#000000",
+                light: "#FFF"
+            }
+        }
     },
     "21": {
         Name: "Philadelphia Eagles",
-        Abv: "PHI"
+        Abv: "PHI",
+        Colors: {
+            primary: "#004C54",
+            secondary: {
+                main: "#A5ACAF",
+                light: "#ACC0C6",
+                dark: "#000000"
+            }
+        }
     },
     "22": {
         Name: "Arizona Cardinals",
-        Abv: "ARI"
+        Abv: "ARI",
+        Colors: {
+            primary: "#97233F",
+            secondary: {
+                main: "#000000",
+                light: "#FFB612"
+            }
+        }
     },
     "23": {
         Name: "Pittsburgh Stealers",
-        Abv: "PIT"
+        Abv: "PIT",
+        Colors: {
+            primary: "#FFB612",
+            secondary: {
+                main: "#101820",
+                dark: "#003087",
+                light: "#A5ACAF"
+            }
+        }
     },
     "24": {
         Name: "Los Angeles Chargers",
-        Abv: "LAC"
+        Abv: "LAC",
+        Colors: {
+            primary: "#002A5E",
+            secondary: {
+                main: "#FFC20E",
+                dark: "#0080C6"
+            }
+        }
     },
     "25": {
         Name: "San Francisco 49ers",
-        Abv: "SF"
+        Abv: "SF",
+        Colors: {
+            primary: "#AA0000",
+            secondary: {
+                main: "#B3995D"
+            }
+        }
     },
     "26": {
         Name: "Seattle Seahawks",
-        Abv: "SEA"
+        Abv: "SEA",
+        Colors: {
+            primary: "#002244",
+            secondary: {
+                main: "#69BE28",
+                light: "#A5ACAF"
+            }
+        }
     },
     "27": {
         Name: "Tampa Bay Buccaneers",
-        Abv: "TB"
+        Abv: "TB",
+        Colors: {
+            primary: "#D50A0A",
+            secondary: {
+                main: "#0A0A08",
+                light: "#B1BABF",
+                dark: "#FF7900"
+            }
+        }
     },
     "28": {
         Name: "Washington Redskins",
-        Abv: "WAS"
+        Abv: "WAS",
+        Colors: {
+            primary: "#773141",
+            secondary: {
+                main: "#FFB612"
+            }
+        }
     },
     "29": {
         Name: "Carolina Panthers",
-        Abv: "CAR"
+        Abv: "CAR",
+        Colors: {
+            primary: "",
+            secondary: {
+                main: ""
+            }
+        }
     },
     "30": {
         Name: "Jacksonville Jaguars",
-        Abv: "JAC"
+        Abv: "JAC",
+        Colors: {
+            primary: "#006778",
+            secondary: {
+                main: "#9F792C",
+                light: "#D7A22A",
+                dark: "#101820"
+            }
+        }
     },
     "33": {
         Name: "Baltimore Ravens",
-        Abv: "BAL"
+        Abv: "BAL",
+        Colors: {
+            primary: "#241773",
+            secondary: {
+                main: "#000000",
+                dark: "#9E7C0C"
+            }
+        }
     },
     "34": {
         Name: "Houston Texans",
-        Abv: "HOU"
+        Abv: "HOU",
+        Colors: {
+            primary: "#03202F",
+            secondary: {
+                main: "#A71930"
+            }
+        }
     }
 }
 
