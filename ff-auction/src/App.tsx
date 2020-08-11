@@ -7,14 +7,15 @@ import Home from './home';
 import api from './api';
 import Draft from './draft';
 import Create from './create';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps} from 'react-redux';
 import service from './common/service';
 import { teamData } from './constants/appData';
 import AllRosters from './rosters';
-import { createMuiTheme } from '@material-ui/core';
-import { cyan, amber, red } from '@material-ui/core/colors';
+import { Theme, ThemeProvider } from '@material-ui/core';
+import { mapThemeToProps } from './redux/stateMappers';
+import ffTheme from './constants/ffTheme';
 
-const connector = connect();
+const connector = connect(mapThemeToProps);
 
 export type Position = "RB" | "WR" | "QB" | "TE" | "DST" | "K" | "NA";
 export interface PlayerData {
@@ -46,7 +47,16 @@ const mapPlayerData = (playerArray: any[]) => {
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const App: React.FunctionComponent<PropsFromRedux> = (props) => {
+type HomeProps = PropsFromRedux & {
+  currentTheme?: Theme
+}
+
+const App: React.FunctionComponent<HomeProps> = (props) => {
+  if(props.currentTheme) {
+    console.log("===themes===")
+    console.log(props.currentTheme)
+    console.log(ffTheme) 
+  }
   const [ready, setReady] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -92,30 +102,34 @@ const App: React.FunctionComponent<PropsFromRedux> = (props) => {
   return (
     <div className="App">
       <BrowserRouter>
-      {ready && 
-        <Switch>
-          <Route
-            path="/"
-            exact 
-            component={Home}
-          />
-          <Route
-            path="/draft/:leagueId"
-            component={Draft}
-          />
-          <Route
-            path="/create"
-            component={Create}
-          />
-          <Route
-            path="/teams/:leagueId"
-            component={AllRosters}
-          />
-        </Switch> 
-      }
+      <ThemeProvider theme={props.currentTheme?.palette ? props.currentTheme : ffTheme}>  
+        {ready && 
+          <Switch>
+            <Route
+              path="/"
+              exact
+              component={Home}
+            />
+            <Route
+              path="/draft/:leagueId"
+              component={Draft}
+            />
+            <Route
+              path="/create"
+              component={Create}
+            />
+            <Route
+              path="/teams/:leagueId"
+              component={AllRosters}
+            />
+          </Switch>
+        }
+      </ThemeProvider>
+
       </BrowserRouter> 
     </div>
   );
 }
 
 export default connector(App);
+//export default connect(mapThemeToProps)(App);

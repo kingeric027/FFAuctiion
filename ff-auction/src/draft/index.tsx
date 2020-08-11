@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, } from 'react';
 import PlayerTable from './playerTable';
 import FFAppBar from '../common/appBar';
 import TeamList from './teamList';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Catalogs, Catalog, Categories, Category } from 'ordercloud-javascript-sdk';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, } from '@material-ui/core';
 import Roster from './roster';
 import { flatten } from 'lodash';
 import { PlayerData } from '../App';

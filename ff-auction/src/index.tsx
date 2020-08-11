@@ -6,18 +6,16 @@ import ffReducers from './redux/reducers';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import FFTheme from './constants/ffTheme';
-import { ThemeProvider } from '@material-ui/styles';
 
 const store = createStore(ffReducers);
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={FFTheme}>
+    {/* <ThemeProvider theme={FFTheme}> */}
       <Provider store={store}>
         <App />
       </Provider>
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

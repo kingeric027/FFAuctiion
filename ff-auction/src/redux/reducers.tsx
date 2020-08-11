@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_USER, SET_PLAYERS } from './actions';
+import { SET_USER, SET_PLAYERS, SET_THEME } from './actions';
 
 
 
@@ -21,10 +21,20 @@ export function players(state = [], action: any) {
     }
 }
 
+export function selectedTheme(state={}, action: any) {
+    switch(action.type) {
+        case SET_THEME:
+            return action.theme
+        default:
+            return state;
+    }
+}
+
 
 const ffReducers = combineReducers({
     user,
-    players
+    players, 
+    selectedTheme
 })
 
 export default ffReducers;

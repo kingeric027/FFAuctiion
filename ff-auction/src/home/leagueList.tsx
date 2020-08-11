@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { Catalogs, Catalog, User } from 'ordercloud-javascript-sdk';
 import { flatten } from 'lodash';
-import { ListItem, List, ListItemText, Link,  Theme, createStyles, withStyles, Card, CardHeader, CardContent, Box, ListItemAvatar, Avatar, Tooltip } from '@material-ui/core';
+import { List, ListItemText, Theme, createStyles, withStyles, Card, CardHeader, CardContent, Box, Tooltip } from '@material-ui/core';
 import { mapUserToProps } from '../redux/stateMappers';
 import { connect } from 'react-redux';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import { Link } from 'react-router-dom';
 
 interface LeagueListProps {
     classes: any,
@@ -14,7 +15,7 @@ interface LeagueListProps {
 
 const styles = (theme: Theme) => createStyles({
     item: {
-        borderBottom: '1px solid lightgrey',
+        borderBottom: `1px solid lightgrey`,
     },
     textItem: {
         textAlign: 'left'
@@ -22,6 +23,7 @@ const styles = (theme: Theme) => createStyles({
     root: {
         width: '50%', 
         margin: 'auto',
+       // boxShadow: `2px 2px 2px ${theme.palette.secondary.dark}`
     },
     header: {
         textAlign: 'left',
@@ -33,6 +35,9 @@ const styles = (theme: Theme) => createStyles({
     },
     icon: {
         margin: 'auto'
+    },
+    linkText: {
+        color: theme.palette.primary.main
     }
 })
 
@@ -67,8 +72,8 @@ const LeagueList: React.FunctionComponent<LeagueListProps> = (props) => {
                             // <ListItem key={league.ID} className={classes.item}>  
                             <Box display='flex' className={classes.item}>
                                 <div style={{width: '65%'}}>
-                                    <ListItemText className={classes.textItem} 
-                                        primary={<Link href={`/draft/${league.ID}`}>{league.Name}</Link>}
+                                    <ListItemText className={classes.textItem}
+                                        primary={<Link className={classes.linkText} to={`/draft/${league.ID}`}>{league.Name}</Link>}
                                         secondary={league.xp?.Season ? 'Season: ' + league.xp.Season : ''}> 
                                     </ListItemText>
                                 </div>

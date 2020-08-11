@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core";
-import { cyan, amber, red } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
 
 
 export default createMuiTheme({
@@ -8,7 +8,8 @@ export default createMuiTheme({
         main: "#00bcd4"
       },
       secondary: {
-        main: "#ffc107"
+        main: "#ffc107",
+        light: 'lightgrey'
       },
       error: red
     }

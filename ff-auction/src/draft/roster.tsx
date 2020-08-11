@@ -7,6 +7,7 @@ import EditPicks from './editPicks';
 import { teamData } from '../constants/appData';
 import { mapUserToProps } from '../redux/stateMappers';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     flexContainer: {
@@ -47,6 +48,7 @@ export interface RosterProps {
 const Roster: React.FunctionComponent<RosterProps> = (props) => {
     const {team, league, handleTeamUpdate, readOnly, currentUser} = props;
     const classes = useStyles();
+    let history = useHistory();
     
     const headCells: TableColumn[] = [
         {id: 'position', numeric: false, disablePadding: false, label: 'Position'},
@@ -73,6 +75,10 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
         return 0;
     }
 
+    const viewAllTeams = (leagueID: string) => {
+        history.push(`/teams/${leagueID}`)
+    }
+
     return (
         <Paper>
             <div style={{position: 'relative'}}>
@@ -82,7 +88,7 @@ const Roster: React.FunctionComponent<RosterProps> = (props) => {
                     {(team.xp.Players &&  team.xp.Players.length>0 && currentUser?.xp?.LeaguesOwned?.includes(league.ID)) &&  
                         <EditPicks team={team} league={league} handleTeamUpdate={handleTeamUpdate}></EditPicks>
                     }
-                    <Button href={`/teams/${league.ID}`} variant="contained" color="secondary" size="small" style={{margin: '5px'}}>View All Rosters</Button>
+                    <Button variant="contained" color="secondary" size="small" style={{margin: '5px'}} onClick={() => viewAllTeams(league.ID!)}>View All Rosters</Button>
                 </Box>
                 }
                 

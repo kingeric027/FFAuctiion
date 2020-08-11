@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton, InputAdornment, Tooltip } from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle, Typography, TextField, DialogActions, Chip, Grid, IconButton, InputAdornment, Tooltip, createStyles, Theme } from '@material-ui/core';
 import { Category, Catalog, Categories, User } from 'ordercloud-javascript-sdk';
 import DownShiftInput from '../../common/downShiftInput';
 import service from '../../common/service'
@@ -8,6 +8,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { PlayerData } from '../../App';
 import { mapUserToProps } from '../../redux/stateMappers'; 
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/styles';
 
 interface DraftPlayerFormProps {
     currentUser: User,
@@ -15,18 +16,30 @@ interface DraftPlayerFormProps {
     teams: Category[],
     league?: Catalog,
     disabled?: boolean,
+    classes?: any,
     handleTeamUpdate: (team: Category) => void
 }
+
+const styles = (theme: Theme) => createStyles({
+    draftButton: {
+        padding: '8px',
+        color: theme.palette.secondary.main
+    },
+    title: {
+        backgroundColor: theme.palette.primary.main,
+        color: 'white'
+    }
+})
 
 export interface DraftedPlayer extends PlayerData {
     value: number,
 }
 const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) => {
-    const {player, teams, league, handleTeamUpdate, disabled, currentUser} = props;
+    const {player, teams, league, handleTeamUpdate, disabled, currentUser, classes} = props;
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<Category>();
     const [bid, setBid] = useState<number>(player.auctionValueAverage);
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSelectionChange = (value: string | null) => {
         setSelectedTeam(teams.find(team => team.Name && team.Name === value));
@@ -68,14 +81,14 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
             <Tooltip title={!currentUser.xp?.LeaguesOwned?.includes(league?.ID) ? 
                 "Only the league commissioner can make picks. If you are the commissioner log in." : ""}>
                 <span>
-                    <IconButton style={{padding: '8px'}} onClick={() => setDialogOpen(true)} 
+                    <IconButton className={classes.draftButton} onClick={() => setDialogOpen(true)} 
                         disabled={disabled || !currentUser.xp?.LeaguesOwned?.includes(league?.ID)}>
                         <AddCircleOutlineIcon fontSize="small"/>
                     </IconButton>
                 </span>
             </Tooltip>
-            <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}>  
-                <DialogTitle>{player.fullName + ' | ' + player.position + ' | ' + player.teamAbv}</DialogTitle> 
+            <Dialog open={dialogOpen} onClose={()=> setDialogOpen(false)}> 
+                <DialogTitle className={classes.title}>{player.fullName + ' | ' + player.position + ' | ' + player.teamAbv}</DialogTitle> 
                 <DialogContent>
                     <Grid container>
                         <Grid item sm={3}>
@@ -128,4 +141,4 @@ const DraftPlayerForm: React.FunctionComponent<DraftPlayerFormProps> = (props) =
     )
 }
 
-export default connect(mapUserToProps)(DraftPlayerForm);
+export default connect(mapUserToProps)(withStyles(styles)(DraftPlayerForm));

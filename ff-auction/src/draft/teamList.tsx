@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 //import { TeamObj } from '../create'
 import { GridList, GridListTile, GridListTileBar, IconButton, makeStyles, ListItemText, List, ListItem } from '@material-ui/core';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
